@@ -14,13 +14,14 @@ class AppColors {
 
   // color list
   // main theme color
-  static Color textColor = AppColors.hex(colorCode: '#505050');
+  static Color textColor = AppColors.hex(colorCode: '#FFFFFF');
   static Color greenSuccess = AppColors.hex(colorCode: '#1F9941');
   static Color greenDRT = AppColors.hex(colorCode: '#5ABA55');
-  static Color cyanBackground = AppColors.hex(colorCode: '#59D2D0');
+  static Color blackBackground = AppColors.hex(colorCode: '#1C1C1C');
   static Color cyanBackgroundAppBar = AppColors.hex(colorCode: '#30B1AF');
   static Color greenDark = AppColors.hex(colorCode: '#3bc0bd');
-  static Color blueButton = AppColors.hex(colorCode: '#347EC2');
+  static Color goldButton = AppColors.hex(colorCode: '#FFDB61');
+  static Color greyButton = AppColors.hex(colorCode: '#5B5B5B');
   static Color redAlert = AppColors.hex(colorCode: '#EB6B62');
   static Color black = AppColors.hex(colorCode: '#000000');
   static Color white = AppColors.hex(colorCode: '#FFFFFF');

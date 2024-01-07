@@ -1,13 +1,12 @@
 class AssetList {
   AssetList._();
-  static String user = 'assets/1x/userselfie.png';
-  static String check = 'assets/2x/check.png';
-  static String womenIcon = 'assets/1x/womenIcon.png';
-  static String back = 'assets/1x/back.png';
-  static String close = 'assets/1x/Close.png';
-  static String splash = 'assets/splash.png';
-  static String dreiteLogo = 'assets/dreiteLogo.png';
-  static String dosLogo = 'assets/1x/dosLogo.png';
-  static String task = 'assets/Task.png';
-  static String notFound = 'assets/notFound.png';
+  static String autoberesLogo = 'assets/autoberesLogo.png';
+  static String googleLogo = 'assets/googleLogo.png';
+  static String emailLogo = 'assets/emailLogo.png';
+  static String passwordLogo = 'assets/passwordLogo.png';
+  static String servicesIcon = 'assets/servicesIcon.png';
+  static String homeIcon = 'assets/homeIcon.png';
+  static String chatIcon = 'assets/chatIcon.png';
+  static String outletsIcon = 'assets/outletsIcon.png';
+  static String akunIcon = 'assets/akunIcon.png';
 }

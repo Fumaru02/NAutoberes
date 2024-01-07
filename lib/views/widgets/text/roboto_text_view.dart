@@ -5,9 +5,9 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/enums.dart';
 import '../../../utils/size_config.dart';
 
-class WorkSansTextView extends StatelessWidget {
+class RobotoTextView extends StatelessWidget {
   // constructor
-  const WorkSansTextView({
+  const RobotoTextView({
     Key? key,
     required this.value,
     this.color,
@@ -17,6 +17,7 @@ class WorkSansTextView extends StatelessWidget {
     this.alignText,
     this.overFlow,
     this.textDecoration,
+    this.decorationColor,
   }) : super(key: key);
 
   final String value;
@@ -27,18 +28,19 @@ class WorkSansTextView extends StatelessWidget {
   final AlignTextType? alignText;
   final TextOverflow? overFlow;
   final TextDecoration? textDecoration;
-
+  final Color? decorationColor;
   @override
   Widget build(BuildContext context) {
     return Text(
       value,
       overflow: overFlow,
-      style: GoogleFonts.workSans(
+      style: GoogleFonts.roboto(
         decoration: textDecoration,
-        color: color ?? AppColors.textColor,
+        decorationColor: decorationColor,
+        color: color ?? AppColors.white,
         fontSize: size ?? SizeConfig.safeBlockHorizontal * 5,
         fontStyle: fontStyle ?? FontStyle.normal,
-        fontWeight: fontWeight ?? FontWeight.w500,
+        fontWeight: fontWeight ?? FontWeight.normal,
       ),
       textAlign: alignText == AlignTextType.center
           ? TextAlign.center
@@ -51,7 +53,7 @@ class WorkSansTextView extends StatelessWidget {
 
 class WorkSansStyle {
   TextStyle labelStyle() {
-    return GoogleFonts.workSans(
+    return GoogleFonts.roboto(
       color: Colors.grey,
       fontSize: SizeConfig.safeBlockHorizontal * 3.5,
       fontStyle: FontStyle.normal,

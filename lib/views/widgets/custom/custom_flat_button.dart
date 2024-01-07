@@ -54,20 +54,17 @@ class CustomFlatButton extends StatelessWidget {
       width: width ?? SizeConfig.horizontal(90),
       height: height ?? SizeConfig.vertical(6),
       decoration: BoxDecoration(
-          boxShadow: const [
-            BoxShadow(color: Colors.grey, offset: Offset(0, 2), blurRadius: 4)
-          ],
           border: loading
               ? null
               : Border.all(
-                  color: borderColor ?? backgroundColor ?? AppColors.blueButton,
+                  color: borderColor ?? backgroundColor ?? AppColors.goldButton,
                 ),
           gradient: loading ? null : gradientColor,
           borderRadius:
               BorderRadius.circular(SizeConfig.horizontal(radius ?? 10)),
           color: loading
               ? AppColors.greyDisabled
-              : backgroundColor ?? AppColors.blueButton),
+              : backgroundColor ?? AppColors.goldButton),
       child: CustomRippleButton(
         onTap: () {
           loading ? _emptyAction() : onTap();
@@ -120,7 +117,7 @@ class CustomFlatButton extends StatelessWidget {
             child: Image.asset(
               image!,
               height: SizeConfig.vertical(iconSize ?? 4),
-              color: colorIconImage ?? AppColors.white,
+              color: colorIconImage,
             ),
           );
         } else {

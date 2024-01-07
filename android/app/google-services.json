@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698833794093",
+    "project_id": "autoberes",
+    "storage_bucket": "autoberes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698833794093:android:66ef2d43b1d26bce13f4a4",
+        "android_client_info": {
+          "package_name": "com.fumaru.autoberes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxI_hT_Meg_LegfK1ou-bE6X77pjVT4dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

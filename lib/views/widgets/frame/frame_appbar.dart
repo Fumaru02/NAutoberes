@@ -3,8 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../../../../utils/size_config.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/asset_list.dart';
-import '../text/worksans_text_view.dart';
+import '../text/roboto_text_view.dart';
 
 class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
   // constructor
@@ -62,7 +61,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     } else if (titleScreen == null && isImplyLeading == false) {
       return customTitle ?? const Text('');
     } else {
-      return WorkSansTextView(
+      return RobotoTextView(
         value: titleScreen ?? '',
         fontWeight: FontWeight.normal,
         color: AppColors.white,
@@ -81,16 +80,11 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget _backButton(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        onBack == null ? Navigator.pop(context) : onBack!();
-      },
-      // iconSize: 5,
-      icon: Image.asset(
-        AssetList.back,
-        scale: 5,
-        color: AppColors.white,
-      ),
-    );
+        onPressed: () {
+          onBack == null ? Navigator.pop(context) : onBack!();
+        },
+        // iconSize: 5,
+        icon: const Icon(Icons.arrow_back));
   }
 
   bool _enableImplyLeading() {
