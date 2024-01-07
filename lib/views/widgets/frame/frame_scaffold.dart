@@ -24,6 +24,8 @@ class FrameScaffold extends StatelessWidget {
     this.action,
     this.customTitle,
     this.bottomNavBar,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
     this.titleScreen,
     this.onBack,
     this.bottom,
@@ -53,6 +55,8 @@ class FrameScaffold extends StatelessWidget {
   final Widget? action;
   final Widget? customTitle;
   final Widget? bottomNavBar;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
   //Appbar constructor
   final String? titleScreen;
   final dynamic Function()? onBack;
@@ -67,8 +71,10 @@ class FrameScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: avoidBottomInset ?? true,
-      backgroundColor: colorScaffold ?? AppColors.backgroundColor,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: colorScaffold ?? AppColors.blackBackground,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
       appBar: FrameAppBar(
         titleScreen: titleScreen,
         heightBar: heightBar,
