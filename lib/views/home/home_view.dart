@@ -76,7 +76,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                       ResponsiveRowColumnItem(
-                        child: homeController.userStatus.value == 'Founder'
+                        child: homeController.userStatus.value != 'User'
                             ? Container(
                                 width: SizeConfig.horizontal(14),
                                 decoration: BoxDecoration(
@@ -186,9 +186,9 @@ class HomeView extends StatelessWidget {
                     jumpScale: 0.5,
                     verticalOffset: 15,
                     dotColor: AppColors.greyDisabled,
-                    spacing: SizeConfig.horizontal(4.5),
-                    dotHeight: SizeConfig.horizontal(2.5),
-                    dotWidth: SizeConfig.horizontal(2.5),
+                    spacing: SizeConfig.horizontal(4),
+                    dotHeight: SizeConfig.horizontal(2),
+                    dotWidth: SizeConfig.horizontal(2),
                     activeDotColor: AppColors.black,
                   ),
                 ),

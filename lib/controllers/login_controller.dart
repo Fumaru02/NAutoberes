@@ -32,20 +32,36 @@ class LoginController extends GetxController {
       Get.offAllNamed('/frame');
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Snack.show(SnackbarType.error, 'Unknown email',
-            'Akun tidak dapat ditemukan coba lagi/password salah');
-      } else if (e.code == 'wrong-password') {
-        Snack.show(
-            SnackbarType.error, 'Wrong password', 'Password salah coba lagi');
-      } else if (e.code == 'invalid-email') {
-        Snack.show(SnackbarType.error, 'invalid email',
-            'Email tidak dapat ditemukan coba lagi');
-      } else if (e.code == 'error-user-not-found') {
-        Snack.show(
-            SnackbarType.error, 'Wrong password', 'Password salah coba lagi');
+      switch (e.code) {
+        case 'ERROR_INVALID_EMAIL':
+          Snack.show(SnackbarType.error, 'invalid email',
+              'Email tidak dapat ditemukan coba lagi');
+          break;
+        case 'ERROR_WRONG_PASSWORD':
+          Snack.show(
+              SnackbarType.error, 'Wrong password', 'Password salah coba lagi');
+          break;
+        case 'ERROR_USER_NOT_FOUND':
+          Snack.show(SnackbarType.error, 'Unknown email',
+              'Akun tidak dapat ditemukan coba lagi/password salah');
+          break;
+        case 'ERROR_USER_DISABLED':
+          Snack.show(SnackbarType.error, 'Error User',
+              'Akunmu dihentikan untuk sementara waktu');
+          break;
+        case 'ERROR_TOO_MANY_REQUESTS':
+          Snack.show(
+              SnackbarType.error, 'Error', 'Too many request try again later');
+          break;
+        case 'ERROR_OPERATION_NOT_ALLOWED':
+          Snack.show(SnackbarType.error, 'Unknown user', 'Operasi dihentikan');
+          break;
+        default:
+          Snack.show(SnackbarType.error, 'Error',
+              'Something error please try again later');
+
+          return null;
       }
-      return null;
     }
   }
 }
