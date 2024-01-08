@@ -104,60 +104,71 @@ class SignUpView extends StatelessWidget {
                           child: CustomFlatButton(
                               text: 'Confirm',
                               textColor: AppColors.black,
-                              onTap: () {
-                                signUpController.signUpWithEmailAndPassword();
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => Dialog(
-                                      backgroundColor:
-                                          AppColors.blackBackground,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.horizontal(4)),
-                                        child: ResponsiveRowColumn(
-                                          layout:
-                                              ResponsiveRowColumnType.COLUMN,
-                                          columnMainAxisSize: MainAxisSize.min,
-                                          children: <ResponsiveRowColumnItem>[
-                                            const ResponsiveRowColumnItem(
-                                                child: AutoBeresLogo(
-                                              height: 20,
-                                              width: 19,
-                                            )),
-                                            ResponsiveRowColumnItem(
-                                                child: RobotoTextView(
-                                              value:
-                                                  'Daftar Berhasil\nKami telah mengirim link email verifikasi ke ${signUpController.emailController.text} mohon untuk di klik',
-                                              fontWeight: FontWeight.bold,
-                                              alignText: AlignTextType.center,
-                                            )),
-                                            const ResponsiveRowColumnItem(
-                                                child: SpaceSizer(
-                                              vertical: 2,
-                                            )),
-                                            ResponsiveRowColumnItem(
-                                                child: ResponsiveRowColumn(
-                                              layout:
-                                                  ResponsiveRowColumnType.ROW,
-                                              rowMainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <ResponsiveRowColumnItem>[
-                                                ResponsiveRowColumnItem(
-                                                    child: CustomFlatButton(
-                                                  width:
-                                                      SizeConfig.horizontal(30),
-                                                  text: 'Oke',
-                                                  textColor:
-                                                      AppColors.blackBackground,
-                                                  onTap: () => Get.offAll(
-                                                      const LoginView()),
-                                                ))
-                                              ],
-                                            ))
-                                          ],
-                                        ),
-                                      )),
-                                );
+                              onTap: () async {
+                                final bool isRegister = await signUpController
+                                    .signUpWithEmailAndPassword();
+                                if (isRegister == true) {
+                                  if (!context.mounted) {
+                                    return;
+                                  }
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => Dialog(
+                                        backgroundColor:
+                                            AppColors.blackBackground,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(
+                                              SizeConfig.horizontal(4)),
+                                          child: ResponsiveRowColumn(
+                                            layout:
+                                                ResponsiveRowColumnType.COLUMN,
+                                            columnMainAxisSize:
+                                                MainAxisSize.min,
+                                            children: <ResponsiveRowColumnItem>[
+                                              const ResponsiveRowColumnItem(
+                                                  child: AutoBeresLogo(
+                                                height: 20,
+                                                width: 19,
+                                              )),
+                                              ResponsiveRowColumnItem(
+                                                  child: RobotoTextView(
+                                                value:
+                                                    'Daftar Berhasil\nKami telah mengirim link email verifikasi ke ${signUpController.emailController.text} mohon untuk di klik',
+                                                fontWeight: FontWeight.bold,
+                                                alignText: AlignTextType.center,
+                                              )),
+                                              const ResponsiveRowColumnItem(
+                                                  child: SpaceSizer(
+                                                vertical: 2,
+                                              )),
+                                              ResponsiveRowColumnItem(
+                                                  child: ResponsiveRowColumn(
+                                                layout:
+                                                    ResponsiveRowColumnType.ROW,
+                                                rowMainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <ResponsiveRowColumnItem>[
+                                                  ResponsiveRowColumnItem(
+                                                      child: CustomFlatButton(
+                                                          width: SizeConfig
+                                                              .horizontal(30),
+                                                          text: 'Oke',
+                                                          textColor: AppColors
+                                                              .blackBackground,
+                                                          onTap: () {
+                                                            Get.offAll(() =>
+                                                                const LoginView());
+                                                            signUpController
+                                                                .clearTextController();
+                                                          }))
+                                                ],
+                                              ))
+                                            ],
+                                          ),
+                                        )),
+                                  );
+                                }
+                                log(isRegister.toString());
                               }))
                     ]))));
   }

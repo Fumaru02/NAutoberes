@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
+      init: HomeController(),
       builder: (HomeController homeController) => ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.COLUMN,
           columnCrossAxisAlignment: CrossAxisAlignment.start,
@@ -41,9 +43,15 @@ class HomeView extends StatelessWidget {
                     EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(4)),
                 rowSpacing: 8,
                 children: <ResponsiveRowColumnItem>[
-                  const ResponsiveRowColumnItem(
+                  ResponsiveRowColumnItem(
                       child: CircleAvatar(
+                    foregroundColor: AppColors.white,
                     minRadius: 25,
+                    child: Icon(
+                      Icons.person,
+                      color: AppColors.black,
+                      size: 40,
+                    ),
                   )),
                   ResponsiveRowColumnItem(
                       child: ResponsiveRowColumn(
@@ -127,15 +135,14 @@ class HomeView extends StatelessWidget {
                           carouselController: homeController.carouselController,
                           options: CarouselOptions(
                             autoPlay: true,
-                            aspectRatio: 2.5,
+                            aspectRatio: 9 / 4,
                             enlargeCenterPage: true,
-                            viewportFraction: 0.81,
                             onPageChanged:
                                 (int index, CarouselPageChangedReason reason) {
                               homeController.currentDot(index);
                             },
                           ),
-                          itemCount: 3,
+                          itemCount: homeController.imageUrl.length,
                           itemBuilder: (BuildContext context, int index,
                                   int realIndex) =>
                               Center(
@@ -146,19 +153,21 @@ class HomeView extends StatelessWidget {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(
                                             SizeConfig.horizontal(1))),
-                                    child: Container(
-                                      color: AppColors.black,
-                                    ),
+
                                     // child: Image.asset(
                                     //   item,
                                     //   fit: BoxFit.cover,
                                     //   width: SizeConfig.horizontal(110),
                                     // ),
-                                    // child: CachedNetworkImage(
-                                    //   imageUrl: item,
-                                    //   fit: BoxFit.cover,
-                                    //   width: SizeConfig.horizontal(110),
-                                    // ),
+                                    child: homeController.imageUrl.isEmpty
+                                        ? const CircularProgressIndicator()
+                                        : CachedNetworkImage(
+                                            imageUrl:
+                                                homeController.imageUrl[index],
+                                            fit: BoxFit.fill,
+                                            width: SizeConfig.horizontal(100),
+                                            height: SizeConfig.horizontal(100),
+                                          ),
                                   ),
                                 ),
                               )))

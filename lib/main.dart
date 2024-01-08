@@ -6,8 +6,7 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import 'routes/app_routes.dart';
 import 'utils/size_config.dart';
-import 'views/login/login_view.dart';
-import 'views/sign_up/sign_up_view.dart';
+import 'views/authorize/authorize_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,7 @@ class AutoBeres extends StatelessWidget {
           end: 480,
         )
       ], child: child!),
-      home: const LoginView(),
+      home: const AuthorizeView(),
       getPages: AppRoutes.routes,
       defaultTransition: Transition.noTransition,
     );

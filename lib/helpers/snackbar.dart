@@ -27,7 +27,7 @@ class Snack {
           background = AppColors.greenDark;
         } else {
           if (snackbarType == SnackbarType.info) {
-            background = AppColors.black;
+            background = AppColors.redAlert;
           } else {
             background = backgroundColor;
           }
@@ -40,7 +40,7 @@ class Snack {
         colorText: colorText ?? Colors.white,
         backgroundColor: background,
         snackStyle: SnackStyle.FLOATING,
-        duration: duration ?? const Duration(milliseconds: 2000),
+        duration: duration ?? const Duration(milliseconds: 4000),
         padding: EdgeInsets.symmetric(
           vertical: SizeConfig.horizontal(1),
           horizontal: SizeConfig.horizontal(4),
