@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 
+import 'controllers/authorize_controller.dart';
 import 'routes/app_routes.dart';
 import 'utils/size_config.dart';
 import 'views/authorize/authorize_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const AutoBeres());
 }
 
@@ -19,6 +20,8 @@ class AutoBeres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AuthorizeController());
+
     SizeConfig().init(context);
     return GetMaterialApp(
       title: 'AutoBeres',

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
+import '../../controllers/authorize_controller.dart';
 import '../../controllers/login_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
@@ -23,6 +24,8 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthorizeController authorizeController =
+        Get.put(AuthorizeController());
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
             systemNavigationBarColor: AppColors.black,
@@ -143,8 +146,11 @@ class LoginView extends StatelessWidget {
                     ],
                   )),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 8)),
-                  const ResponsiveRowColumnItem(
-                      child: Center(child: CustomAppVersion()))
+                  ResponsiveRowColumnItem(
+                      child: Center(
+                          child: CustomAppVersion(
+                    authorizeController: authorizeController,
+                  )))
                 ],
               )),
         ));

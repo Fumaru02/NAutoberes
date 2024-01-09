@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
+import '../../../controllers/authorize_controller.dart';
 import '../../../utils/size_config.dart';
 import '../text/roboto_text_view.dart';
 
 class CustomAppVersion extends StatelessWidget {
-  const CustomAppVersion({
-    super.key,
-  });
+  const CustomAppVersion({super.key, required this.authorizeController});
 
+  final AuthorizeController authorizeController;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -17,13 +17,14 @@ class CustomAppVersion extends StatelessWidget {
         children: [
           ResponsiveRowColumnItem(
             child: RobotoTextView(
-              value: 'Version 1.0.0',
+              value: 'Version ${authorizeController.versionApp}',
               size: SizeConfig.safeBlockHorizontal * 3.5,
             ),
           ),
           ResponsiveRowColumnItem(
               child: RobotoTextView(
-            value: '@2024. AutoBeres',
+            value:
+                '©${authorizeController.appYear}. ${authorizeController.appName}',
             size: SizeConfig.safeBlockHorizontal * 3.5,
           )),
         ],
