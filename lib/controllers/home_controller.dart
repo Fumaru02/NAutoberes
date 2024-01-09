@@ -6,39 +6,73 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
+
 class HomeController extends GetxController {
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getApplicationData();
-    getDataUser();
+    getApplicationData();
   }
 
   final CarouselController carouselController = CarouselController();
   final RxInt currentDot = RxInt(0);
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxString username = RxString('');
   RxString userStatus = RxString('');
-  RxList<String> imageUrl = RxList<String>(<String>[]);
+  RxString specialOffersTitle = RxString('');
+  RxString aboutAutomotive = RxString('');
+  RxString promoTitle = RxString('');
+  RxList<String> promoImage = RxList<String>(<String>[]);
+  RxList<String> contentImg = RxList<String>(<String>[]);
+  RxList<String> contentTitle = RxList<String>(<String>[]);
 
   Future<void> getApplicationData() async {
     try {
-      final ListResult result =
-          await storage.ref().child('landing_image/').listAll();
-
-      for (final Reference ref in result.items) {
-        imageUrl.add(await storage.ref(ref.fullPath).getDownloadURL());
-      }
-      log(imageUrl.toList().toString());
+      getContent();
+      getDataUser();
+      getPromoApps();
     } catch (error) {
-      print('Error fetching image URL: $error');
+      log(error.toString());
     }
   }
 
+  dynamic getContent() async {
+    await _firestore
+        .collection('home')
+        .doc('data')
+        .get()
+        .then((DocumentSnapshot<dynamic> documentSnapshot) {
+      final Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      aboutAutomotive.value = data['title'] as String;
+      contentImg.value =
+          List<String>.from(data['content']['content_img'] as List<dynamic>);
+      contentTitle.value =
+          List<String>.from(data['content']['content_title'] as List<dynamic>);
+      update();
+    });
+  }
+
+  dynamic getPromoApps() async {
+    await _firestore
+        .collection('home')
+        .doc('promo')
+        .get()
+        .then((DocumentSnapshot<dynamic> documentSnapshot) {
+      final Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+
+      promoImage.value =
+          List<String>.from(data['promo']['promo_image'] as List<dynamic>);
+      promoTitle.value = data['promo']['promo_title'] as String;
+    });
+  }
+
   dynamic getDataUser() async {
-    await FirebaseFirestore.instance
+    await _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .get()

@@ -10,7 +10,7 @@ import 'views/authorize/authorize_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Firebase.initializeApp();
   runApp(const AutoBeres());
 }
 

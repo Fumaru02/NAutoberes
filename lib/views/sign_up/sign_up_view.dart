@@ -156,7 +156,7 @@ class SignUpView extends StatelessWidget {
                                                           textColor: AppColors
                                                               .blackBackground,
                                                           onTap: () {
-                                                            Get.offAll(() =>
+                                                            Get.off(() =>
                                                                 const LoginView());
                                                             signUpController
                                                                 .clearTextController();

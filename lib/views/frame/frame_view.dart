@@ -16,8 +16,8 @@ class FrameView extends StatefulWidget {
 class _FrameViewState extends State<FrameView> {
   final FrameController _controller = Get.put(
     FrameController(),
-    permanent: true,
   );
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(

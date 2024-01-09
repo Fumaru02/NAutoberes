@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -12,11 +13,43 @@ class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final RxBool isTapped = false.obs;
+
+  dynamic getUserToken() async {
+    final String? token = await _auth.currentUser?.getIdToken();
+    sharedPref.writeAccessToken(token!);
+  }
+
+  Future<bool> resetPassword() async {
+    try {
+      await _auth.sendPasswordResetEmail(email: emailController.text.trim());
+      return true;
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'invalid-email':
+          Snack.show(SnackbarType.error, 'invalid email',
+              'Email tidak dapat ditemukan coba lagi');
+          break;
+        case 'user-not-found':
+          Snack.show(SnackbarType.error, 'Unknown email',
+              'Akun tidak dapat ditemukan coba lagi/password salah');
+          break;
+        default:
+          Snack.show(SnackbarType.error, 'Error',
+              'Something error please try again later');
+      }
+      return false;
+    }
+  }
 
   dynamic signInWithEmailAndPassword() async {
     try {
+      update();
+      isTapped.value = true;
+
       final UserCredential credential = await _auth.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
       if (!credential.user!.emailVerified) {
         Snack.show(SnackbarType.error, 'Email Verification',
             'Email kamu belum terverifikasi mohon check inbox/spam');
@@ -27,21 +60,22 @@ class LoginController extends GetxController {
             'Email kamu belum terverifikasi mohon check inbox/spam');
         return;
       }
-      final String? token = await _auth.currentUser?.getIdToken();
-      sharedPref.writeAccessToken(token!);
+      getUserToken();
       Get.offAllNamed('/frame');
+      isTapped.value = false;
+
       return credential.user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'ERROR_INVALID_EMAIL':
+        case 'invalid-email':
           Snack.show(SnackbarType.error, 'invalid email',
               'Email tidak dapat ditemukan coba lagi');
           break;
-        case 'ERROR_WRONG_PASSWORD':
-          Snack.show(
-              SnackbarType.error, 'Wrong password', 'Password salah coba lagi');
+        case 'invalid-credential':
+          Snack.show(SnackbarType.error, 'wrong email/password',
+              'Email/Password salah coba lagi');
           break;
-        case 'ERROR_USER_NOT_FOUND':
+        case 'user-not-found':
           Snack.show(SnackbarType.error, 'Unknown email',
               'Akun tidak dapat ditemukan coba lagi/password salah');
           break;
@@ -59,6 +93,7 @@ class LoginController extends GetxController {
         default:
           Snack.show(SnackbarType.error, 'Error',
               'Something error please try again later');
+          isTapped.value = false;
 
           return null;
       }
