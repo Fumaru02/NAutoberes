@@ -20,10 +20,10 @@ class FrameController extends GetxController {
     OnTapIdentifier(name: 'Akun', index: 4, isOnTapped: false),
   ]);
 
-  List<Widget> widgetViewList = [
+  List<Widget> widgetViewList = <Widget>[
     const HomeView(),
     const ChatView(),
-    const ServicesView(),
+    const HomeServicesView(),
     const OutletsView(),
     const AkunView(),
   ];

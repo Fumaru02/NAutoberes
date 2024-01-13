@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import '../../../../../utils/size_config.dart';
 import '../../../utils/app_colors.dart';
@@ -81,10 +82,12 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget _backButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          onBack == null ? Navigator.pop(context) : onBack!();
+          onBack == null ? Get.back() : onBack!();
         },
-        // iconSize: 5,
-        icon: const Icon(Icons.arrow_back));
+        icon: Icon(
+          Icons.arrow_back,
+          color: AppColors.white,
+        ));
   }
 
   bool _enableImplyLeading() {
@@ -102,7 +105,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     SizeConfig().init(context);
     return AppBar(
       flexibleSpace: Container(
-        color: AppColors.cyanBackgroundAppBar,
+        color: AppColors.blackBackground,
       ),
       title: _titleScreen(),
       backgroundColor: color ?? Colors.white,

@@ -8,21 +8,23 @@ import '../../../utils/size_config.dart';
 class RobotoTextView extends StatelessWidget {
   // constructor
   const RobotoTextView({
-    Key? key,
+    super.key,
     required this.value,
     this.color,
     this.size,
+    this.maxLines,
     this.fontStyle,
     this.fontWeight,
     this.alignText,
     this.overFlow,
     this.textDecoration,
     this.decorationColor,
-  }) : super(key: key);
+  });
 
   final String value;
   final Color? color;
   final double? size;
+  final int? maxLines;
   final FontStyle? fontStyle;
   final FontWeight? fontWeight;
   final AlignTextType? alignText;
@@ -34,6 +36,7 @@ class RobotoTextView extends StatelessWidget {
     return Text(
       value,
       overflow: overFlow,
+      maxLines: maxLines,
       style: GoogleFonts.roboto(
         decoration: textDecoration,
         decorationColor: decorationColor,

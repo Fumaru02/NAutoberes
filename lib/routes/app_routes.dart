@@ -17,6 +17,6 @@ class AppRoutes {
         name: RoutesName.frameRoute,
         page: () => const FrameView(),
         transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 1000))
+        transitionDuration: const Duration(milliseconds: 1000)),
   ];
 }

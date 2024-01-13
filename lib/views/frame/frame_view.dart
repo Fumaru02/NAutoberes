@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/frame_controller.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/size_config.dart';
 import '../widgets/frame/frame_bottom_nav_bar.dart';
 
 class FrameView extends StatefulWidget {
@@ -26,11 +27,14 @@ class _FrameViewState extends State<FrameView> {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Obx(() => FrameBottomNav(
+            onBack: () => _controller.onTapNav(0),
+            isUseLeading: _useBackButton(),
             isImplyLeading: false,
             elevation: 0,
             heightBar: _whenUseHeightBar(),
             isCenter: false,
             statusBarColor: _colorStatusBar(),
+            titleScreen: _useTitleAppBar(),
             statusBarBrightness: Brightness.light,
           )),
     );
@@ -47,10 +51,26 @@ class _FrameViewState extends State<FrameView> {
   }
 
   double _whenUseHeightBar() {
-    if (_controller.defaultIndex.value == 0) {
-      return 0;
+    if (_controller.defaultIndex.value == 1) {
+      return SizeConfig.horizontal(12);
     } else {
       return 0;
+    }
+  }
+
+  String _useTitleAppBar() {
+    if (_controller.defaultIndex.value == 1) {
+      return 'Chat Room';
+    } else {
+      return '';
+    }
+  }
+
+  bool _useBackButton() {
+    if (_controller.defaultIndex.value == 1) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

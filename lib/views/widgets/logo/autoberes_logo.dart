@@ -4,7 +4,7 @@ import '../../../utils/asset_list.dart';
 import '../../../utils/size_config.dart';
 
 class AutoBeresLogo extends StatelessWidget {
-  const AutoBeresLogo({Key? key, this.height, this.width}) : super(key: key);
+  const AutoBeresLogo({super.key, this.height, this.width});
 
   final double? height;
   final double? width;

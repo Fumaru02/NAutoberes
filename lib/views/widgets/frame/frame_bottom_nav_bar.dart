@@ -75,15 +75,24 @@ class FrameBottomNav extends FrameAppBar {
               ),
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: _CenterFloatingButton(
-              frameController: frameController,
-              onTap: () {
-                frameController.onTapNav(2);
-              },
-            ),
-            bottomNavigationBar: _bottomAppBar(
-                context: context, frameController: frameController)),
+                frameController.defaultIndex.value == 0
+                    ? FloatingActionButtonLocation.miniEndFloat
+                    : null,
+            floatingActionButton: frameController.defaultIndex.value == 0
+                ? _CenterFloatingButton(
+                    frameController: frameController,
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) => Container(),
+                      );
+                    },
+                  )
+                : null,
+            bottomNavigationBar: frameController.defaultIndex.value != 1
+                ? _bottomAppBar(
+                    context: context, frameController: frameController)
+                : null),
       ),
     );
   }
@@ -125,22 +134,11 @@ class FrameBottomNav extends FrameAppBar {
         label: 'Chat',
         index: 1,
       ),
-      BottomNavigationBarItem(
-        icon: ResponsiveRowColumn(
-          layout: ResponsiveRowColumnType.COLUMN,
-          columnMainAxisAlignment: MainAxisAlignment.end,
-          children: <ResponsiveRowColumnItem>[
-            const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 4)),
-            ResponsiveRowColumnItem(
-              child: RobotoTextView(
-                value: 'Services',
-                size: SizeConfig.safeBlockHorizontal * 2.9,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        label: '',
+      _bottomNavigationBarItemDefault(
+        frameController: frameController,
+        asset: AssetList.servicesIcon,
+        label: 'Home Service',
+        index: 2,
       ),
       _bottomNavigationBarItemDefault(
         frameController: frameController,
@@ -181,10 +179,9 @@ class FrameBottomNav extends FrameAppBar {
 
 class _CenterFloatingButton extends StatelessWidget {
   const _CenterFloatingButton({
-    Key? key,
     required this.onTap,
     required this.frameController,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final FrameController frameController;
@@ -192,26 +189,28 @@ class _CenterFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.all(Radius.circular(SizeConfig.horizontal(4))),
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 0.2,
-                color: AppColors.black,
-                offset: const Offset(0, 3))
-          ]),
-      height: SizeConfig.horizontal(20),
-      width: SizeConfig.horizontal(22),
+      margin: EdgeInsets.only(top: SizeConfig.horizontal(10)),
+      height: SizeConfig.horizontal(12),
+      width: SizeConfig.horizontal(16),
       child: FloatingActionButton(
-        backgroundColor: frameController.defaultIndex.value == 2
+        backgroundColor: frameController.defaultIndex.value == 5
             ? AppColors.goldButton
-            : AppColors.blackBackground,
+            : AppColors.redAlert,
         elevation: 0,
         onPressed: onTap,
-        child: Image.asset(
-          AssetList.servicesIcon,
-          color: AppColors.white,
+        child: ResponsiveRowColumn(
+          layout: ResponsiveRowColumnType.COLUMN,
+          children: [
+            const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
+            ResponsiveRowColumnItem(
+                child: Icon(Icons.person_pin,
+                    color: AppColors.white, size: SizeConfig.horizontal(6))),
+            ResponsiveRowColumnItem(
+                child: RobotoTextView(
+                    value: 'Urgent Call',
+                    size: SizeConfig.safeBlockHorizontal * 2.4,
+                    fontWeight: FontWeight.w500))
+          ],
         ),
       ),
     );
@@ -220,14 +219,13 @@ class _CenterFloatingButton extends StatelessWidget {
 
 class _MenuItemWrapper extends StatelessWidget {
   const _MenuItemWrapper({
-    Key? key,
     required this.asset,
     required this.label,
     required this.index,
     this.widthIcon,
     this.heightIcon,
     required this.frameController,
-  }) : super(key: key);
+  });
 
   final String asset;
   final String label;
@@ -243,38 +241,30 @@ class _MenuItemWrapper extends StatelessWidget {
       columnMainAxisSize: MainAxisSize.min,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-          child: Obx(
-            () => CustomImageAsset(
-              decoration: frameController.onTapIdentifierList[index].isOnTapped
-                  ? BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(SizeConfig.horizontal(6)),
-                        right: Radius.circular(SizeConfig.horizontal(6)),
-                      ),
-                    )
-                  : null,
-              asset: asset,
-              width: widthIcon ?? 6,
-              height: heightIcon ?? 6,
-              color: frameController.onTapIdentifierList[index].isOnTapped
-                  ? AppColors.goldButton
-                  : AppColors.white,
-            ),
-          ),
-        ),
+            child: Obx(() => CustomImageAsset(
+                decoration: frameController
+                        .onTapIdentifierList[index].isOnTapped
+                    ? BoxDecoration(
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(SizeConfig.horizontal(6)),
+                            right: Radius.circular(SizeConfig.horizontal(6))))
+                    : null,
+                asset: asset,
+                height: heightIcon ?? 6,
+                color: frameController.onTapIdentifierList[index].isOnTapped
+                    ? AppColors.goldButton
+                    : AppColors.white))),
         const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
         ResponsiveRowColumnItem(
-          child: RobotoTextView(
-            value: label,
-            color: frameController.onTapIdentifierList[index].isOnTapped
-                ? AppColors.goldButton
-                : AppColors.white,
-            size: widthIcon == null && heightIcon == null
-                ? SizeConfig.safeBlockHorizontal * 2.9
-                : SizeConfig.safeBlockHorizontal * 2.8,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+            child: RobotoTextView(
+                value: label,
+                color: frameController.onTapIdentifierList[index].isOnTapped
+                    ? AppColors.goldButton
+                    : AppColors.white,
+                size: widthIcon == null && heightIcon == null
+                    ? SizeConfig.safeBlockHorizontal * 2.7
+                    : SizeConfig.safeBlockHorizontal * 2.8,
+                fontWeight: FontWeight.w500)),
       ],
     );
   }

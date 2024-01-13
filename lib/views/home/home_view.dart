@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +22,16 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
-      init: HomeController(),
-      builder: (HomeController homeController) => homeView(homeController),
-    );
+        init: HomeController(),
+        builder: (HomeController homeController) => homeView(homeController));
   }
 
   Widget homeView(HomeController homeController) {
-    return CustomScrollView(primary: true, slivers: [
+    final String testString =
+        'aowkdoakowdkaokdoawdawdokaowkdoakowdkoakwdokaodkwokdowkwdok';
+    return CustomScrollView(primary: true, slivers: <Widget>[
       SliverList(
-        delegate: SliverChildListDelegate([
+        delegate: SliverChildListDelegate(<Widget>[
           ResponsiveRowColumn(
               layout: ResponsiveRowColumnType.COLUMN,
               columnCrossAxisAlignment: CrossAxisAlignment.start,
@@ -37,62 +40,115 @@ class HomeView extends StatelessWidget {
                 const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                 ResponsiveRowColumnItem(child: promoSlider(homeController)),
                 const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-                ResponsiveRowColumnItem(child: contentList(homeController)),
-              ]),
+              ])
         ]),
       ),
-    ]);
-  }
-
-  Widget contentList(HomeController homeController) {
-    return ResponsiveRowColumn(
-      layout: ResponsiveRowColumnType.COLUMN,
-      columnCrossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ResponsiveRowColumnItem(
-            child: Padding(
-          padding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
-          child: RobotoTextView(
-              value: homeController.aboutAutomotive.value,
-              color: AppColors.black,
-              fontWeight: FontWeight.w900,
-              size: SizeConfig.safeBlockHorizontal * 4.5),
-        )),
-        ResponsiveRowColumnItem(
-          child: Container(
-            margin: EdgeInsets.only(
-                bottom: SizeConfig.horizontal(25),
-                left: SizeConfig.horizontal(6),
-                right: SizeConfig.horizontal(6)),
-            height: SizeConfig.screenHeight,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: homeController.contentImg.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  ResponsiveRowColumn(
-                layout: ResponsiveRowColumnType.COLUMN,
-                children: [
-                  ResponsiveRowColumnItem(
-                      child: Container(
-                          height: SizeConfig.horizontal(90),
-                          color: AppColors.greenDRT,
-                          child: CachedNetworkImage(
-                              imageUrl: homeController.contentImg[index],
-                              fit: BoxFit.fill))),
-                  ResponsiveRowColumnItem(
-                      child: Obx(() => RobotoTextView(
-                            value: homeController.contentTitle[index],
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w500,
-                          ))),
-                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
-                ],
-              ),
-            ),
+      SliverList(
+        delegate: SliverChildListDelegate(<Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
+            child: RobotoTextView(
+                value: homeController.aboutAutomotive.value,
+                color: AppColors.black,
+                fontWeight: FontWeight.w900,
+                size: SizeConfig.safeBlockHorizontal * 4.5),
           ),
-        ),
-      ],
-    );
+        ]),
+      ),
+      SliverPadding(
+        padding: EdgeInsets.only(
+            left: SizeConfig.horizontal(4),
+            top: SizeConfig.horizontal(4),
+            right: SizeConfig.horizontal(4),
+            bottom: SizeConfig.horizontal(35)),
+        sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) => ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.COLUMN,
+                      children: [
+                        ResponsiveRowColumnItem(
+                          child: Container(
+                            margin: EdgeInsets.all(SizeConfig.horizontal(2)),
+                            decoration: BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: const Offset(0, 2),
+                                      color: AppColors.greyDisabled)
+                                ],
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(SizeConfig.horizontal(2))),
+                                color: AppColors.white),
+                            child: ResponsiveRowColumn(
+                              layout: ResponsiveRowColumnType.COLUMN,
+                              columnPadding: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.horizontal(4)),
+                              columnCrossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: <ResponsiveRowColumnItem>[
+                                const ResponsiveRowColumnItem(
+                                    child: SpaceSizer(vertical: 1.5)),
+                                ResponsiveRowColumnItem(
+                                    child: RobotoTextView(
+                                        value:
+                                            homeController.contentTitle[index],
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w900,
+                                        size: SizeConfig.safeBlockHorizontal *
+                                            4.5)),
+                                const ResponsiveRowColumnItem(
+                                    child: SpaceSizer(vertical: 1)),
+                                ResponsiveRowColumnItem(
+                                    child: Center(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(
+                                                        SizeConfig.horizontal(
+                                                            1))),
+                                                border: Border.all(
+                                                    width:
+                                                        SizeConfig.horizontal(
+                                                            0.1))),
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(SizeConfig.horizontal(1))),
+                                                child: CachedNetworkImage(maxHeightDiskCache: 300, maxWidthDiskCache: 300, imageUrl: homeController.contentImg[index], width: SizeConfig.horizontal(70), height: SizeConfig.horizontal(50), fit: BoxFit.fill))))),
+                                const ResponsiveRowColumnItem(
+                                    child: SpaceSizer(vertical: 1)),
+                                ResponsiveRowColumnItem(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                            right: SizeConfig.horizontal(4)),
+                                        child: RobotoTextView(
+                                            maxLines: 3,
+                                            value: testString,
+                                            color: AppColors.greyTextDisabled,
+                                            alignText: AlignTextType.left,
+                                            size:
+                                                SizeConfig.safeBlockHorizontal *
+                                                    4))),
+                                ResponsiveRowColumnItem(
+                                    child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: TextButton(
+                                      onPressed: () {},
+                                      child: RobotoTextView(
+                                          value: 'More details',
+                                          color: AppColors.black,
+                                          size: SizeConfig.safeBlockHorizontal *
+                                              3)),
+                                )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                childCount: homeController.contentImg.length)),
+      ),
+    ]);
   }
 
   Widget promoSliderDotIndicator(HomeController homeController) {
@@ -156,6 +212,8 @@ class HomeView extends StatelessWidget {
                                 child: homeController.promoImage.isEmpty
                                     ? const CircularProgressIndicator()
                                     : CachedNetworkImage(
+                                        maxWidthDiskCache: 350,
+                                        maxHeightDiskCache: 250,
                                         imageUrl:
                                             homeController.promoImage[index],
                                         fit: BoxFit.fill,
@@ -215,7 +273,7 @@ class HomeView extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: AppColors.goldButton,
                                 borderRadius: BorderRadius.all(
-                                    Radius.circular(SizeConfig.horizontal(2)))),
+                                    Radius.circular(SizeConfig.horizontal(1)))),
                             child: Center(
                               child: RobotoTextView(
                                 color: AppColors.black,
