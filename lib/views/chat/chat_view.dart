@@ -4,8 +4,11 @@ import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../controllers/chat_controller.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
+import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/text/roboto_text_view.dart';
+import 'chat_room_view.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({super.key});
@@ -13,116 +16,89 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChatController>(
-      init: ChatController(),
-      builder: (ChatController chatController) => ResponsiveRowColumn(
-        layout: ResponsiveRowColumnType.COLUMN,
-        children: <ResponsiveRowColumnItem>[
-          ResponsiveRowColumnItem(
-              child: Obx(
-            () => chatController.myMessage.value.isNotEmpty
-                ? ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.COLUMN,
-                    columnCrossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      ResponsiveRowColumnItem(
-                          child: Container(
-                        margin: EdgeInsets.only(
-                            right: SizeConfig.horizontal(12),
-                            top: SizeConfig.horizontal(3)),
-                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
-                        width: SizeConfig.horizontal(60),
-                        decoration: BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  blurRadius: 4,
-                                  spreadRadius: 2,
-                                  offset: const Offset(-1, 3),
-                                  color: AppColors.greyDisabled)
-                            ],
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft:
-                                  Radius.circular(SizeConfig.horizontal(2)),
-                              topRight:
-                                  Radius.circular(SizeConfig.horizontal(2)),
-                              bottomLeft:
-                                  Radius.circular(SizeConfig.horizontal(2)),
-                            )),
-                        child: RobotoTextView(
-                          value: chatController.myMessage.value,
-                          size: SizeConfig.safeBlockHorizontal * 4,
-                          color: AppColors.black,
-                        ),
-                      )),
+        init: ChatController(),
+        builder: (ChatController chatController) => ListView.builder(
+              itemCount: 2,
+              itemBuilder: (BuildContext context, int index) =>
+                  CustomRippleButton(
+                onTap: () => Get.to(const ChatRoomView()),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: AppColors.black,
+                              width: SizeConfig.horizontal(0.2)))),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.horizontal(4)),
+                  height: SizeConfig.horizontal(20),
+                  child: ResponsiveRowColumn(
+                    layout: ResponsiveRowColumnType.ROW,
+                    columnMainAxisAlignment: MainAxisAlignment.center,
+                    rowSpacing: 8,
+                    children: <ResponsiveRowColumnItem>[
                       const ResponsiveRowColumnItem(
-                        child: ResponsiveRowColumn(
-                          layout: ResponsiveRowColumnType.ROW,
-                          children: [
-                            ResponsiveRowColumnItem(child: Spacer()),
-                            ResponsiveRowColumnItem(
-                              child: CircleAvatar(
-                                minRadius: 25,
+                          child: CircleAvatar(
+                        minRadius: 28,
+                      )),
+                      ResponsiveRowColumnItem(
+                          child: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        columnMainAxisAlignment: MainAxisAlignment.center,
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                            child: ResponsiveRowColumn(
+                              layout: ResponsiveRowColumnType.ROW,
+                              rowSpacing: 4,
+                              children: <ResponsiveRowColumnItem>[
+                                ResponsiveRowColumnItem(
+                                  child: RobotoTextView(
+                                    value: 'Fumaru',
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                                ResponsiveRowColumnItem(
+                                    child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.horizontal(2)),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: SizeConfig.horizontal(0.5),
+                                      horizontal: SizeConfig.horizontal(2)),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.goldButton,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              SizeConfig.horizontal(1)))),
+                                  child: Center(
+                                    child: RobotoTextView(
+                                      color: AppColors.black,
+                                      value: 'Founder',
+                                      size: SizeConfig.safeBlockHorizontal * 3,
+                                      alignText: AlignTextType.left,
+                                    ),
+                                  ),
+                                ))
+                              ],
+                            ),
+                          ),
+                          ResponsiveRowColumnItem(
+                            child: SizedBox(
+                              width: SizeConfig.horizontal(70),
+                              child: RobotoTextView(
+                                value:
+                                    'baru aja wloakwoda wokoakdokwa owdkoakdoasdaowmdoamwod',
+                                size: SizeConfig.safeBlockHorizontal * 3.5,
+                                overFlow: TextOverflow.ellipsis,
+                                color: AppColors.greyButton,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        ],
+                      ))
                     ],
-                  )
-                : const SizedBox.shrink(),
-          )),
-          const ResponsiveRowColumnItem(child: Spacer()),
-          ResponsiveRowColumnItem(
-            child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.blackBackground,
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        blurRadius: 4,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 3),
-                        color: AppColors.greyDisabled)
-                  ],
+                  ),
                 ),
-                height: SizeConfig.horizontal(12),
-                child: ResponsiveRowColumn(
-                  layout: ResponsiveRowColumnType.ROW,
-                  children: <ResponsiveRowColumnItem>[
-                    ResponsiveRowColumnItem(
-                        child: Container(
-                            decoration: BoxDecoration(color: AppColors.white),
-                            width: SizeConfig.horizontal(88),
-                            child: SizedBox(
-                                child: TextFormField(
-                              onFieldSubmitted: (String value) {
-                                chatController.myMessage.value = value;
-                                chatController.chatEditingController.clear();
-                              },
-                              textInputAction: TextInputAction.send,
-                              decoration: InputDecoration(
-                                  suffixIcon:
-                                      const Icon(Icons.control_point_outlined),
-                                  hintText: 'Enter Message...',
-                                  contentPadding: EdgeInsets.only(
-                                      top: SizeConfig.horizontal(2),
-                                      left: SizeConfig.horizontal(4))),
-                              controller: chatController.chatEditingController,
-                            )))),
-                    ResponsiveRowColumnItem(
-                        child: Container(
-                      color: AppColors.redAlert,
-                      width: SizeConfig.horizontal(12),
-                      height: SizeConfig.horizontal(12),
-                      child: Icon(
-                        Icons.mic,
-                        size: SizeConfig.horizontal(8),
-                      ),
-                    ))
-                  ],
-                )),
-          ),
-        ],
-      ),
-    );
+              ),
+            ));
   }
 }

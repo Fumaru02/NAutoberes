@@ -9,7 +9,7 @@ import '../text/roboto_text_view.dart';
 class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
   // constructor
   const FrameAppBar({
-    Key? key,
+    super.key,
     // status bar
     this.action,
     this.customLeading,
@@ -27,7 +27,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.statusBarColor,
     this.statusBarIconBrightness,
     this.statusBarBrightness,
-  }) : super(key: key);
+  });
 
   /// [Parameter]
   //Widget

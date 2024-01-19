@@ -8,7 +8,7 @@ import '../../../utils/size_config.dart';
 class NunitoTextView extends StatelessWidget {
   // constructor
   const NunitoTextView({
-    Key? key,
+    super.key,
     required this.value,
     this.color,
     this.size,
@@ -17,7 +17,7 @@ class NunitoTextView extends StatelessWidget {
     this.alignText,
     this.overFlow,
     this.textDecoration,
-  }) : super(key: key);
+  });
 
   final String value;
   final Color? color;

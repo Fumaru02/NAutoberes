@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +16,6 @@ class HomeController extends GetxController {
 
   final CarouselController carouselController = CarouselController();
   final RxInt currentDot = RxInt(0);
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxString username = RxString('');
   RxString userStatus = RxString('');
@@ -31,11 +29,14 @@ class HomeController extends GetxController {
   Future<void> getApplicationData() async {
     try {
       getContent();
-      getDataUser();
       getPromoApps();
     } catch (error) {
       log(error.toString());
     }
+  }
+
+  dynamic refreshPage() async {
+    getContent();
   }
 
   dynamic getContent() async {
@@ -68,17 +69,5 @@ class HomeController extends GetxController {
           List<String>.from(data['promo']['promo_image'] as List<dynamic>);
       promoTitle.value = data['promo']['promo_title'] as String;
     });
-  }
-
-  dynamic getDataUser() async {
-    await _firestore
-        .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .get()
-        .then((DocumentSnapshot<dynamic> documentSnapshot) {
-      username.value = documentSnapshot.data()['username'] as String;
-      userStatus.value = documentSnapshot.data()['status'] as String;
-    });
-    update();
   }
 }

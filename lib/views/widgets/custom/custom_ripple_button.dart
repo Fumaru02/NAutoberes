@@ -5,13 +5,13 @@ import '../../../utils/size_config.dart';
 
 class CustomRippleButton extends StatelessWidget {
   const CustomRippleButton({
-    Key? key,
+    super.key,
     required this.onTap,
     this.radius,
     this.splashColor,
     this.borderRadius,
     this.child,
-  }) : super(key: key);
+  });
 
   final Function() onTap;
   final double? radius;

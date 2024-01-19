@@ -5,8 +5,8 @@ import '../utils/on_tap_identifier.dart';
 import '../views/akun/akun_view.dart';
 import '../views/chat/chat_view.dart';
 import '../views/home/home_view.dart';
-import '../views/outlets/outlets_view.dart';
-import '../views/services/services_view.dart';
+import '../views/home_services/home_services_view.dart';
+import '../views/workshop/workshop_view.dart';
 
 class FrameController extends GetxController {
   RxInt defaultIndex = RxInt(0);
@@ -16,7 +16,7 @@ class FrameController extends GetxController {
     OnTapIdentifier(name: 'Home', index: 0, isOnTapped: true),
     OnTapIdentifier(name: 'Chat', index: 1, isOnTapped: false),
     OnTapIdentifier(name: 'Services', index: 2, isOnTapped: false),
-    OnTapIdentifier(name: 'Outlets', index: 3, isOnTapped: false),
+    OnTapIdentifier(name: 'Workshop', index: 3, isOnTapped: false),
     OnTapIdentifier(name: 'Akun', index: 4, isOnTapped: false),
   ]);
 
@@ -24,7 +24,7 @@ class FrameController extends GetxController {
     const HomeView(),
     const ChatView(),
     const HomeServicesView(),
-    const OutletsView(),
+    const WorkshopView(),
     const AkunView(),
   ];
 

@@ -6,7 +6,7 @@ import 'frame_appbar.dart';
 class FrameScaffold extends StatelessWidget {
   // constructor
   const FrameScaffold({
-    Key? key,
+    super.key,
     // parameter for app bar
     // parameter for scaffold
     // system status bar
@@ -33,7 +33,7 @@ class FrameScaffold extends StatelessWidget {
     this.statusBarColor,
     this.statusBarBrightness,
     this.statusBarIconBrightness,
-  }) : super(key: key);
+  });
 
   // parameter for scaffold
   final Widget? view;
@@ -71,7 +71,9 @@ class FrameScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       resizeToAvoidBottomInset: false,
+      
       backgroundColor: colorScaffold ?? AppColors.blackBackground,
       floatingActionButton: floatingActionButton,
       floatingActionButtonLocation: floatingActionButtonLocation,

@@ -7,7 +7,7 @@ import 'custom_ripple_button.dart';
 
 class CustomFlatButton extends StatelessWidget {
   const CustomFlatButton({
-    Key? key,
+    super.key,
     this.textColor,
     this.textColorLoading,
     this.backgroundColor,
@@ -24,7 +24,7 @@ class CustomFlatButton extends StatelessWidget {
     this.loading = false,
     this.gradientColor,
     required this.onTap,
-  }) : super(key: key);
+  });
 
 //Color
   final Color? textColor;

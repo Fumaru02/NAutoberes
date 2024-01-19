@@ -43,29 +43,23 @@ class LoginView extends StatelessWidget {
                 layout: ResponsiveRowColumnType.COLUMN,
                 columnPadding: EdgeInsets.only(left: SizeConfig.horizontal(5)),
                 columnCrossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <ResponsiveRowColumnItem>[
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 3)),
                   const ResponsiveRowColumnItem(
-                      child: Center(
-                    child: AutoBeresLogo(
-                      width: 30,
-                      height: 30,
-                    ),
-                  )),
+                      child:
+                          Center(child: AutoBeresLogo(width: 30, height: 30))),
                   ResponsiveRowColumnItem(
                       child: RobotoTextView(
-                    value: 'Login',
-                    size: SizeConfig.safeBlockHorizontal * 8,
-                    fontWeight: FontWeight.bold,
-                  )),
+                          value: 'Login',
+                          size: SizeConfig.safeBlockHorizontal * 8,
+                          fontWeight: FontWeight.bold)),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
                   ResponsiveRowColumnItem(
                       child: CustomTextField(
-                    controller: loginController.emailController,
-                    title: 'Email',
-                    hintText: 'Type Email',
-                    prefixIcon: Image.asset(AssetList.emailLogo),
-                  )),
+                          controller: loginController.emailController,
+                          title: 'Email',
+                          hintText: 'Type Email',
+                          prefixIcon: Image.asset(AssetList.emailLogo))),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
                   ResponsiveRowColumnItem(
                       child: CustomTextField(
@@ -116,18 +110,21 @@ class LoginView extends StatelessWidget {
                     ),
                   )),
                   ResponsiveRowColumnItem(
-                    child: CustomFlatButton(
-                      text: 'Sign with Google',
-                      backgroundColor: AppColors.greyButton,
-                      image: AssetList.googleLogo,
-                      onTap: () {},
+                    child: Obx(
+                      () => CustomFlatButton(
+                        text: 'Sign with Google',
+                        backgroundColor: AppColors.greyButton,
+                        image: AssetList.googleLogo,
+                        loading: loginController.isTapped.value,
+                        onTap: () => loginController.signInWithGoogle(),
+                      ),
                     ),
                   ),
                   ResponsiveRowColumnItem(
                       child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.ROW,
                     rowMainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: <ResponsiveRowColumnItem>[
                       ResponsiveRowColumnItem(
                         child: RobotoTextView(
                           size: SizeConfig.safeBlockHorizontal * 3.5,

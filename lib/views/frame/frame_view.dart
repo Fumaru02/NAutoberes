@@ -32,7 +32,7 @@ class _FrameViewState extends State<FrameView> {
             isImplyLeading: false,
             elevation: 0,
             heightBar: _whenUseHeightBar(),
-            isCenter: false,
+            isCenter: _isCenterTitle(),
             statusBarColor: _colorStatusBar(),
             titleScreen: _useTitleAppBar(),
             statusBarBrightness: Brightness.light,
@@ -50,8 +50,21 @@ class _FrameViewState extends State<FrameView> {
     }
   }
 
+  bool _isCenterTitle() {
+    if (_controller.defaultIndex.value == 2 ||
+        _controller.defaultIndex.value == 3 ||
+        _controller.defaultIndex.value == 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   double _whenUseHeightBar() {
-    if (_controller.defaultIndex.value == 1) {
+    if (_controller.defaultIndex.value == 1 ||
+        _controller.defaultIndex.value == 2 ||
+        _controller.defaultIndex.value == 3 ||
+        _controller.defaultIndex.value == 4) {
       return SizeConfig.horizontal(12);
     } else {
       return 0;
@@ -61,6 +74,12 @@ class _FrameViewState extends State<FrameView> {
   String _useTitleAppBar() {
     if (_controller.defaultIndex.value == 1) {
       return 'Chat Room';
+    } else if (_controller.defaultIndex.value == 2) {
+      return 'Home Services';
+    } else if (_controller.defaultIndex.value == 3) {
+      return 'Workshop';
+    } else if (_controller.defaultIndex.value == 4) {
+      return 'My Profile';
     } else {
       return '';
     }

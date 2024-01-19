@@ -143,7 +143,7 @@ class FrameBottomNav extends FrameAppBar {
       _bottomNavigationBarItemDefault(
         frameController: frameController,
         asset: AssetList.outletsIcon,
-        label: 'Outlets',
+        label: 'Workshop',
         index: 3,
       ),
       _bottomNavigationBarItemDefault(
@@ -200,7 +200,7 @@ class _CenterFloatingButton extends StatelessWidget {
         onPressed: onTap,
         child: ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.COLUMN,
-          children: [
+          children: <ResponsiveRowColumnItem>[
             const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
             ResponsiveRowColumnItem(
                 child: Icon(Icons.person_pin,

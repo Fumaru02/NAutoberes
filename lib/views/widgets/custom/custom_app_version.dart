@@ -16,7 +16,7 @@ class CustomAppVersion extends StatelessWidget {
       child: Obx(
         () => ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.COLUMN,
-          children: [
+          children: <ResponsiveRowColumnItem>[
             ResponsiveRowColumnItem(
               child: RobotoTextView(
                 value: 'Version ${authorizeController.versionApp}',

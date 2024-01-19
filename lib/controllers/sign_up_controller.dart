@@ -44,7 +44,8 @@ class SignUpController extends GetxController {
         <String, dynamic>{
           'username': fullnameController.text,
           'email': emailController.text,
-          'status': 'User'
+          'status': 'User',
+          'user_image': ''
         },
       );
 

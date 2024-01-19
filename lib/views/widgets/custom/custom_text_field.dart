@@ -9,7 +9,7 @@ import '../text/roboto_text_view.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.title,
     this.height,
     this.width,
@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.passwordController,
     this.minLines,
-  }) : super(key: key);
+  });
   final String title;
   final double? height;
   final double? width;

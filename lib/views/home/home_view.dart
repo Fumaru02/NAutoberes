@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +13,7 @@ import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/logo/autoberes_logo.dart';
 import '../widgets/text/roboto_text_view.dart';
+import '../widgets/user/user_info.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -27,128 +26,132 @@ class HomeView extends StatelessWidget {
   }
 
   Widget homeView(HomeController homeController) {
-    final String testString =
+    const String testString =
         'aowkdoakowdkaokdoawdawdokaowkdoakowdkoakwdokaodkwokdowkwdok';
-    return CustomScrollView(primary: true, slivers: <Widget>[
-      SliverList(
-        delegate: SliverChildListDelegate(<Widget>[
-          ResponsiveRowColumn(
-              layout: ResponsiveRowColumnType.COLUMN,
-              columnCrossAxisAlignment: CrossAxisAlignment.start,
-              children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(child: appBarHome(homeController)),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-                ResponsiveRowColumnItem(child: promoSlider(homeController)),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-              ])
-        ]),
-      ),
-      SliverList(
-        delegate: SliverChildListDelegate(<Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
-            child: RobotoTextView(
+    return RefreshIndicator(
+      onRefresh: () async {
+        await homeController.refreshPage();
+      },
+      child: CustomScrollView(primary: true, slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildListDelegate(<Widget>[
+            ResponsiveRowColumn(
+                layout: ResponsiveRowColumnType.COLUMN,
+                columnCrossAxisAlignment: CrossAxisAlignment.start,
+                children: <ResponsiveRowColumnItem>[
+                  ResponsiveRowColumnItem(child: appBarHome(homeController)),
+                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+                  ResponsiveRowColumnItem(child: promoSlider(homeController)),
+                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+                ])
+          ]),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(<Widget>[
+            RobotoTextView(
                 value: homeController.aboutAutomotive.value,
                 color: AppColors.black,
                 fontWeight: FontWeight.w900,
                 size: SizeConfig.safeBlockHorizontal * 4.5),
-          ),
-        ]),
-      ),
-      SliverPadding(
-        padding: EdgeInsets.only(
-            left: SizeConfig.horizontal(4),
-            top: SizeConfig.horizontal(4),
-            right: SizeConfig.horizontal(4),
-            bottom: SizeConfig.horizontal(35)),
-        sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) => ResponsiveRowColumn(
-                      layout: ResponsiveRowColumnType.COLUMN,
-                      children: [
-                        ResponsiveRowColumnItem(
-                          child: Container(
-                            margin: EdgeInsets.all(SizeConfig.horizontal(2)),
-                            decoration: BoxDecoration(
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      spreadRadius: 1,
-                                      blurRadius: 2,
-                                      offset: const Offset(0, 2),
-                                      color: AppColors.greyDisabled)
-                                ],
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(SizeConfig.horizontal(2))),
-                                color: AppColors.white),
-                            child: ResponsiveRowColumn(
-                              layout: ResponsiveRowColumnType.COLUMN,
-                              columnPadding: EdgeInsets.symmetric(
-                                  horizontal: SizeConfig.horizontal(4)),
-                              columnCrossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: <ResponsiveRowColumnItem>[
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(vertical: 1.5)),
-                                ResponsiveRowColumnItem(
-                                    child: RobotoTextView(
-                                        value:
-                                            homeController.contentTitle[index],
-                                        color: AppColors.black,
-                                        fontWeight: FontWeight.w900,
-                                        size: SizeConfig.safeBlockHorizontal *
-                                            4.5)),
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(vertical: 1)),
-                                ResponsiveRowColumnItem(
-                                    child: Center(
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(
-                                                        SizeConfig.horizontal(
-                                                            1))),
-                                                border: Border.all(
-                                                    width:
-                                                        SizeConfig.horizontal(
-                                                            0.1))),
-                                            child: ClipRRect(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(SizeConfig.horizontal(1))),
-                                                child: CachedNetworkImage(maxHeightDiskCache: 300, maxWidthDiskCache: 300, imageUrl: homeController.contentImg[index], width: SizeConfig.horizontal(70), height: SizeConfig.horizontal(50), fit: BoxFit.fill))))),
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(vertical: 1)),
-                                ResponsiveRowColumnItem(
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            right: SizeConfig.horizontal(4)),
+          ]),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(
+              left: SizeConfig.horizontal(4),
+              top: SizeConfig.horizontal(4),
+              right: SizeConfig.horizontal(4),
+              bottom: SizeConfig.horizontal(35)),
+          sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) => ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                            child: Container(
+                              margin: EdgeInsets.all(SizeConfig.horizontal(2)),
+                              decoration: BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 2),
+                                        color: AppColors.greyDisabled)
+                                  ],
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          SizeConfig.horizontal(2))),
+                                  color: AppColors.white),
+                              child: ResponsiveRowColumn(
+                                layout: ResponsiveRowColumnType.COLUMN,
+                                columnPadding: EdgeInsets.symmetric(
+                                    horizontal: SizeConfig.horizontal(4)),
+                                columnCrossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: <ResponsiveRowColumnItem>[
+                                  const ResponsiveRowColumnItem(
+                                      child: SpaceSizer(vertical: 1.5)),
+                                  ResponsiveRowColumnItem(
+                                      child: RobotoTextView(
+                                          value: homeController
+                                              .contentTitle[index],
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w900,
+                                          size: SizeConfig.safeBlockHorizontal *
+                                              4.5)),
+                                  const ResponsiveRowColumnItem(
+                                      child: SpaceSizer(vertical: 1)),
+                                  ResponsiveRowColumnItem(
+                                      child: Center(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(
+                                                          SizeConfig.horizontal(
+                                                              1))),
+                                                  border: Border.all(
+                                                      width:
+                                                          SizeConfig.horizontal(
+                                                              0.1))),
+                                              child: ClipRRect(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(SizeConfig.horizontal(1))),
+                                                  child: CachedNetworkImage(maxHeightDiskCache: 300, maxWidthDiskCache: 300, imageUrl: homeController.contentImg[index], width: SizeConfig.horizontal(70), height: SizeConfig.horizontal(50), fit: BoxFit.fill))))),
+                                  const ResponsiveRowColumnItem(
+                                      child: SpaceSizer(vertical: 1)),
+                                  ResponsiveRowColumnItem(
+                                      child: Padding(
+                                          padding: EdgeInsets.only(
+                                              right: SizeConfig.horizontal(4)),
+                                          child: RobotoTextView(
+                                              maxLines: 3,
+                                              value: testString,
+                                              color: AppColors.greyTextDisabled,
+                                              alignText: AlignTextType.left,
+                                              size: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  4))),
+                                  ResponsiveRowColumnItem(
+                                      child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: TextButton(
+                                        onPressed: () {},
                                         child: RobotoTextView(
-                                            maxLines: 3,
-                                            value: testString,
-                                            color: AppColors.greyTextDisabled,
-                                            alignText: AlignTextType.left,
+                                            value: 'More details',
+                                            color: AppColors.black,
                                             size:
                                                 SizeConfig.safeBlockHorizontal *
-                                                    4))),
-                                ResponsiveRowColumnItem(
-                                    child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: TextButton(
-                                      onPressed: () {},
-                                      child: RobotoTextView(
-                                          value: 'More details',
-                                          color: AppColors.black,
-                                          size: SizeConfig.safeBlockHorizontal *
-                                              3)),
-                                )),
-                              ],
+                                                    3)),
+                                  )),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                childCount: homeController.contentImg.length)),
-      ),
-    ]);
+                        ],
+                      ),
+                  childCount: homeController.contentImg.length)),
+        ),
+      ]),
+    );
   }
 
   Widget promoSliderDotIndicator(HomeController homeController) {
@@ -241,11 +244,7 @@ class HomeView extends StatelessWidget {
         rowPadding: EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(2)),
         rowSpacing: 8,
         children: <ResponsiveRowColumnItem>[
-          ResponsiveRowColumnItem(
-              child: CircleAvatar(
-                  foregroundColor: AppColors.white,
-                  minRadius: 25,
-                  child: Icon(Icons.person, color: AppColors.black, size: 40))),
+          const ResponsiveRowColumnItem(child: UserPicture()),
           ResponsiveRowColumnItem(
               child: ResponsiveRowColumn(
                   layout: ResponsiveRowColumnType.COLUMN,
@@ -258,35 +257,8 @@ class HomeView extends StatelessWidget {
                         size: SizeConfig.safeBlockHorizontal * 3.5,
                         fontWeight: FontWeight.bold,
                         alignText: AlignTextType.left)),
-                ResponsiveRowColumnItem(
-                    child: RobotoTextView(
-                        value: homeController.username.value,
-                        size: SizeConfig.safeBlockHorizontal * 3.5,
-                        fontWeight: FontWeight.bold,
-                        alignText: AlignTextType.left)),
-                ResponsiveRowColumnItem(
-                    child: homeController.userStatus.value != 'User'
-                        ? Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.horizontal(0.5),
-                                horizontal: SizeConfig.horizontal(2)),
-                            decoration: BoxDecoration(
-                                color: AppColors.goldButton,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(SizeConfig.horizontal(1)))),
-                            child: Center(
-                              child: RobotoTextView(
-                                color: AppColors.black,
-                                value: homeController.userStatus.value,
-                                size: SizeConfig.safeBlockHorizontal * 3,
-                                alignText: AlignTextType.left,
-                              ),
-                            ),
-                          )
-                        : RobotoTextView(
-                            value: homeController.userStatus.value,
-                            size: SizeConfig.safeBlockHorizontal * 3,
-                            alignText: AlignTextType.left))
+                const ResponsiveRowColumnItem(child: Username()),
+                const ResponsiveRowColumnItem(child: UserStatus())
               ])),
           const ResponsiveRowColumnItem(child: Spacer()),
           const ResponsiveRowColumnItem(

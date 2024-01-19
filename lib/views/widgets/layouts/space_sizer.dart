@@ -4,10 +4,10 @@ import '../../../utils/size_config.dart';
 
 class SpaceSizer extends StatelessWidget {
   const SpaceSizer({
-    Key? key,
+    super.key,
     this.vertical,
     this.horizontal,
-  }) : super(key: key);
+  });
 
   //parameter sizer double
   final double? vertical;
