@@ -30,6 +30,8 @@ class AppColors {
   static Color backgroundColor = AppColors.hex(colorCode: '#EFEFEF');
   static Color backgroundImlyLeading = AppColors.hex(colorCode: '#8D8D8D');
   static Color greyTextDisabled = AppColors.hex(colorCode: '#BBBBBB');
+  static Color blueColor = AppColors.hex(colorCode: '#0B60B0');
+  static Color pinkColor = AppColors.hex(colorCode: '#FF9BD2');
 
   static Color rippleColor =
       AppColors.hex(colorCode: '#EFEFEF').withOpacity(0.20);

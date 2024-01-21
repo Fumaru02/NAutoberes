@@ -13,32 +13,41 @@ class CustomTextField extends StatelessWidget {
     required this.title,
     this.height,
     this.width,
-    required this.hintText,
+    this.labelText,
+    this.hintText,
     this.textColor,
+    this.hintTextColor,
     this.isPasswordField = false,
     this.suffixIcon,
     this.onChanged,
     this.autofillHint,
     this.textInputAction,
+    this.contentPadding,
     this.prefixIcon,
     this.controller,
     this.passwordController,
+    this.textAlignVertical,
+    this.onFieldSubmitted,
     this.minLines,
   });
   final String title;
   final double? height;
   final double? width;
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final Color? textColor;
+  final Color? hintTextColor;
   final bool? isPasswordField;
   final Widget? suffixIcon;
   final Function(String)? onChanged;
   final Iterable<String>? autofillHint;
   final TextInputAction? textInputAction;
-
+  final EdgeInsetsGeometry? contentPadding;
   final Widget? prefixIcon;
   final TextEditingController? controller;
   final TextEditingController? passwordController;
+  final TextAlignVertical? textAlignVertical;
+  final Function(String)? onFieldSubmitted;
   final int? minLines;
 
   @override
@@ -99,26 +108,37 @@ class CustomTextField extends StatelessWidget {
                                   labelText: hintText,
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.never,
-                                  labelStyle: WorkSansStyle().labelStyle())),
+                                  labelStyle: WorkSansStyle()
+                                      .labelStyle(hintTextColor))),
                         )
                       : TextFormField(
                           autofillHints: autofillHint,
                           minLines: minLines,
                           controller: controller,
+                          textAlignVertical: textAlignVertical,
                           focusNode: focus,
+                          expands: true,
+                          maxLines: null,
                           textInputAction: textInputAction,
                           onChanged: onChanged,
+                          onFieldSubmitted: onFieldSubmitted,
                           keyboardType: TextInputType.text,
                           // ignore: avoid_bool_literals_in_conditional_expressions, use_if_null_to_convert_nulls_to_bools
                           decoration: InputDecoration(
+                              contentPadding: contentPadding,
                               prefixIcon: prefixIcon,
                               fillColor: AppColors.white,
                               filled: true,
                               border: const OutlineInputBorder(),
-                              labelText: hintText,
+                              labelText: labelText,
+                              hintText: hintText,
+                              
+                              hintStyle:
+                                  WorkSansStyle().labelStyle(hintTextColor),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
-                              labelStyle: WorkSansStyle().labelStyle()))))
+                              labelStyle:
+                                  WorkSansStyle().labelStyle(hintTextColor)))))
         ]);
   }
 }

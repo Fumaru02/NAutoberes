@@ -6,17 +6,7 @@ enum AlignTextType {
 
 enum EndPointName {
   // auth keywords
-  home,
-  authorize,
-  accessToken,
-  refreshToken,
-  applicationInfo,
-  userLogout,
-  subdistrict,
-  village,
-  dptList,
-  dptAdd,
-  logout,
+profiency,
 }
 
 enum SnackbarType { error, success, info, custom }

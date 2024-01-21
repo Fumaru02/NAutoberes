@@ -60,9 +60,13 @@ class UserStatus extends StatelessWidget {
   const UserStatus({
     super.key,
     this.size,
+    this.height,
+    this.width,
   });
 
   final double? size;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +75,8 @@ class UserStatus extends StatelessWidget {
     return Obx(
       () => akunController.userStatus.value != 'User'
           ? Container(
+              width: width,
+              height: height,
               padding: EdgeInsets.symmetric(
                   vertical: SizeConfig.horizontal(0.2),
                   horizontal: SizeConfig.horizontal(2)),

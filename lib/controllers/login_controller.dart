@@ -46,7 +46,8 @@ class LoginController extends GetxController {
             'email': user.email,
             'status': 'User',
             'username': user.displayName,
-            'user_image': user.photoURL
+            'user_image': user.photoURL,
+            'gender': ''
           });
         }
         isTapped.value = false;

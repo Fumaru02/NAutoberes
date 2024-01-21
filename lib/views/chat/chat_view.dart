@@ -37,9 +37,7 @@ class ChatView extends StatelessWidget {
                     rowSpacing: 8,
                     children: <ResponsiveRowColumnItem>[
                       const ResponsiveRowColumnItem(
-                          child: CircleAvatar(
-                        minRadius: 28,
-                      )),
+                          child: CircleAvatar(minRadius: 28)),
                       ResponsiveRowColumnItem(
                           child: ResponsiveRowColumn(
                         layout: ResponsiveRowColumnType.COLUMN,

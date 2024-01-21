@@ -55,9 +55,9 @@ class RobotoTextView extends StatelessWidget {
 }
 
 class WorkSansStyle {
-  TextStyle labelStyle() {
+  TextStyle labelStyle(Color? color) {
     return GoogleFonts.roboto(
-      color: Colors.grey,
+      color: color ?? Colors.grey,
       fontSize: SizeConfig.safeBlockHorizontal * 3.5,
       fontStyle: FontStyle.normal,
       fontWeight: FontWeight.w500,

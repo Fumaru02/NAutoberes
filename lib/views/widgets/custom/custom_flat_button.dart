@@ -19,6 +19,7 @@ class CustomFlatButton extends StatelessWidget {
     this.iconSize,
     this.radius,
     this.image,
+    this.icon,
     required this.text,
     this.subText = '',
     this.loading = false,
@@ -40,6 +41,7 @@ class CustomFlatButton extends StatelessWidget {
   final double? radius;
 //String
   final String? image;
+  final IconData? icon;
   final String text;
   final String subText;
 //Other
@@ -120,8 +122,14 @@ class CustomFlatButton extends StatelessWidget {
               color: colorIconImage,
             ),
           );
+        } else if (icon != null) {
+          return Icon(
+            icon,
+            color: colorIconImage,
+            size: iconSize,
+          );
         } else {
-          return Container();
+          return const SizedBox.shrink();
         }
       },
     );
