@@ -7,6 +7,20 @@ import '../../../utils/enums.dart';
 import '../../../utils/size_config.dart';
 import '../text/roboto_text_view.dart';
 
+class UserEmail extends StatelessWidget {
+  const UserEmail({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final AkunController akunController = Get.put(AkunController());
+
+    return Obx(
+      () => RobotoTextView(
+          value: akunController.userEmail.value, color: AppColors.black),
+    );
+  }
+}
+
 class Username extends StatelessWidget {
   const Username({
     super.key,
@@ -96,7 +110,9 @@ class UserStatus extends StatelessWidget {
           : RobotoTextView(
               value: akunController.userStatus.value,
               size: SizeConfig.safeBlockHorizontal * (size ?? 3),
-              alignText: AlignTextType.left),
+              alignText: AlignTextType.left,
+              color: AppColors.black,
+            ),
     );
   }
 }

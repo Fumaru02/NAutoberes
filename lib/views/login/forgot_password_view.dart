@@ -137,7 +137,7 @@ class ForgotPasswordView extends StatelessWidget {
                                                         child: CustomFlatButton(
                                                             width: SizeConfig
                                                                 .horizontal(30),
-                                                            text: 'Oke',
+                                                            text: 'Login',
                                                             textColor: AppColors
                                                                 .blackBackground,
                                                             onTap: () {

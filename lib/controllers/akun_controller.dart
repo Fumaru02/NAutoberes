@@ -22,6 +22,9 @@ class AkunController extends GetxController {
   RxString userImage = RxString('');
   RxString userDescription = RxString('');
   RxString userGender = RxString('');
+  RxString userProfiency = RxString('');
+  RxString userCity = RxString('');
+  RxString userSubdistrict = RxString('');
   RxBool isLoading = RxBool(false);
 
   final TextEditingController usernameTextEditingController =
@@ -47,6 +50,9 @@ class AkunController extends GetxController {
       userGender.value = documentSnapshot.data()['gender'] as String;
       userStatus.value = documentSnapshot.data()['status'] as String;
       userImage.value = documentSnapshot.data()['user_image'] as String;
+      userProfiency.value = documentSnapshot.data()['profiency'] as String;
+      userCity.value = documentSnapshot.data()['city'] as String;
+      userSubdistrict.value = documentSnapshot.data()['subdistrict'] as String;
     });
     isLoading.value = false;
   }

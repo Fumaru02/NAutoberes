@@ -132,7 +132,6 @@ class CustomTextField extends StatelessWidget {
                               border: const OutlineInputBorder(),
                               labelText: labelText,
                               hintText: hintText,
-                              
                               hintStyle:
                                   WorkSansStyle().labelStyle(hintTextColor),
                               floatingLabelBehavior:

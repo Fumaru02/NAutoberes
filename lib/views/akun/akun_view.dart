@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../controllers/akun_controller.dart';
+import '../../helpers/string_extension.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_confirmation_dialog.dart';
 import '../widgets/custom/custom_ripple_button.dart';
+import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/roboto_text_view.dart';
 import '../widgets/user/user_info.dart';
 import 'edit_profile_view.dart';
@@ -30,7 +32,7 @@ class AkunView extends StatelessWidget {
                           color: AppColors.blackBackground,
                           borderRadius: BorderRadius.all(
                               Radius.circular(SizeConfig.horizontal(5)))),
-                      width: SizeConfig.horizontal(80),
+                      width: SizeConfig.horizontal(90),
                       height: SizeConfig.horizontal(50),
                       child: ResponsiveRowColumn(
                         layout: ResponsiveRowColumnType.COLUMN,
@@ -39,24 +41,58 @@ class AkunView extends StatelessWidget {
                           ResponsiveRowColumnItem(
                               child: ResponsiveRowColumn(
                             layout: ResponsiveRowColumnType.ROW,
+                            rowPadding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.horizontal(4),
+                                vertical: SizeConfig.horizontal(2)),
                             rowSpacing: 8,
                             children: <ResponsiveRowColumnItem>[
-                              ResponsiveRowColumnItem(
-                                  child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: SizeConfig.horizontal(4),
-                                          vertical: SizeConfig.horizontal(2)),
-                                      child: const UserPicture(size: 40))),
                               const ResponsiveRowColumnItem(
+                                  child: UserPicture(size: 35)),
+                              ResponsiveRowColumnItem(
                                   child: ResponsiveRowColumn(
                                 layout: ResponsiveRowColumnType.COLUMN,
                                 columnCrossAxisAlignment:
                                     CrossAxisAlignment.start,
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
-                                      child: Username(size: 6)),
+                                      child: ResponsiveRowColumn(
+                                          layout: ResponsiveRowColumnType.ROW,
+                                          children: <ResponsiveRowColumnItem>[
+                                        const ResponsiveRowColumnItem(
+                                            child: Username(size: 6)),
+                                        ResponsiveRowColumnItem(
+                                            child: Obx(
+                                          () => Icon(
+                                            akunController.userGender.value ==
+                                                    'male'
+                                                ? Icons.male
+                                                : Icons.female,
+                                            size: 35,
+                                            color: akunController
+                                                        .userGender.value ==
+                                                    'male'
+                                                ? AppColors.blueColor
+                                                : AppColors.pinkColor,
+                                          ),
+                                        ))
+                                      ])),
+                                  const ResponsiveRowColumnItem(
+                                      child: UserStatus(size: 4)),
+                                  const ResponsiveRowColumnItem(
+                                      child: SpaceSizer(
+                                    vertical: 1,
+                                  )),
                                   ResponsiveRowColumnItem(
-                                      child: UserStatus(size: 4))
+                                      child: SizedBox(
+                                    width: SizeConfig.horizontal(55),
+                                    child: Obx(
+                                      () => RobotoTextView(
+                                          value:
+                                              '${akunController.userProfiency.value.capitalizeByWord()},${akunController.userCity.value.capitalizeByWord()},${akunController.userSubdistrict.value.capitalizeByWord()}',
+                                          size: SizeConfig.safeBlockHorizontal *
+                                              3),
+                                    ),
+                                  ))
                                 ],
                               )),
                             ],
@@ -118,23 +154,22 @@ class AkunView extends StatelessWidget {
 }
 
 class CustomDividerText extends StatelessWidget {
-  const CustomDividerText({
-    Key? key,
-    required this.title,
-    this.textSize,
-    this.iconSize,
-    required this.onTap,
-    required this.icon,
-    this.useArrowIcon = true,
-    this.isCenter = true,
-    this.iconColor,
-  }) : super(key: key);
+  const CustomDividerText(
+      {super.key,
+      required this.title,
+      this.textSize,
+      this.iconSize,
+      required this.onTap,
+      this.icon,
+      this.useArrowIcon = true,
+      this.isCenter = true,
+      this.iconColor});
 
   final String title;
   final double? textSize;
   final double? iconSize;
   final Function() onTap;
-  final IconData icon;
+  final IconData? icon;
   final bool? useArrowIcon;
   final bool? isCenter;
   final Color? iconColor;
