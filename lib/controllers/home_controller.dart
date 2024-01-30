@@ -5,13 +5,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
+import '../models/about_automotive/about_automotive_model.dart';
+
 class HomeController extends GetxController {
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    getApplicationData();
+    await getApplicationData();
+    getContent();
   }
 
   final CarouselController carouselController = CarouselController();
@@ -20,15 +23,14 @@ class HomeController extends GetxController {
   RxString username = RxString('');
   RxString userStatus = RxString('');
   RxString specialOffersTitle = RxString('');
-  RxString aboutAutomotive = RxString('');
+  RxString aboutAutomotiveTitle = RxString('');
   RxString promoTitle = RxString('');
   RxList<String> promoImage = RxList<String>(<String>[]);
-  RxList<String> contentImg = RxList<String>(<String>[]);
-  RxList<String> contentTitle = RxList<String>(<String>[]);
+  RxList<AboutAutomotiveModel> aboutAutomotiveList =
+      RxList<AboutAutomotiveModel>(<AboutAutomotiveModel>[]);
 
   Future<void> getApplicationData() async {
     try {
-      getContent();
       getPromoApps();
     } catch (error) {
       log(error.toString());
@@ -40,20 +42,28 @@ class HomeController extends GetxController {
   }
 
   dynamic getContent() async {
-    await _firestore
-        .collection('home')
-        .doc('data')
-        .get()
-        .then((DocumentSnapshot<dynamic> documentSnapshot) {
-      final Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
-      aboutAutomotive.value = data['title'] as String;
-      contentImg.value =
-          List<String>.from(data['content']['content_img'] as List<dynamic>);
-      contentTitle.value =
-          List<String>.from(data['content']['content_title'] as List<dynamic>);
-      update();
-    });
+    try {
+      await _firestore
+          .collection('home')
+          .doc('data')
+          .get()
+          .then((DocumentSnapshot<dynamic> documentSnapshot) {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        aboutAutomotiveTitle.value = data['title'] as String;
+
+        final List<dynamic> aboutAutomotiveData =
+            data['about_automotive'] as List<dynamic>;
+        aboutAutomotiveList.value = aboutAutomotiveData
+            .map((dynamic e) =>
+                AboutAutomotiveModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        log(aboutAutomotiveList.toString());
+        update();
+      });
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   dynamic getPromoApps() async {

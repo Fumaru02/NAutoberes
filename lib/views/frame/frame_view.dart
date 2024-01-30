@@ -23,20 +23,18 @@ class _FrameViewState extends State<FrameView> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: AppColors.blackBackground,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
+          systemNavigationBarColor: AppColors.blackBackground,
+          systemNavigationBarIconBrightness: Brightness.dark),
       child: Obx(() => FrameBottomNav(
-            onBack: () => _controller.onTapNav(0),
-            isUseLeading: _useBackButton(),
-            isImplyLeading: false,
-            elevation: 0,
-            heightBar: _whenUseHeightBar(),
-            isCenter: _isCenterTitle(),
-            statusBarColor: _colorStatusBar(),
-            titleScreen: _useTitleAppBar(),
-            statusBarBrightness: Brightness.light,
-          )),
+          onBack: () => _controller.onTapNav(0),
+          isUseLeading: _useBackButton(),
+          isImplyLeading: false,
+          elevation: 0,
+          heightBar: _whenUseHeightBar(),
+          isCenter: _isCenterTitle(),
+          statusBarColor: _colorStatusBar(),
+          titleScreen: _useTitleAppBar(),
+          statusBarBrightness: Brightness.light)),
     );
   }
 

@@ -76,43 +76,54 @@ class UserStatus extends StatelessWidget {
     this.size,
     this.height,
     this.width,
+    this.textColor,
   });
 
   final double? size;
   final double? height;
   final double? width;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
     final AkunController akunController = Get.put(AkunController());
 
-    return Obx(
-      () => akunController.userStatus.value != 'User'
-          ? Container(
-              width: width,
-              height: height,
-              padding: EdgeInsets.symmetric(
-                  vertical: SizeConfig.horizontal(0.2),
-                  horizontal: SizeConfig.horizontal(2)),
-              decoration: BoxDecoration(
-                  color: AppColors.goldButton,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(1)))),
-              child: Center(
-                child: RobotoTextView(
-                  color: AppColors.black,
-                  value: akunController.userStatus.value,
-                  size: SizeConfig.safeBlockHorizontal * 3,
-                  alignText: AlignTextType.left,
-                ),
+    return Obx(() => akunController.userStatus.value != 'User'
+        ? Container(
+            width: width,
+            height: height,
+            padding: EdgeInsets.symmetric(
+                vertical: SizeConfig.horizontal(0.2),
+                horizontal: SizeConfig.horizontal(2)),
+            decoration: BoxDecoration(
+                color: AppColors.goldButton,
+                borderRadius: BorderRadius.all(
+                    Radius.circular(SizeConfig.horizontal(1)))),
+            child: Center(
+              child: RobotoTextView(
+                color: AppColors.black,
+                value: akunController.userStatus.value,
+                size: SizeConfig.safeBlockHorizontal * 3,
+                alignText: AlignTextType.left,
               ),
-            )
-          : RobotoTextView(
+            ),
+          )
+        : Container(
+            width: width,
+            height: height,
+            padding: EdgeInsets.symmetric(
+                vertical: SizeConfig.horizontal(0.2),
+                horizontal: SizeConfig.horizontal(2)),
+            decoration: BoxDecoration(
+                color: AppColors.greyTextDisabled,
+                borderRadius: BorderRadius.all(
+                    Radius.circular(SizeConfig.horizontal(1)))),
+            child: RobotoTextView(
               value: akunController.userStatus.value,
               size: SizeConfig.safeBlockHorizontal * (size ?? 3),
               alignText: AlignTextType.left,
-              color: AppColors.black,
+              color: textColor ?? AppColors.black,
             ),
-    );
+          ));
   }
 }

@@ -63,91 +63,72 @@ class LoginView extends StatelessWidget {
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
                   ResponsiveRowColumnItem(
                       child: CustomTextField(
-                    controller: loginController.passwordController,
-                    title: 'Password',
-                    hintText: 'Type Password',
-                    isPasswordField: true,
-                    prefixIcon: Image.asset(AssetList.passwordLogo),
-                  )),
+                          controller: loginController.passwordController,
+                          title: 'Password',
+                          hintText: 'Type Password',
+                          isPasswordField: true,
+                          prefixIcon: Image.asset(AssetList.passwordLogo))),
                   ResponsiveRowColumnItem(
                       child: Padding(
-                    padding: EdgeInsets.only(right: SizeConfig.horizontal(2)),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () => Get.to(const ForgotPasswordView()),
-                        child: RobotoTextView(
-                          size: SizeConfig.safeBlockHorizontal * 3.5,
-                          value: 'Forgot Password?',
-                          textDecoration: TextDecoration.underline,
-                          decorationColor: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  )),
+                          padding:
+                              EdgeInsets.only(right: SizeConfig.horizontal(2)),
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                  onPressed: () =>
+                                      Get.to(const ForgotPasswordView()),
+                                  child: RobotoTextView(
+                                      size:
+                                          SizeConfig.safeBlockHorizontal * 3.5,
+                                      value: 'Forgot Password?',
+                                      textDecoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white))))),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
                   ResponsiveRowColumnItem(
-                    child: Obx(
-                      () => CustomFlatButton(
-                        textColor: AppColors.black,
-                        text: 'Login',
-                        loading: loginController.isTapped.value,
-                        onTap: () =>
-                            loginController.signInWithEmailAndPassword(),
-                      ),
-                    ),
-                  ),
+                      child: Obx(() => CustomFlatButton(
+                          textColor: AppColors.black,
+                          text: 'Login',
+                          loading: loginController.isTapped.value,
+                          onTap: () =>
+                              loginController.signInWithEmailAndPassword()))),
                   ResponsiveRowColumnItem(
                       child: Padding(
-                    padding: EdgeInsets.only(
-                        bottom: SizeConfig.horizontal(1),
-                        right: SizeConfig.horizontal(2),
-                        top: SizeConfig.horizontal(1)),
-                    child: const Center(
-                      child: RobotoTextView(
-                        value: 'or',
-                      ),
-                    ),
-                  )),
+                          padding: EdgeInsets.only(
+                              bottom: SizeConfig.horizontal(1),
+                              right: SizeConfig.horizontal(2),
+                              top: SizeConfig.horizontal(1)),
+                          child: const Center(
+                              child: RobotoTextView(value: 'or')))),
                   ResponsiveRowColumnItem(
-                    child: Obx(
-                      () => CustomFlatButton(
-                        text: 'Sign with Google',
-                        backgroundColor: AppColors.greyButton,
-                        image: AssetList.googleLogo,
-                        loading: loginController.isTapped.value,
-                        onTap: () => loginController.signInWithGoogle(),
-                      ),
-                    ),
-                  ),
+                      child: Obx(() => CustomFlatButton(
+                          text: 'Sign with Google',
+                          backgroundColor: AppColors.greyButton,
+                          image: AssetList.googleLogo,
+                          loading: loginController.isTapped.value,
+                          onTap: () => loginController.signInWithGoogle()))),
                   ResponsiveRowColumnItem(
                       child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.ROW,
                     rowMainAxisAlignment: MainAxisAlignment.center,
                     children: <ResponsiveRowColumnItem>[
                       ResponsiveRowColumnItem(
-                        child: RobotoTextView(
-                          size: SizeConfig.safeBlockHorizontal * 3.5,
-                          value: "Don't have an account?",
-                        ),
-                      ),
+                          child: RobotoTextView(
+                              size: SizeConfig.safeBlockHorizontal * 3.5,
+                              value: "Don't have an account?")),
                       ResponsiveRowColumnItem(
                           child: TextButton(
-                        onPressed: () => Get.to(() => const SignUpView()),
-                        child: RobotoTextView(
-                          size: SizeConfig.safeBlockHorizontal * 3.5,
-                          value: 'Sign Up',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ))
+                              onPressed: () => Get.to(() => const SignUpView()),
+                              child: RobotoTextView(
+                                  size: SizeConfig.safeBlockHorizontal * 3.5,
+                                  value: 'Sign Up',
+                                  fontWeight: FontWeight.bold)))
                     ],
                   )),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 8)),
                   ResponsiveRowColumnItem(
                       child: Center(
                           child: CustomAppVersion(
-                    authorizeController: authorizeController,
-                  )))
+                              authorizeController: authorizeController)))
                 ],
               )),
         ));

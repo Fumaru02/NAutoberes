@@ -97,9 +97,7 @@ class SignUpView extends StatelessWidget {
                               title: 'Confirm Password*',
                               hintText: 'Re-type Password')),
                       const ResponsiveRowColumnItem(
-                          child: SpaceSizer(
-                        vertical: 2,
-                      )),
+                          child: SpaceSizer(vertical: 2)),
                       ResponsiveRowColumnItem(
                           child: CustomFlatButton(
                               text: 'Confirm',
@@ -113,63 +111,51 @@ class SignUpView extends StatelessWidget {
                                   }
                                   showDialog(
                                     context: context,
-                                    builder: (_) => Dialog(
-                                        backgroundColor:
-                                            AppColors.blackBackground,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(
-                                              SizeConfig.horizontal(4)),
-                                          child: ResponsiveRowColumn(
-                                            layout:
-                                                ResponsiveRowColumnType.COLUMN,
-                                            columnMainAxisSize:
-                                                MainAxisSize.min,
-                                            children: <ResponsiveRowColumnItem>[
-                                              const ResponsiveRowColumnItem(
-                                                  child: AutoBeresLogo(
-                                                height: 20,
-                                                width: 19,
-                                              )),
-                                              ResponsiveRowColumnItem(
-                                                  child: RobotoTextView(
-                                                value:
-                                                    'Daftar Berhasil\nKami telah mengirim link email verifikasi ke ${signUpController.emailController.text} mohon untuk di klik',
-                                                fontWeight: FontWeight.bold,
-                                                alignText: AlignTextType.center,
-                                              )),
-                                              const ResponsiveRowColumnItem(
-                                                  child: SpaceSizer(
-                                                vertical: 2,
-                                              )),
-                                              ResponsiveRowColumnItem(
-                                                  child: ResponsiveRowColumn(
-                                                layout:
-                                                    ResponsiveRowColumnType.ROW,
-                                                rowMainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <ResponsiveRowColumnItem>[
-                                                  ResponsiveRowColumnItem(
-                                                      child: CustomFlatButton(
-                                                          width: SizeConfig
-                                                              .horizontal(30),
-                                                          text: 'Oke',
-                                                          textColor: AppColors
-                                                              .blackBackground,
-                                                          onTap: () {
-                                                            Get.off(() =>
-                                                                const LoginView());
-                                                            signUpController
-                                                                .clearTextController();
-                                                          }))
-                                                ],
-                                              ))
-                                            ],
-                                          ),
-                                        )),
+                                    builder: (_) =>
+                                        successSignUp(signUpController),
                                   );
                                 }
                                 log(isRegister.toString());
                               }))
                     ]))));
+  }
+
+  Dialog successSignUp(SignUpController signUpController) {
+    return Dialog(
+        backgroundColor: AppColors.blackBackground,
+        child: Padding(
+          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+          child: ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.COLUMN,
+            columnMainAxisSize: MainAxisSize.min,
+            children: <ResponsiveRowColumnItem>[
+              const ResponsiveRowColumnItem(
+                  child: AutoBeresLogo(height: 20, width: 19)),
+              ResponsiveRowColumnItem(
+                  child: RobotoTextView(
+                      value:
+                          'Daftar Berhasil\nKami telah mengirim link email verifikasi ke ${signUpController.emailController.text} mohon untuk di klik',
+                      fontWeight: FontWeight.bold,
+                      alignText: AlignTextType.center)),
+              const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
+              ResponsiveRowColumnItem(
+                  child: ResponsiveRowColumn(
+                layout: ResponsiveRowColumnType.ROW,
+                rowMainAxisAlignment: MainAxisAlignment.center,
+                children: <ResponsiveRowColumnItem>[
+                  ResponsiveRowColumnItem(
+                      child: CustomFlatButton(
+                          width: SizeConfig.horizontal(30),
+                          text: 'Oke',
+                          textColor: AppColors.blackBackground,
+                          onTap: () {
+                            Get.off(() => const LoginView());
+                            signUpController.clearTextController();
+                          }))
+                ],
+              ))
+            ],
+          ),
+        ));
   }
 }

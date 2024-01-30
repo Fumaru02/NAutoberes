@@ -8,6 +8,7 @@ import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../controllers/akun_controller.dart';
 import '../../controllers/edit_profile_controller.dart';
+import '../../helpers/string_extension.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
@@ -252,94 +253,83 @@ class _EditProfileViewState extends State<EditProfileView> {
                 size: SizeConfig.safeBlockHorizontal * 4,
                 fontWeight: FontWeight.w500)),
         ResponsiveRowColumnItem(
-          child: CustomRippleButton(
-            borderRadius: BorderRadius.zero,
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) => SizedBox(
-                  height: SizeConfig.horizontal(45),
-                  width: SizeConfig.screenWidth,
-                  child: ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.COLUMN,
-                    children: <ResponsiveRowColumnItem>[
-                      ResponsiveRowColumnItem(
-                          child: CustomDividerText(
-                              useArrowIcon: false,
-                              isCenter: false,
-                              title: 'MALE',
-                              textSize: 5,
-                              iconColor: AppColors.blueColor,
-                              iconSize: 50,
-                              onTap: () {
-                                akunController.userGender.value = 'male';
-                                Get.back();
-                              },
-                              icon: Icons.male)),
-                      ResponsiveRowColumnItem(
-                          child: CustomDividerText(
-                              useArrowIcon: false,
-                              isCenter: false,
-                              title: 'FEMALE',
-                              textSize: 5,
-                              iconSize: 50,
-                              iconColor: AppColors.pinkColor,
-                              onTap: () {
-                                akunController.userGender.value = 'female';
-                                Get.back();
-                              },
-                              icon: Icons.female))
-                    ],
-                  ),
-                ),
-              );
-            },
-            child: Container(
-              width: SizeConfig.horizontal(90),
-              height: SizeConfig.horizontal(12),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(1))),
-                  color: AppColors.white,
-                  border: Border.all(width: SizeConfig.horizontal(0.2))),
-              child: ResponsiveRowColumn(
-                layout: ResponsiveRowColumnType.ROW,
-                rowPadding:
-                    EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(2)),
-                children: <ResponsiveRowColumnItem>[
-                  ResponsiveRowColumnItem(
-                      child: Obx(
-                    () => akunController.userGender.value == 'male'
-                        ? Icon(
-                            Icons.male,
-                            color: AppColors.blueColor,
-                            size: 30,
-                          )
-                        : Icon(
-                            Icons.female,
-                            color: AppColors.pinkColor,
-                            size: 30,
-                          ),
-                  )),
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(
-                    horizontal: 1,
-                  )),
-                  ResponsiveRowColumnItem(
-                      child: Obx(() => RobotoTextView(
-                          value: akunController.userGender.value.toUpperCase(),
-                          color: AppColors.black,
-                          size: SizeConfig.safeBlockHorizontal * 3.5,
-                          fontWeight: FontWeight.w500))),
-                  const ResponsiveRowColumnItem(child: Spacer()),
-                  ResponsiveRowColumnItem(
-                      child: Icon(Icons.arrow_drop_down_circle,
-                          color: AppColors.black, size: 30)),
-                ],
-              ),
-            ),
-          ),
-        ),
+            child: CustomRippleButton(
+                borderRadius: BorderRadius.zero,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) => SizedBox(
+                      height: SizeConfig.horizontal(45),
+                      width: SizeConfig.screenWidth,
+                      child: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                              child: CustomDividerText(
+                                  useArrowIcon: false,
+                                  isCenter: false,
+                                  title: 'MALE',
+                                  textSize: 5,
+                                  iconColor: AppColors.blueColor,
+                                  iconSize: 50,
+                                  onTap: () {
+                                    akunController.userGender.value = 'male';
+                                    Get.back();
+                                  },
+                                  icon: Icons.male)),
+                          ResponsiveRowColumnItem(
+                              child: CustomDividerText(
+                                  useArrowIcon: false,
+                                  isCenter: false,
+                                  title: 'FEMALE',
+                                  textSize: 5,
+                                  iconSize: 50,
+                                  iconColor: AppColors.pinkColor,
+                                  onTap: () {
+                                    akunController.userGender.value = 'female';
+                                    Get.back();
+                                  },
+                                  icon: Icons.female))
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                    width: SizeConfig.horizontal(90),
+                    height: SizeConfig.horizontal(12),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(SizeConfig.horizontal(1))),
+                        color: AppColors.white,
+                        border: Border.all(width: SizeConfig.horizontal(0.2))),
+                    child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.ROW,
+                      rowPadding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.horizontal(2)),
+                      children: <ResponsiveRowColumnItem>[
+                        ResponsiveRowColumnItem(
+                            child: Obx(() =>
+                                akunController.userGender.value == 'male'
+                                    ? Icon(Icons.male,
+                                        color: AppColors.blueColor, size: 30)
+                                    : Icon(Icons.female,
+                                        color: AppColors.pinkColor, size: 30))),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(horizontal: 1)),
+                        ResponsiveRowColumnItem(
+                            child: Obx(() => RobotoTextView(
+                                value: akunController.userGender.value
+                                    .capitalizeByWord(),
+                                color: AppColors.black,
+                                size: SizeConfig.safeBlockHorizontal * 3.5,
+                                fontWeight: FontWeight.w500))),
+                        const ResponsiveRowColumnItem(child: Spacer()),
+                        ResponsiveRowColumnItem(
+                            child: Icon(Icons.arrow_drop_down_circle,
+                                color: AppColors.black, size: 30)),
+                      ],
+                    )))),
       ],
     );
   }
@@ -360,10 +350,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   UserStatus userStatus() {
-    return UserStatus(
-        size: 5,
-        height: SizeConfig.horizontal(8),
-        width: SizeConfig.horizontal(20));
+    return UserStatus(size: 5, height: SizeConfig.horizontal(8));
   }
 
   Container userImage(
@@ -380,107 +367,104 @@ class _EditProfileViewState extends State<EditProfileView> {
         children: <Widget>[
           const UserPicture(size: 40),
           Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              margin: EdgeInsets.only(right: SizeConfig.horizontal(2)),
-              decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(20)))),
-              child: IconButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                          backgroundColor: AppColors.blackBackground,
-                          child: Padding(
-                            padding: EdgeInsets.all(SizeConfig.horizontal(4)),
-                            child: ResponsiveRowColumn(
-                              layout: ResponsiveRowColumnType.COLUMN,
-                              columnMainAxisSize: MainAxisSize.min,
-                              children: <ResponsiveRowColumnItem>[
-                                const ResponsiveRowColumnItem(
-                                    child: AutoBeresLogo(
-                                  height: 20,
-                                  width: 19,
-                                )),
-                                const ResponsiveRowColumnItem(
-                                    child: RobotoTextView(
-                                  value:
-                                      'Which menu do you want to upload from?',
-                                  fontWeight: FontWeight.w500,
-                                  alignText: AlignTextType.center,
-                                )),
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(
-                                  vertical: 2,
-                                )),
-                                ResponsiveRowColumnItem(
-                                    child: ResponsiveRowColumn(
-                                  layout: ResponsiveRowColumnType.ROW,
-                                  rowMainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  rowPadding: EdgeInsets.symmetric(
-                                      horizontal: SizeConfig.horizontal(5)),
-                                  columnSpacing: 8,
+              alignment: Alignment.bottomRight,
+              child: Container(
+                  margin: EdgeInsets.only(right: SizeConfig.horizontal(2)),
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(SizeConfig.horizontal(20)))),
+                  child: IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => Dialog(
+                              backgroundColor: AppColors.blackBackground,
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.all(SizeConfig.horizontal(4)),
+                                child: ResponsiveRowColumn(
+                                  layout: ResponsiveRowColumnType.COLUMN,
+                                  columnMainAxisSize: MainAxisSize.min,
                                   children: <ResponsiveRowColumnItem>[
+                                    const ResponsiveRowColumnItem(
+                                        child: AutoBeresLogo(
+                                            height: 20, width: 19)),
+                                    const ResponsiveRowColumnItem(
+                                        child: RobotoTextView(
+                                            value:
+                                                'Which menu do you want to upload from?',
+                                            fontWeight: FontWeight.w500,
+                                            alignText: AlignTextType.center)),
+                                    const ResponsiveRowColumnItem(
+                                        child: SpaceSizer(vertical: 2)),
                                     ResponsiveRowColumnItem(
-                                        child: CustomFlatButton(
-                                      borderColor: AppColors.white,
-                                      icon: Icons.image,
-                                      iconSize: 50,
-                                      colorIconImage: AppColors.white,
-                                      radius: 1,
-                                      width: SizeConfig.horizontal(25),
-                                      height: SizeConfig.horizontal(25),
-                                      text: '',
-                                      backgroundColor:
-                                          AppColors.blackBackground,
-                                      textColor: AppColors.white,
-                                      onTap: () => editProfileController
-                                          .pickImage(ImageSource.gallery),
+                                        child: ResponsiveRowColumn(
+                                      layout: ResponsiveRowColumnType.ROW,
+                                      rowMainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      rowPadding: EdgeInsets.symmetric(
+                                          horizontal: SizeConfig.horizontal(5)),
+                                      columnSpacing: 8,
+                                      children: <ResponsiveRowColumnItem>[
+                                        ResponsiveRowColumnItem(
+                                            child: CustomFlatButton(
+                                                borderColor: AppColors.white,
+                                                icon: Icons.image,
+                                                iconSize: 50,
+                                                colorIconImage: AppColors.white,
+                                                radius: 1,
+                                                width:
+                                                    SizeConfig.horizontal(25),
+                                                height:
+                                                    SizeConfig.horizontal(25),
+                                                text: '',
+                                                backgroundColor:
+                                                    AppColors.blackBackground,
+                                                textColor: AppColors.white,
+                                                onTap: () =>
+                                                    editProfileController
+                                                        .pickImage(ImageSource
+                                                            .gallery))),
+                                        ResponsiveRowColumnItem(
+                                            child: CustomFlatButton(
+                                                borderColor: AppColors.white,
+                                                icon: Icons.camera_alt,
+                                                iconSize: 50,
+                                                colorIconImage: AppColors.white,
+                                                radius: 1,
+                                                width:
+                                                    SizeConfig.horizontal(25),
+                                                height:
+                                                    SizeConfig.horizontal(25),
+                                                text: '',
+                                                backgroundColor:
+                                                    AppColors.blackBackground,
+                                                textColor: AppColors.white,
+                                                onTap: () =>
+                                                    editProfileController
+                                                        .pickImage(ImageSource
+                                                            .camera)))
+                                      ],
                                     )),
+                                    const ResponsiveRowColumnItem(
+                                        child: SpaceSizer(vertical: 2)),
                                     ResponsiveRowColumnItem(
                                         child: CustomFlatButton(
-                                      borderColor: AppColors.white,
-                                      icon: Icons.camera_alt,
-                                      iconSize: 50,
-                                      colorIconImage: AppColors.white,
-                                      radius: 1,
-                                      width: SizeConfig.horizontal(25),
-                                      height: SizeConfig.horizontal(25),
-                                      text: '',
-                                      backgroundColor:
-                                          AppColors.blackBackground,
-                                      textColor: AppColors.white,
-                                      onTap: () => editProfileController
-                                          .pickImage(ImageSource.camera),
-                                    ))
+                                            radius: 1,
+                                            width: SizeConfig.horizontal(65),
+                                            text: 'Cancel',
+                                            backgroundColor: AppColors.redAlert,
+                                            textColor: AppColors.white,
+                                            onTap: () => Get.back())),
+                                    const ResponsiveRowColumnItem(
+                                        child: SpaceSizer(vertical: 1)),
                                   ],
-                                )),
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(vertical: 2)),
-                                ResponsiveRowColumnItem(
-                                    child: CustomFlatButton(
-                                        radius: 1,
-                                        width: SizeConfig.horizontal(65),
-                                        text: 'Cancel',
-                                        backgroundColor: AppColors.redAlert,
-                                        textColor: AppColors.white,
-                                        onTap: () => Get.back())),
-                                const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(vertical: 1)),
-                              ],
-                            ),
-                          )),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.edit_sharp,
-                    size: 25,
-                  )),
-            ),
-          )
+                                ),
+                              )),
+                        );
+                      },
+                      icon: const Icon(Icons.edit_sharp, size: 25))))
         ],
       ),
     );
@@ -512,50 +496,43 @@ class CustomDropDownButton extends StatelessWidget {
                 size: SizeConfig.safeBlockHorizontal * 4,
                 fontWeight: FontWeight.w500)),
         ResponsiveRowColumnItem(
-          child: CustomRippleButton(
-            borderRadius: BorderRadius.zero,
-            onTap: () async {
-              await showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) => SizedBox(
-                        height: SizeConfig.horizontal(90),
-                        width: SizeConfig.screenWidth,
-                        child: listViewItems,
-                      ));
-            },
-            child: Container(
-              width: SizeConfig.horizontal(90),
-              height: SizeConfig.horizontal(12),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(1))),
-                  color: AppColors.white,
-                  border: Border.all(width: SizeConfig.horizontal(0.2))),
-              child: ResponsiveRowColumn(
-                layout: ResponsiveRowColumnType.ROW,
-                rowPadding:
-                    EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(2)),
-                children: <ResponsiveRowColumnItem>[
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(
-                    horizontal: 1,
-                  )),
-                  ResponsiveRowColumnItem(
-                    child: RobotoTextView(
-                        value: selectedValue,
-                        color: AppColors.black,
-                        size: SizeConfig.safeBlockHorizontal * 3.5,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const ResponsiveRowColumnItem(child: Spacer()),
-                  ResponsiveRowColumnItem(
-                      child: Icon(Icons.arrow_drop_down_circle,
-                          color: AppColors.black, size: 30)),
-                ],
-              ),
-            ),
-          ),
-        ),
+            child: CustomRippleButton(
+                borderRadius: BorderRadius.zero,
+                onTap: () async {
+                  await showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) => SizedBox(
+                          height: SizeConfig.horizontal(90),
+                          width: SizeConfig.screenWidth,
+                          child: listViewItems));
+                },
+                child: Container(
+                    width: SizeConfig.horizontal(90),
+                    height: SizeConfig.horizontal(12),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(SizeConfig.horizontal(1))),
+                        color: AppColors.white,
+                        border: Border.all(width: SizeConfig.horizontal(0.2))),
+                    child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.ROW,
+                      rowPadding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.horizontal(2)),
+                      children: <ResponsiveRowColumnItem>[
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(horizontal: 1)),
+                        ResponsiveRowColumnItem(
+                            child: RobotoTextView(
+                                value: selectedValue,
+                                color: AppColors.black,
+                                size: SizeConfig.safeBlockHorizontal * 3.5,
+                                fontWeight: FontWeight.w500)),
+                        const ResponsiveRowColumnItem(child: Spacer()),
+                        ResponsiveRowColumnItem(
+                            child: Icon(Icons.arrow_drop_down_circle,
+                                color: AppColors.black, size: 30)),
+                      ],
+                    )))),
       ],
     );
   }

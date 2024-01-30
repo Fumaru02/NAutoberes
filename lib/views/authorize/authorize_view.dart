@@ -34,31 +34,29 @@ class _AuthorizeViewState extends State<AuthorizeView> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-          systemNavigationBarColor: AppColors.black,
-          systemNavigationBarIconBrightness: Brightness.dark),
-      child: FrameScaffold(
-        heightBar: 0,
-        elevation: 0,
-        color: Platform.isIOS ? AppColors.black : null,
-        statusBarColor: AppColors.black,
-        colorScaffold: AppColors.blackBackground,
-        statusBarBrightness: Brightness.light,
-        view: ResponsiveRowColumn(
-          layout: ResponsiveRowColumnType.COLUMN,
-          columnMainAxisAlignment: MainAxisAlignment.center,
-          children: <ResponsiveRowColumnItem>[
-            const ResponsiveRowColumnItem(child: Spacer()),
-            const ResponsiveRowColumnItem(
-                child: Center(child: AutoBeresLogo())),
-            const ResponsiveRowColumnItem(child: Spacer()),
-            ResponsiveRowColumnItem(
-                child:
-                    CustomAppVersion(authorizeController: authorizeController)),
-            const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 3))
-          ],
-        ),
-      ),
-    );
+        value: SystemUiOverlayStyle(
+            systemNavigationBarColor: AppColors.black,
+            systemNavigationBarIconBrightness: Brightness.dark),
+        child: FrameScaffold(
+            heightBar: 0,
+            elevation: 0,
+            color: Platform.isIOS ? AppColors.black : null,
+            statusBarColor: AppColors.black,
+            colorScaffold: AppColors.blackBackground,
+            statusBarBrightness: Brightness.light,
+            view: ResponsiveRowColumn(
+              layout: ResponsiveRowColumnType.COLUMN,
+              columnMainAxisAlignment: MainAxisAlignment.center,
+              children: <ResponsiveRowColumnItem>[
+                const ResponsiveRowColumnItem(child: Spacer()),
+                const ResponsiveRowColumnItem(
+                    child: Center(child: AutoBeresLogo())),
+                const ResponsiveRowColumnItem(child: Spacer()),
+                ResponsiveRowColumnItem(
+                    child: CustomAppVersion(
+                        authorizeController: authorizeController)),
+                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 3))
+              ],
+            )));
   }
 }

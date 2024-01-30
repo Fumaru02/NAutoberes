@@ -46,41 +46,31 @@ class ForgotPasswordView extends StatelessWidget {
                       children: <ResponsiveRowColumnItem>[
                         ResponsiveRowColumnItem(
                             child: Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                              controller.emailController.clear();
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              size: SizeConfig.horizontal(12),
-                              color: AppColors.white,
-                            ),
-                          ),
-                        )),
+                                alignment: Alignment.topRight,
+                                child: IconButton(
+                                    onPressed: () {
+                                      Get.back();
+                                      controller.emailController.clear();
+                                    },
+                                    icon: Icon(Icons.close,
+                                        size: SizeConfig.horizontal(12),
+                                        color: AppColors.white)))),
                         const ResponsiveRowColumnItem(
-                            child: AutoBeresLogo(
-                          width: 38,
-                          height: 40,
-                        )),
+                            child: AutoBeresLogo(width: 38, height: 40)),
                         ResponsiveRowColumnItem(
                             child: SizedBox(
-                          height: SizeConfig.horizontal(20),
-                          width: SizeConfig.horizontal(65),
-                          child: const RobotoTextView(
-                            value:
-                                'Masukkan email, kami akan mengirimkan link untuk reset password anda',
-                            alignText: AlignTextType.center,
-                          ),
-                        )),
+                                height: SizeConfig.horizontal(20),
+                                width: SizeConfig.horizontal(65),
+                                child: const RobotoTextView(
+                                    value:
+                                        'Masukkan email, kami akan mengirimkan link untuk reset password anda',
+                                    alignText: AlignTextType.center))),
                         ResponsiveRowColumnItem(
                             child: CustomTextField(
-                          controller: controller.emailController,
-                          title: 'Email',
-                          hintText: 'Type Email',
-                          prefixIcon: Image.asset(AssetList.emailLogo),
-                        )),
+                                controller: controller.emailController,
+                                title: 'Email',
+                                hintText: 'Type Email',
+                                prefixIcon: Image.asset(AssetList.emailLogo))),
                         ResponsiveRowColumnItem(
                           child: Padding(
                             padding:
@@ -96,68 +86,56 @@ class ForgotPasswordView extends StatelessWidget {
                                       return;
                                     }
                                     showDialog(
-                                      context: context,
-                                      builder: (_) => Dialog(
-                                          backgroundColor:
-                                              AppColors.blackBackground,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(
-                                                SizeConfig.horizontal(4)),
-                                            child: ResponsiveRowColumn(
-                                              layout: ResponsiveRowColumnType
-                                                  .COLUMN,
-                                              columnMainAxisSize:
-                                                  MainAxisSize.min,
-                                              children: <ResponsiveRowColumnItem>[
-                                                const ResponsiveRowColumnItem(
-                                                    child: AutoBeresLogo(
-                                                  height: 20,
-                                                  width: 19,
-                                                )),
-                                                ResponsiveRowColumnItem(
-                                                    child: RobotoTextView(
-                                                        value:
-                                                            'Reset Berhasil\nKami telah mengirim link email reset password ke ${controller.emailController.text} mohon untuk dicheck inbox/spam',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        alignText: AlignTextType
-                                                            .center)),
-                                                const ResponsiveRowColumnItem(
-                                                    child: SpaceSizer(
-                                                        vertical: 2)),
-                                                ResponsiveRowColumnItem(
-                                                    child: ResponsiveRowColumn(
-                                                  layout:
-                                                      ResponsiveRowColumnType
-                                                          .ROW,
-                                                  rowMainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <ResponsiveRowColumnItem>[
-                                                    ResponsiveRowColumnItem(
-                                                        child: CustomFlatButton(
-                                                            width: SizeConfig
-                                                                .horizontal(30),
-                                                            text: 'Login',
-                                                            textColor: AppColors
-                                                                .blackBackground,
-                                                            onTap: () {
-                                                              Get.off(() =>
-                                                                  const LoginView());
-                                                              controller
-                                                                  .emailController
-                                                                  .clear();
-                                                            }))
-                                                  ],
-                                                ))
-                                              ],
-                                            ),
-                                          )),
-                                    );
+                                        context: context,
+                                        builder: (_) =>
+                                            successDialog(controller));
                                   }
                                 }),
                           ),
                         )
                       ]))),
+        ));
+  }
+
+  Dialog successDialog(LoginController controller) {
+    return Dialog(
+        backgroundColor: AppColors.blackBackground,
+        child: Padding(
+          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+          child: ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.COLUMN,
+            columnMainAxisSize: MainAxisSize.min,
+            children: <ResponsiveRowColumnItem>[
+              const ResponsiveRowColumnItem(
+                  child: AutoBeresLogo(
+                height: 20,
+                width: 19,
+              )),
+              ResponsiveRowColumnItem(
+                  child: RobotoTextView(
+                      value:
+                          'Reset Berhasil\nKami telah mengirim link email reset password ke ${controller.emailController.text} mohon untuk dicheck inbox/spam',
+                      fontWeight: FontWeight.bold,
+                      alignText: AlignTextType.center)),
+              const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
+              ResponsiveRowColumnItem(
+                  child: ResponsiveRowColumn(
+                layout: ResponsiveRowColumnType.ROW,
+                rowMainAxisAlignment: MainAxisAlignment.center,
+                children: <ResponsiveRowColumnItem>[
+                  ResponsiveRowColumnItem(
+                      child: CustomFlatButton(
+                          width: SizeConfig.horizontal(30),
+                          text: 'Login',
+                          textColor: AppColors.blackBackground,
+                          onTap: () {
+                            Get.off(() => const LoginView());
+                            controller.emailController.clear();
+                          }))
+                ],
+              ))
+            ],
+          ),
         ));
   }
 }
