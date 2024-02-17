@@ -3,14 +3,12 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../controllers/akun_controller.dart';
-import '../../helpers/string_extension.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
-import '../widgets/custom/custom_card.dart';
 import '../widgets/custom/custom_confirmation_dialog.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/layouts/space_sizer.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 import '../widgets/user/user_info.dart';
 import 'edit_profile_view.dart';
 
@@ -27,8 +25,7 @@ class AkunView extends StatelessWidget {
                 children: <ResponsiveRowColumnItem>[
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(
-                      child: CustomCard(
-                          child: ResponsiveRowColumn(
+                      child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.COLUMN,
                     columnCrossAxisAlignment: CrossAxisAlignment.start,
                     children: <ResponsiveRowColumnItem>[
@@ -41,80 +38,76 @@ class AkunView extends StatelessWidget {
                         rowSpacing: 8,
                         children: <ResponsiveRowColumnItem>[
                           const ResponsiveRowColumnItem(
-                              child: UserPicture(size: 35)),
+                              child: UserPicture(size: 50)),
                           ResponsiveRowColumnItem(
                               child: ResponsiveRowColumn(
                             layout: ResponsiveRowColumnType.COLUMN,
                             columnCrossAxisAlignment: CrossAxisAlignment.start,
                             children: <ResponsiveRowColumnItem>[
-                              ResponsiveRowColumnItem(
+                              const ResponsiveRowColumnItem(
                                   child: ResponsiveRowColumn(
                                       layout: ResponsiveRowColumnType.ROW,
                                       children: <ResponsiveRowColumnItem>[
-                                    const ResponsiveRowColumnItem(
-                                        child: Username(size: 6)),
                                     ResponsiveRowColumnItem(
-                                        child: Obx(() => Icon(
-                                            akunController.userGender.value ==
-                                                    'male'
-                                                ? Icons.male
-                                                : Icons.female,
-                                            size: 35,
-                                            color: akunController
-                                                        .userGender.value ==
-                                                    'male'
-                                                ? AppColors.blueColor
-                                                : AppColors.pinkColor)))
+                                        child: Username(size: 5)),
                                   ])),
+                              const ResponsiveRowColumnItem(
+                                  child: SpaceSizer(vertical: 1)),
                               const ResponsiveRowColumnItem(
                                   child: UserStatus(size: 4.5)),
                               const ResponsiveRowColumnItem(
-                                  child: SpaceSizer(vertical: 0.5)),
+                                  child: SpaceSizer(vertical: 1)),
                               ResponsiveRowColumnItem(
-                                  child: SizedBox(
-                                      width: SizeConfig.horizontal(60),
-                                      child: Obx(() => RobotoTextView(
-                                          value:
-                                              '${akunController.userProfiency.value.capitalizeByWord()},${akunController.userCity.value.capitalizeByWord()},${akunController.userSubdistrict.value.capitalizeByWord()}',
-                                          size: SizeConfig.safeBlockHorizontal *
-                                              4,
-                                          overFlow: TextOverflow.ellipsis))))
+                                  child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.horizontal(2),
+                                  vertical: SizeConfig.horizontal(0.5),
+                                ),
+                                decoration: BoxDecoration(
+                                    color: AppColors.greenDRT,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            SizeConfig.horizontal(4)))),
+                                child: ResponsiveRowColumn(
+                                  layout: ResponsiveRowColumnType.ROW,
+                                  children: <ResponsiveRowColumnItem>[
+                                    ResponsiveRowColumnItem(
+                                      child: InterTextView(
+                                        value: 'Email terverifikasi',
+                                        size: SizeConfig.safeBlockHorizontal *
+                                            3.5,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.greenSuccess,
+                                      ),
+                                    ),
+                                    const ResponsiveRowColumnItem(
+                                        child: SpaceSizer(horizontal: 1)),
+                                    ResponsiveRowColumnItem(
+                                        child: Container(
+                                            padding: EdgeInsets.all(
+                                                SizeConfig.horizontal(1)),
+                                            decoration: BoxDecoration(
+                                                color: AppColors.greenSuccess,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(
+                                                        SizeConfig.horizontal(
+                                                            4)))),
+                                            child: Icon(
+                                              Icons.check,
+                                              color: AppColors.white,
+                                              size: SizeConfig.horizontal(4),
+                                            )))
+                                  ],
+                                ),
+                              )),
+                              const ResponsiveRowColumnItem(
+                                  child: SpaceSizer(vertical: 0.5)),
                             ],
                           )),
                         ],
                       )),
-                      const ResponsiveRowColumnItem(child: Divider()),
-                      ResponsiveRowColumnItem(
-                          child: Obx(() => ResponsiveRowColumn(
-                                layout: ResponsiveRowColumnType.COLUMN,
-                                columnCrossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: <ResponsiveRowColumnItem>[
-                                  ResponsiveRowColumnItem(
-                                      child: TextGoldDivider(
-                                          title: 'Email',
-                                          subtitle:
-                                              akunController.userEmail.value)),
-                                  const ResponsiveRowColumnItem(
-                                      child: TextGoldDivider(
-                                          title: 'Birth Date',
-                                          subtitle: '02 September 1950')),
-                                  ResponsiveRowColumnItem(
-                                      child: TextGoldDivider(
-                                          title: 'Gender',
-                                          subtitle: akunController
-                                              .userGender.value
-                                              .capitalizeByWord())),
-                                  const ResponsiveRowColumnItem(
-                                      child: TextGoldDivider(
-                                          title: 'Address',
-                                          subtitle: 'Jl.Pendidikan 4')),
-                                  const ResponsiveRowColumnItem(
-                                      child: SpaceSizer(vertical: 2)),
-                                ],
-                              )))
                     ],
-                  ))),
+                  )),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(
                       child: CustomDividerText(
@@ -175,7 +168,7 @@ class TextGoldDivider extends StatelessWidget {
         children: <ResponsiveRowColumnItem>[
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
           ResponsiveRowColumnItem(
-              child: RobotoTextView(
+              child: InterTextView(
                   value: title,
                   fontWeight: FontWeight.bold,
                   size: SizeConfig.safeBlockHorizontal * 4.5)),
@@ -183,13 +176,13 @@ class TextGoldDivider extends StatelessWidget {
               child: Container(
                   height: SizeConfig.horizontal(1),
                   width: SizeConfig.horizontal(5),
-                  color: AppColors.goldButton)),
+                  color: AppColors.yellow)),
           ResponsiveRowColumnItem(
               child: SizedBox(
                   width:
                       // ignore: use_if_null_to_convert_nulls_to_bools
                       overflowText == true ? SizeConfig.horizontal(30) : null,
-                  child: RobotoTextView(
+                  child: InterTextView(
                       value: subtitle,
                       overFlow:
                           // ignore: use_if_null_to_convert_nulls_to_bools
@@ -240,7 +233,7 @@ class CustomDividerText extends StatelessWidget {
             ResponsiveRowColumnItem(
                 child: Icon(icon, size: iconSize, color: iconColor)),
             ResponsiveRowColumnItem(
-                child: RobotoTextView(
+                child: InterTextView(
                     value: title,
                     color: AppColors.black,
                     size: SizeConfig.safeBlockHorizontal * (textSize ?? 4))),

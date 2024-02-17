@@ -1,8 +1,9 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -10,16 +11,53 @@ import '../helpers/snackbar.dart';
 import '../services/shared_pref.dart';
 import '../utils/enums.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with GetTickerProviderStateMixin {
+  late TabController tabController;
+
   final SharedPref sharedPref = SharedPref();
   final RxBool isObscurePassword = true.obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneNumbController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final RxBool isTapped = false.obs;
+  final RxBool isFront = true.obs;
+  final RxBool isChecked = false.obs;
+  final RxBool tapAnimation = false.obs;
+  final RxDouble angle = RxDouble(0);
+  final RxString termsOfUse = RxString('');
 
-  dynamic getUserToken() async {
+  @override
+  void onInit() {
+    super.onInit();
+    tabController = TabController(length: 2, vsync: this);
+    getAuthData();
+  }
+
+  Future<void> getAuthData() async {
+    try {
+      await _firestore
+          .collection('auth')
+          .doc('newUser')
+          .get()
+          .then((DocumentSnapshot<dynamic> docSnapshot) {
+        final Map<String, dynamic> data =
+            docSnapshot.data() as Map<String, dynamic>;
+        termsOfUse.value = data['data']['termsOfUse'] as String;
+        update();
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  void flipped() {
+    angle.value = (angle + math.pi) % (2 * math.pi);
+    update();
+  }
+
+  Future<void> getUserToken() async {
     final String? token = await _auth.currentUser?.getIdToken();
     sharedPref.writeAccessToken(token!);
   }

@@ -15,7 +15,7 @@ import '../widgets/custom/custom_text_field.dart';
 import '../widgets/frame/frame_scaffold.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/logo/autoberes_logo.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 import 'login_view.dart';
 
 class ForgotPasswordView extends StatelessWidget {
@@ -61,7 +61,7 @@ class ForgotPasswordView extends StatelessWidget {
                             child: SizedBox(
                                 height: SizeConfig.horizontal(20),
                                 width: SizeConfig.horizontal(65),
-                                child: const RobotoTextView(
+                                child: const InterTextView(
                                     value:
                                         'Masukkan email, kami akan mengirimkan link untuk reset password anda',
                                     alignText: AlignTextType.center))),
@@ -112,7 +112,7 @@ class ForgotPasswordView extends StatelessWidget {
                 width: 19,
               )),
               ResponsiveRowColumnItem(
-                  child: RobotoTextView(
+                  child: InterTextView(
                       value:
                           'Reset Berhasil\nKami telah mengirim link email reset password ke ${controller.emailController.text} mohon untuk dicheck inbox/spam',
                       fontWeight: FontWeight.bold,

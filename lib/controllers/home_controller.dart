@@ -58,7 +58,6 @@ class HomeController extends GetxController {
             .map((dynamic e) =>
                 AboutAutomotiveModel.fromJson(e as Map<String, dynamic>))
             .toList();
-        log(aboutAutomotiveList.toString());
         update();
       });
     } catch (e) {

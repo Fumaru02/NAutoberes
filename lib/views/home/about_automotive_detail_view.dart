@@ -10,7 +10,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/frame/frame_scaffold.dart';
 import '../widgets/layouts/space_sizer.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 
 class AboutAutomotiveDetailView extends StatelessWidget {
   const AboutAutomotiveDetailView({
@@ -47,7 +47,7 @@ class AboutAutomotiveDetailView extends StatelessWidget {
               ResponsiveRowColumnItem(
                   child: Padding(
                 padding: EdgeInsets.all(SizeConfig.horizontal(2)),
-                child: RobotoTextView(
+                child: InterTextView(
                   value: model.title,
                   color: AppColors.black,
                   fontWeight: FontWeight.bold,
@@ -71,13 +71,13 @@ class AboutAutomotiveDetailView extends StatelessWidget {
                     columnCrossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ResponsiveRowColumnItem(
-                          child: RobotoTextView(
+                          child: InterTextView(
                         value: 'Description',
                         color: AppColors.black,
                         fontWeight: FontWeight.bold,
                       )),
                       ResponsiveRowColumnItem(
-                          child: RobotoTextView(
+                          child: InterTextView(
                         value: model.description,
                         color: AppColors.black,
                       ))

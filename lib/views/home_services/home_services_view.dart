@@ -7,7 +7,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 
 class HomeServicesView extends StatelessWidget {
   const HomeServicesView({super.key});
@@ -55,7 +55,7 @@ class HomeServicesView extends StatelessWidget {
                                 rowMainAxisAlignment: MainAxisAlignment.center,
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
-                                      child: RobotoTextView(
+                                      child: InterTextView(
                                           value: 'Hermawan Sumarwan',
                                           color: AppColors.black,
                                           fontWeight: FontWeight.bold)),
@@ -85,7 +85,7 @@ class HomeServicesView extends StatelessWidget {
                                 rowMainAxisAlignment: MainAxisAlignment.center,
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
-                                      child: RobotoTextView(
+                                      child: InterTextView(
                                           value: 'Body Repair',
                                           color: AppColors.black,
                                           fontWeight: FontWeight.bold)),
@@ -103,7 +103,7 @@ class HomeServicesView extends StatelessWidget {
                                   const ResponsiveRowColumnItem(
                                       child: Icon(Icons.call)),
                                   ResponsiveRowColumnItem(
-                                      child: RobotoTextView(
+                                      child: InterTextView(
                                           value:
                                               'Contact Person 0812-1232-2232',
                                           color: AppColors.black,
@@ -115,7 +115,7 @@ class HomeServicesView extends StatelessWidget {
                               const ResponsiveRowColumnItem(
                                   child: Icon(Icons.star)),
                               ResponsiveRowColumnItem(
-                                  child: RobotoTextView(
+                                  child: InterTextView(
                                       value: '5.0',
                                       size:
                                           SizeConfig.safeBlockHorizontal * 3.5,
@@ -173,13 +173,13 @@ class HomeServicesView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <ResponsiveRowColumnItem>[
                                                 ResponsiveRowColumnItem(
-                                                    child: RobotoTextView(
+                                                    child: InterTextView(
                                                         value: 'Body Repair',
                                                         color: AppColors.black,
                                                         fontWeight:
                                                             FontWeight.bold)),
                                                 ResponsiveRowColumnItem(
-                                                    child: RobotoTextView(
+                                                    child: InterTextView(
                                                         value:
                                                             'Jl. Buahbatu no 38',
                                                         color: AppColors
@@ -188,7 +188,7 @@ class HomeServicesView extends StatelessWidget {
                                                                 .safeBlockHorizontal *
                                                             3.5)),
                                                 ResponsiveRowColumnItem(
-                                                    child: RobotoTextView(
+                                                    child: InterTextView(
                                                         value: 'Expert',
                                                         color: AppColors.black,
                                                         size: SizeConfig
@@ -203,7 +203,7 @@ class HomeServicesView extends StatelessWidget {
                                             const ResponsiveRowColumnItem(
                                                 child: Icon(Icons.star)),
                                             ResponsiveRowColumnItem(
-                                                child: RobotoTextView(
+                                                child: InterTextView(
                                                     value: '4.7',
                                                     size: SizeConfig
                                                             .safeBlockHorizontal *

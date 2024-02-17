@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../../utils/size_config.dart';
 import '../../../utils/app_colors.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 
 class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
   // constructor
@@ -62,10 +62,10 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     } else if (titleScreen == null && isImplyLeading == false) {
       return customTitle ?? const Text('');
     } else {
-      return RobotoTextView(
+      return InterTextView(
         value: titleScreen ?? '',
         fontWeight: FontWeight.normal,
-        color: AppColors.white,
+        color: AppColors.black,
         size: SizeConfig.safeBlockHorizontal * 5,
       );
     }
@@ -105,7 +105,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     SizeConfig().init(context);
     return AppBar(
       flexibleSpace: Container(
-        color: AppColors.blackBackground,
+        color: Colors.transparent,
       ),
       title: _titleScreen(),
       backgroundColor: color ?? Colors.white,
@@ -113,8 +113,8 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       bottomOpacity: 0.0,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: statusBarColor ?? Colors.black,
-        statusBarIconBrightness: statusBarIconBrightness ?? Brightness.light,
+        statusBarColor: statusBarColor ?? AppColors.blackBackground,
+        statusBarIconBrightness: statusBarIconBrightness ?? Brightness.dark,
         // iOS
         statusBarBrightness: statusBarBrightness ?? Brightness.light,
       ),

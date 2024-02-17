@@ -6,7 +6,7 @@ import 'package:responsive_framework/responsive_row_column.dart';
 import '../../controllers/chat_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 
 class ChatRoomView extends StatelessWidget {
   const ChatRoomView({super.key});
@@ -27,7 +27,7 @@ class ChatRoomView extends StatelessWidget {
                           icon: const Icon(Icons.arrow_back),
                           color: AppColors.white),
                       backgroundColor: AppColors.blackBackground,
-                      title: const RobotoTextView(value: 'Chat Room')),
+                      title: const InterTextView(value: 'Chat Room')),
                   body: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.COLUMN,
                     children: <ResponsiveRowColumnItem>[
@@ -70,7 +70,7 @@ class ChatRoomView extends StatelessWidget {
                                                             2)),
                                                     bottomLeft:
                                                         Radius.circular(SizeConfig.horizontal(2)))),
-                                            child: RobotoTextView(value: chatController.myMessage.value, size: SizeConfig.safeBlockHorizontal * 4, color: AppColors.black))),
+                                            child: InterTextView(value: chatController.myMessage.value, size: SizeConfig.safeBlockHorizontal * 4, color: AppColors.black))),
                                     const ResponsiveRowColumnItem(
                                         child: ResponsiveRowColumn(
                                       layout: ResponsiveRowColumnType.ROW,

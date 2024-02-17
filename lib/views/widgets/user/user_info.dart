@@ -5,7 +5,7 @@ import '../../../controllers/akun_controller.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/enums.dart';
 import '../../../utils/size_config.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 
 class UserEmail extends StatelessWidget {
   const UserEmail({super.key});
@@ -15,7 +15,7 @@ class UserEmail extends StatelessWidget {
     final AkunController akunController = Get.put(AkunController());
 
     return Obx(
-      () => RobotoTextView(
+      () => InterTextView(
           value: akunController.userEmail.value, color: AppColors.black),
     );
   }
@@ -25,16 +25,18 @@ class Username extends StatelessWidget {
   const Username({
     super.key,
     this.size,
+    this.color,
   });
   final double? size;
-
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     final AkunController akunController = Get.put(AkunController());
 
     return Obx(
-      () => RobotoTextView(
+      () => InterTextView(
           value: akunController.username.value,
+          color: color ?? AppColors.black,
           size: SizeConfig.safeBlockHorizontal * (size ?? 3.5),
           fontWeight: FontWeight.bold,
           alignText: AlignTextType.left),
@@ -96,11 +98,11 @@ class UserStatus extends StatelessWidget {
                 vertical: SizeConfig.horizontal(0.2),
                 horizontal: SizeConfig.horizontal(2)),
             decoration: BoxDecoration(
-                color: AppColors.goldButton,
+                color: AppColors.yellow,
                 borderRadius: BorderRadius.all(
                     Radius.circular(SizeConfig.horizontal(1)))),
             child: Center(
-              child: RobotoTextView(
+              child: InterTextView(
                 color: AppColors.black,
                 value: akunController.userStatus.value,
                 size: SizeConfig.safeBlockHorizontal * 3,
@@ -118,7 +120,7 @@ class UserStatus extends StatelessWidget {
                 color: AppColors.greyTextDisabled,
                 borderRadius: BorderRadius.all(
                     Radius.circular(SizeConfig.horizontal(1)))),
-            child: RobotoTextView(
+            child: InterTextView(
               value: akunController.userStatus.value,
               size: SizeConfig.safeBlockHorizontal * (size ?? 3),
               alignText: AlignTextType.left,

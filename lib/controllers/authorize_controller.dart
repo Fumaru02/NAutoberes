@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -7,15 +8,24 @@ import '../helpers/device_info.dart';
 import '../services/shared_pref.dart';
 import '../utils/preferences_key.dart';
 
-class AuthorizeController extends GetxController {
-  final SharedPref sharedPref = SharedPref();
+class AuthorizeController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final PageController pageController = PageController();
 
+  final SharedPref sharedPref = SharedPref();
+  late AnimationController animationController;
   Rx<String?> versionApp = Rx<String>('');
   Rx<String?> appName = Rx<String>('');
   RxInt appYear = DateTime.now().year.obs;
+  RxString tagHero = RxString('auth');
   @override
   void onInit() {
     super.onInit();
+    animationController = AnimationController(
+      duration: const Duration(milliseconds: 5000),
+      vsync: this,
+    );
+    animationController.repeat();
     _getVersionApplicationInfo();
     _getValidateUser();
   }
@@ -28,7 +38,7 @@ class AuthorizeController extends GetxController {
       if (hasToken == true) {
         Get.offAllNamed('/frame');
       } else {
-        Get.offNamedUntil('/login', (Route<dynamic> route) => false);
+        Get.offAllNamed('/login');
       }
     });
   }

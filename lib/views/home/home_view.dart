@@ -12,8 +12,7 @@ import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/layouts/space_sizer.dart';
-import '../widgets/logo/autoberes_logo.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 import '../widgets/user/user_info.dart';
 import 'about_automotive_detail_view.dart';
 
@@ -24,52 +23,45 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
         init: HomeController(),
-        builder: (HomeController homeController) => homeView(homeController));
+        builder: (HomeController homeController) => RefreshIndicator(
+              onRefresh: () async {
+                await homeController.refreshPage();
+              },
+              child: CustomScrollView(primary: true, slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    CustomAppBarHome(homeController: homeController),
+                  ]),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    InterTextView(
+                        value: homeController.aboutAutomotiveTitle.value,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w900,
+                        size: SizeConfig.safeBlockHorizontal * 4.5)
+                  ]),
+                ),
+                SliverPadding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.horizontal(4),
+                      top: SizeConfig.horizontal(4),
+                      right: SizeConfig.horizontal(4),
+                      bottom: SizeConfig.horizontal(35)),
+                  sliver: AutomotiveNews(homeController: homeController),
+                ),
+              ]),
+            ));
   }
+}
 
-  Widget homeView(HomeController homeController) {
-    const String testString =
-        'aowkdoakowdkaokdoawdawdokaowkdoakowdkoakwdokaodkwokdowkwdok';
-    return RefreshIndicator(
-      onRefresh: () async {
-        await homeController.refreshPage();
-      },
-      child: CustomScrollView(primary: true, slivers: <Widget>[
-        SliverList(
-            delegate: SliverChildListDelegate(<Widget>[
-          ResponsiveRowColumn(
-              layout: ResponsiveRowColumnType.COLUMN,
-              columnCrossAxisAlignment: CrossAxisAlignment.start,
-              children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(child: appBarHome(homeController)),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-                ResponsiveRowColumnItem(child: promoSlider(homeController)),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-              ])
-        ])),
-        SliverList(
-          delegate: SliverChildListDelegate(<Widget>[
-            RobotoTextView(
-                value: homeController.aboutAutomotiveTitle.value,
-                color: AppColors.black,
-                fontWeight: FontWeight.w900,
-                size: SizeConfig.safeBlockHorizontal * 4.5)
-          ]),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-              left: SizeConfig.horizontal(4),
-              top: SizeConfig.horizontal(4),
-              right: SizeConfig.horizontal(4),
-              bottom: SizeConfig.horizontal(35)),
-          sliver: aboutAutomotiveList(homeController, testString),
-        ),
-      ]),
-    );
-  }
+class AutomotiveNews extends StatelessWidget {
+  const AutomotiveNews({super.key, required this.homeController});
 
-  SliverList aboutAutomotiveList(
-      HomeController homeController, String testString) {
+  final HomeController homeController;
+
+  @override
+  Widget build(BuildContext context) {
     return SliverList(
         delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) => AboutAutomotiveList(
@@ -77,8 +69,106 @@ class HomeView extends StatelessWidget {
                 ),
             childCount: homeController.aboutAutomotiveList.length));
   }
+}
 
-  Widget promoSliderDotIndicator(HomeController homeController) {
+class CustomAppBarHome extends StatelessWidget {
+  const CustomAppBarHome({
+    super.key,
+    required this.homeController,
+  });
+
+  final HomeController homeController;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveRowColumn(
+        layout: ResponsiveRowColumnType.COLUMN,
+        columnCrossAxisAlignment: CrossAxisAlignment.start,
+        children: <ResponsiveRowColumnItem>[
+          ResponsiveRowColumnItem(
+              child: Container(
+            height: SizeConfig.horizontal(16),
+            decoration: BoxDecoration(
+                color: AppColors.blackBackground,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      blurRadius: 2,
+                      color: AppColors.greyDisabled,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 2))
+                ]),
+            child: ResponsiveRowColumn(
+              layout: ResponsiveRowColumnType.ROW,
+              rowPadding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.horizontal(2),
+                  vertical: SizeConfig.horizontal(2)),
+              rowSpacing: 8,
+              children: <ResponsiveRowColumnItem>[
+                ResponsiveRowColumnItem(
+                    child: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        columnMainAxisAlignment: MainAxisAlignment.center,
+                        children: <ResponsiveRowColumnItem>[
+                      ResponsiveRowColumnItem(
+                          child: InterTextView(
+                              value: 'Hi,',
+                              size: SizeConfig.safeBlockHorizontal * 3.5,
+                              fontWeight: FontWeight.bold,
+                              alignText: AlignTextType.left)),
+                      ResponsiveRowColumnItem(
+                          child: Username(
+                        color: AppColors.white,
+                        size: 5,
+                      )),
+                    ])),
+                const ResponsiveRowColumnItem(child: Spacer()),
+                ResponsiveRowColumnItem(
+                    child: Icon(
+                  Icons.notifications_sharp,
+                  color: AppColors.white,
+                  size: SizeConfig.horizontal(10),
+                ))
+              ],
+            ),
+          )),
+          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+          ResponsiveRowColumnItem(
+              child: ResponsiveRowColumn(
+                  layout: ResponsiveRowColumnType.COLUMN,
+                  columnCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: <ResponsiveRowColumnItem>[
+                ResponsiveRowColumnItem(
+                    child: Padding(
+                        padding:
+                            EdgeInsets.only(left: SizeConfig.horizontal(2)),
+                        child: InterTextView(
+                            value: homeController.promoTitle.value,
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w900,
+                            size: SizeConfig.safeBlockHorizontal * 4.5))),
+                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+                ResponsiveRowColumnItem(
+                    child: PromoSlideView(homeController: homeController)),
+                ResponsiveRowColumnItem(
+                    child:
+                        AnimatedDotPromoSlide(homeController: homeController)),
+              ])),
+          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+        ]);
+  }
+}
+
+class AnimatedDotPromoSlide extends StatelessWidget {
+  const AnimatedDotPromoSlide({
+    super.key,
+    required this.homeController,
+  });
+
+  final HomeController homeController;
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
         child: Obx(
       () => AnimatedSmoothIndicator(
@@ -94,107 +184,53 @@ class HomeView extends StatelessWidget {
               activeDotColor: AppColors.black)),
     ));
   }
+}
 
-  Widget promoSlider(HomeController homeController) {
-    return ResponsiveRowColumn(
-        layout: ResponsiveRowColumnType.COLUMN,
-        columnCrossAxisAlignment: CrossAxisAlignment.start,
-        children: <ResponsiveRowColumnItem>[
-          ResponsiveRowColumnItem(
-              child: Padding(
-                  padding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
-                  child: RobotoTextView(
-                      value: homeController.promoTitle.value,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w900,
-                      size: SizeConfig.safeBlockHorizontal * 4.5))),
-          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-          ResponsiveRowColumnItem(
-              child: CarouselSlider.builder(
-                  carouselController: homeController.carouselController,
-                  options: CarouselOptions(
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 1500),
-                      autoPlay: true,
-                      aspectRatio: 9 / 4,
-                      enlargeCenterPage: true,
-                      onPageChanged:
-                          (int index, CarouselPageChangedReason reason) {
-                        homeController.currentDot(index);
-                      }),
-                  itemCount: homeController.promoImage.length,
-                  itemBuilder: (BuildContext context, int index,
-                          int realIndex) =>
-                      Center(
-                          child: CustomRippleButton(
-                              radius: 0,
-                              onTap: () {},
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          SizeConfig.horizontal(1))),
-                                  child: homeController.promoImage.isEmpty
-                                      ? const CircularProgressIndicator()
-                                      : CachedNetworkImage(
-                                          maxWidthDiskCache: 350,
-                                          maxHeightDiskCache: 250,
-                                          imageUrl:
-                                              homeController.promoImage[index],
-                                          fit: BoxFit.fill,
-                                          width: SizeConfig.horizontal(100),
-                                          height:
-                                              SizeConfig.horizontal(100))))))),
-          ResponsiveRowColumnItem(
-              child: promoSliderDotIndicator(homeController)),
-        ]);
-  }
+class PromoSlideView extends StatelessWidget {
+  const PromoSlideView({
+    super.key,
+    required this.homeController,
+  });
 
-  Widget appBarHome(HomeController homeController) {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.blackBackground,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                blurRadius: 2,
-                color: AppColors.greyDisabled,
-                spreadRadius: 2,
-                offset: const Offset(0, 2))
-          ]),
-      child: ResponsiveRowColumn(
-        layout: ResponsiveRowColumnType.ROW,
-        rowPadding: EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(2)),
-        rowSpacing: 8,
-        children: <ResponsiveRowColumnItem>[
-          const ResponsiveRowColumnItem(child: UserPicture()),
-          ResponsiveRowColumnItem(
-              child: ResponsiveRowColumn(
-                  layout: ResponsiveRowColumnType.COLUMN,
-                  columnCrossAxisAlignment: CrossAxisAlignment.start,
-                  columnMainAxisAlignment: MainAxisAlignment.center,
-                  children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(
-                    child: RobotoTextView(
-                        value: 'Hi,',
-                        size: SizeConfig.safeBlockHorizontal * 3.5,
-                        fontWeight: FontWeight.bold,
-                        alignText: AlignTextType.left)),
-                const ResponsiveRowColumnItem(child: Username()),
-                const ResponsiveRowColumnItem(child: UserStatus())
-              ])),
-          const ResponsiveRowColumnItem(child: Spacer()),
-          const ResponsiveRowColumnItem(
-              child: AutoBeresLogo(width: 20, height: 20))
-        ],
-      ),
-    );
+  final HomeController homeController;
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+        carouselController: homeController.carouselController,
+        options: CarouselOptions(
+            autoPlayAnimationDuration: const Duration(milliseconds: 1500),
+            autoPlay: true,
+            aspectRatio: 9 / 4,
+            enlargeCenterPage: true,
+            onPageChanged: (int index, CarouselPageChangedReason reason) {
+              homeController.currentDot(index);
+            }),
+        itemCount: homeController.promoImage.length,
+        itemBuilder: (BuildContext context, int index, int realIndex) => Center(
+            child: CustomRippleButton(
+                radius: 0,
+                onTap: () {},
+                child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(SizeConfig.horizontal(1))),
+                    child: homeController.promoImage.isEmpty
+                        ? const CircularProgressIndicator()
+                        : CachedNetworkImage(
+                            maxWidthDiskCache: 350,
+                            maxHeightDiskCache: 250,
+                            imageUrl: homeController.promoImage[index],
+                            fit: BoxFit.fill,
+                            width: SizeConfig.horizontal(100),
+                            height: SizeConfig.horizontal(100))))));
   }
 }
 
 class AboutAutomotiveList extends StatelessWidget {
   const AboutAutomotiveList({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final AboutAutomotiveModel model;
   @override
@@ -225,7 +261,7 @@ class AboutAutomotiveList extends StatelessWidget {
                     const ResponsiveRowColumnItem(
                         child: SpaceSizer(vertical: 1.5)),
                     ResponsiveRowColumnItem(
-                        child: RobotoTextView(
+                        child: InterTextView(
                             value: model.title,
                             color: AppColors.black,
                             fontWeight: FontWeight.w900,
@@ -259,7 +295,7 @@ class AboutAutomotiveList extends StatelessWidget {
                         child: Padding(
                             padding: EdgeInsets.only(
                                 right: SizeConfig.horizontal(4)),
-                            child: RobotoTextView(
+                            child: InterTextView(
                                 maxLines: 3,
                                 value: model.source,
                                 color: AppColors.greyTextDisabled,
@@ -273,7 +309,7 @@ class AboutAutomotiveList extends StatelessWidget {
                                     Get.to(AboutAutomotiveDetailView(
                                       model: model,
                                     )),
-                                child: RobotoTextView(
+                                child: InterTextView(
                                     value: 'More details',
                                     color: AppColors.black,
                                     textDecoration: TextDecoration.underline,

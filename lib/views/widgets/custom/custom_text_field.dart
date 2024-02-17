@@ -5,7 +5,7 @@ import 'package:responsive_framework/responsive_row_column.dart';
 import '../../../controllers/login_controller.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -60,15 +60,17 @@ class CustomTextField extends StatelessWidget {
         columnCrossAxisAlignment: CrossAxisAlignment.start,
         children: <ResponsiveRowColumnItem>[
           ResponsiveRowColumnItem(
-              child: RobotoTextView(
-                  value: title,
-                  size: SizeConfig.safeBlockHorizontal * 4,
-                  fontWeight: FontWeight.w500,
-                  color: textColor ?? AppColors.white)),
+              child: title == ''
+                  ? const SizedBox.shrink()
+                  : InterTextView(
+                      value: title,
+                      size: SizeConfig.safeBlockHorizontal * 4,
+                      fontWeight: FontWeight.w500,
+                      color: textColor ?? AppColors.white)),
           ResponsiveRowColumnItem(
               child: SizedBox(
-                  width: SizeConfig.horizontal(width ?? 90),
-                  height: SizeConfig.vertical(height ?? 8),
+                  width: SizeConfig.horizontal(width ?? 80),
+                  height: SizeConfig.vertical(height ?? 6),
                   // ignore: use_if_null_to_convert_nulls_to_bools
                   child: isPasswordField == true
                       ? Obx(
@@ -104,12 +106,15 @@ class CustomTextField extends StatelessWidget {
                                   ),
                                   fillColor: AppColors.white,
                                   filled: true,
-                                  border: const OutlineInputBorder(),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              SizeConfig.horizontal(4)))),
                                   labelText: hintText,
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.never,
-                                  labelStyle: WorkSansStyle()
-                                      .labelStyle(hintTextColor))),
+                                  labelStyle:
+                                      InterStyle().labelStyle(hintTextColor))),
                         )
                       : TextFormField(
                           autofillHints: autofillHint,
@@ -117,8 +122,6 @@ class CustomTextField extends StatelessWidget {
                           controller: controller,
                           textAlignVertical: textAlignVertical,
                           focusNode: focus,
-                          expands: true,
-                          maxLines: null,
                           textInputAction: textInputAction,
                           onChanged: onChanged,
                           onFieldSubmitted: onFieldSubmitted,
@@ -129,15 +132,17 @@ class CustomTextField extends StatelessWidget {
                               prefixIcon: prefixIcon,
                               fillColor: AppColors.white,
                               filled: true,
-                              border: const OutlineInputBorder(),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          SizeConfig.horizontal(4)))),
                               labelText: labelText,
                               hintText: hintText,
-                              hintStyle:
-                                  WorkSansStyle().labelStyle(hintTextColor),
+                              hintStyle: InterStyle().labelStyle(hintTextColor),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               labelStyle:
-                                  WorkSansStyle().labelStyle(hintTextColor)))))
+                                  InterStyle().labelStyle(hintTextColor)))))
         ]);
   }
 }

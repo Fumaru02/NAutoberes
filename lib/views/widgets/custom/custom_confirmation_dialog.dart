@@ -7,7 +7,7 @@ import '../../../utils/enums.dart';
 import '../../../utils/size_config.dart';
 import '../layouts/space_sizer.dart';
 import '../logo/autoberes_logo.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 import 'custom_flat_button.dart';
 
 class CustomConfirmationDialog extends StatelessWidget {
@@ -41,7 +41,7 @@ class CustomConfirmationDialog extends StatelessWidget {
                 width: 19,
               )),
               ResponsiveRowColumnItem(
-                  child: RobotoTextView(
+                  child: InterTextView(
                 value: title,
                 fontWeight: FontWeight.bold,
                 alignText: AlignTextType.center,

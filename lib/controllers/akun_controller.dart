@@ -47,7 +47,6 @@ class AkunController extends GetxController {
       username.value = documentSnapshot.data()['username'] as String;
       userEmail.value = documentSnapshot.data()['email'] as String;
       userDescription.value = documentSnapshot.data()['description'] as String;
-      userGender.value = documentSnapshot.data()['gender'] as String;
       userStatus.value = documentSnapshot.data()['status'] as String;
       userImage.value = documentSnapshot.data()['user_image'] as String;
       userProfiency.value = documentSnapshot.data()['profiency'] as String;

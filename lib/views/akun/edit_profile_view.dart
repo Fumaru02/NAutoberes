@@ -19,7 +19,7 @@ import '../widgets/custom/custom_text_field.dart';
 import '../widgets/frame/frame_scaffold.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/logo/autoberes_logo.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 import '../widgets/user/user_info.dart';
 import 'akun_view.dart';
 
@@ -84,7 +84,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                     !editProfileController
                                         .isChangeAddress.value;
                               },
-                              child: RobotoTextView(
+                              child: InterTextView(
                                 value: 'Change address',
                                 color: AppColors.blueColor,
                                 size: SizeConfig.safeBlockHorizontal * 3.5,
@@ -247,7 +247,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       columnCrossAxisAlignment: CrossAxisAlignment.start,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-            child: RobotoTextView(
+            child: InterTextView(
                 value: 'Gender',
                 color: AppColors.black,
                 size: SizeConfig.safeBlockHorizontal * 4,
@@ -318,7 +318,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                         const ResponsiveRowColumnItem(
                             child: SpaceSizer(horizontal: 1)),
                         ResponsiveRowColumnItem(
-                            child: Obx(() => RobotoTextView(
+                            child: Obx(() => InterTextView(
                                 value: akunController.userGender.value
                                     .capitalizeByWord(),
                                 color: AppColors.black,
@@ -391,7 +391,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                                         child: AutoBeresLogo(
                                             height: 20, width: 19)),
                                     const ResponsiveRowColumnItem(
-                                        child: RobotoTextView(
+                                        child: InterTextView(
                                             value:
                                                 'Which menu do you want to upload from?',
                                             fontWeight: FontWeight.w500,
@@ -490,7 +490,7 @@ class CustomDropDownButton extends StatelessWidget {
       columnCrossAxisAlignment: CrossAxisAlignment.start,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-            child: RobotoTextView(
+            child: InterTextView(
                 value: title,
                 color: AppColors.black,
                 size: SizeConfig.safeBlockHorizontal * 4,
@@ -522,7 +522,7 @@ class CustomDropDownButton extends StatelessWidget {
                         const ResponsiveRowColumnItem(
                             child: SpaceSizer(horizontal: 1)),
                         ResponsiveRowColumnItem(
-                            child: RobotoTextView(
+                            child: InterTextView(
                                 value: selectedValue,
                                 color: AppColors.black,
                                 size: SizeConfig.safeBlockHorizontal * 3.5,

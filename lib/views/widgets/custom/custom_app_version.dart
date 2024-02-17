@@ -4,7 +4,7 @@ import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../../controllers/authorize_controller.dart';
 import '../../../utils/size_config.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 
 class CustomAppVersion extends StatelessWidget {
   const CustomAppVersion({super.key, required this.authorizeController});
@@ -18,13 +18,13 @@ class CustomAppVersion extends StatelessWidget {
           layout: ResponsiveRowColumnType.COLUMN,
           children: <ResponsiveRowColumnItem>[
             ResponsiveRowColumnItem(
-              child: RobotoTextView(
+              child: InterTextView(
                 value: 'Version ${authorizeController.versionApp}',
                 size: SizeConfig.safeBlockHorizontal * 3.5,
               ),
             ),
             ResponsiveRowColumnItem(
-                child: RobotoTextView(
+                child: InterTextView(
               value:
                   '©${authorizeController.appYear}. ${authorizeController.appName}',
               size: SizeConfig.safeBlockHorizontal * 3.5,

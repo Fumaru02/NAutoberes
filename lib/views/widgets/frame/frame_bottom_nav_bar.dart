@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
@@ -9,7 +8,7 @@ import '../../../utils/asset_list.dart';
 import '../../../utils/size_config.dart';
 import '../custom/custom_image_asset.dart';
 import '../layouts/space_sizer.dart';
-import '../text/roboto_text_view.dart';
+import '../text/inter_text_view.dart';
 import 'frame_appbar.dart';
 
 class FrameBottomNav extends FrameAppBar {
@@ -39,12 +38,7 @@ class FrameBottomNav extends FrameAppBar {
   @override
   Widget build(BuildContext context) {
     final FrameController frameController = Get.put(FrameController());
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        systemNavigationBarColor: AppColors.blackBackground,
-        systemNavigationBarIconBrightness: Brightness.light,
-      ),
-      child: DefaultTabController(
+    return DefaultTabController(
         length: frameController.widgetViewList.length,
         child: Scaffold(
             backgroundColor: colorScaffold,
@@ -65,14 +59,9 @@ class FrameBottomNav extends FrameAppBar {
               statusBarIconBrightness: statusBarIconBrightness,
               statusBarBrightness: statusBarBrightness,
             ),
-            body: SafeArea(
-              bottom: false,
-              child: Obx(
-                () => IndexedStack(
-                  index: frameController.defaultIndex.toInt(),
-                  children: frameController.widgetViewList,
-                ),
-              ),
+            body: Obx(
+              () => frameController
+                  .widgetViewList[frameController.defaultIndex.value],
             ),
             floatingActionButtonLocation:
                 frameController.defaultIndex.value == 0
@@ -92,9 +81,7 @@ class FrameBottomNav extends FrameAppBar {
             bottomNavigationBar: frameController.defaultIndex.value != 1
                 ? _bottomAppBar(
                     context: context, frameController: frameController)
-                : null),
-      ),
-    );
+                : null));
   }
 
   BottomAppBar _bottomAppBar(
@@ -102,7 +89,7 @@ class FrameBottomNav extends FrameAppBar {
       required FrameController frameController}) {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
-      color: AppColors.blackBackground,
+      color: AppColors.white,
       elevation: 0,
       clipBehavior: Clip.antiAlias,
       child: BottomNavigationBar(
@@ -188,31 +175,15 @@ class _CenterFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: SizeConfig.horizontal(10)),
-      height: SizeConfig.horizontal(12),
-      width: SizeConfig.horizontal(16),
-      child: FloatingActionButton(
-        backgroundColor: frameController.defaultIndex.value == 5
-            ? AppColors.goldButton
-            : AppColors.redAlert,
-        elevation: 0,
-        onPressed: onTap,
-        child: ResponsiveRowColumn(
-          layout: ResponsiveRowColumnType.COLUMN,
-          children: <ResponsiveRowColumnItem>[
-            const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
-            ResponsiveRowColumnItem(
-                child: Icon(Icons.person_pin,
-                    color: AppColors.white, size: SizeConfig.horizontal(6))),
-            ResponsiveRowColumnItem(
-                child: RobotoTextView(
-                    value: 'Urgent Call',
-                    size: SizeConfig.safeBlockHorizontal * 2.4,
-                    fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
+    return FloatingActionButton(
+      backgroundColor: frameController.defaultIndex.value == 5
+          ? AppColors.grey
+          : AppColors.redAlert,
+      elevation: 0,
+      onPressed: onTap,
+      child: ResponsiveRowColumnItem(
+          child: Icon(Icons.phone,
+              color: AppColors.white, size: SizeConfig.horizontal(8))),
     );
   }
 }
@@ -238,7 +209,6 @@ class _MenuItemWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveRowColumn(
       layout: ResponsiveRowColumnType.COLUMN,
-      columnMainAxisSize: MainAxisSize.min,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
             child: Obx(() => CustomImageAsset(
@@ -252,15 +222,15 @@ class _MenuItemWrapper extends StatelessWidget {
                 asset: asset,
                 height: heightIcon ?? 6,
                 color: frameController.onTapIdentifierList[index].isOnTapped
-                    ? AppColors.goldButton
-                    : AppColors.white))),
-        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+                    ? AppColors.blackBackground
+                    : AppColors.greyDisabled))),
+        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
         ResponsiveRowColumnItem(
-            child: RobotoTextView(
+            child: InterTextView(
                 value: label,
                 color: frameController.onTapIdentifierList[index].isOnTapped
-                    ? AppColors.goldButton
-                    : AppColors.white,
+                    ? AppColors.blackBackground
+                    : AppColors.greyDisabled,
                 size: widthIcon == null && heightIcon == null
                     ? SizeConfig.safeBlockHorizontal * 2.7
                     : SizeConfig.safeBlockHorizontal * 2.8,

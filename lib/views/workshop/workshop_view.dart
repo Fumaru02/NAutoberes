@@ -7,7 +7,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 
 class WorkshopView extends StatelessWidget {
   const WorkshopView({super.key});
@@ -51,7 +51,7 @@ class WorkshopView extends StatelessWidget {
                           rowMainAxisAlignment: MainAxisAlignment.center,
                           children: <ResponsiveRowColumnItem>[
                             ResponsiveRowColumnItem(
-                              child: RobotoTextView(
+                              child: InterTextView(
                                 value: 'Shop And Drive',
                                 color: AppColors.black,
                                 fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class WorkshopView extends StatelessWidget {
                           rowMainAxisAlignment: MainAxisAlignment.center,
                           children: <ResponsiveRowColumnItem>[
                             ResponsiveRowColumnItem(
-                              child: RobotoTextView(
+                              child: InterTextView(
                                 value: 'Shop And Drive Cikampek',
                                 color: AppColors.black,
                                 fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class WorkshopView extends StatelessWidget {
                             const ResponsiveRowColumnItem(
                                 child: Icon(Icons.call)),
                             ResponsiveRowColumnItem(
-                              child: RobotoTextView(
+                              child: InterTextView(
                                 value: 'Call Center 15-000-15',
                                 color: AppColors.black,
                                 fontWeight: FontWeight.normal,
@@ -117,7 +117,7 @@ class WorkshopView extends StatelessWidget {
                         )),
                         const ResponsiveRowColumnItem(child: Icon(Icons.star)),
                         ResponsiveRowColumnItem(
-                            child: RobotoTextView(
+                            child: InterTextView(
                           value: '5.0',
                           size: SizeConfig.safeBlockHorizontal * 3.5,
                           color: AppColors.black,
@@ -169,13 +169,13 @@ class WorkshopView extends StatelessWidget {
                             columnCrossAxisAlignment: CrossAxisAlignment.start,
                             children: <ResponsiveRowColumnItem>[
                               ResponsiveRowColumnItem(
-                                  child: RobotoTextView(
+                                  child: InterTextView(
                                 value: 'Shop and Drive',
                                 color: AppColors.black,
                                 fontWeight: FontWeight.bold,
                               )),
                               ResponsiveRowColumnItem(
-                                  child: RobotoTextView(
+                                  child: InterTextView(
                                 value: 'Jl. Buahbatu no 38',
                                 color: AppColors.greyButton,
                                 size: SizeConfig.safeBlockHorizontal * 3.5,
@@ -186,7 +186,7 @@ class WorkshopView extends StatelessWidget {
                                 rowSpacing: 4,
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
-                                    child: RobotoTextView(
+                                    child: InterTextView(
                                       value: 'Original Certified',
                                       color: AppColors.black,
                                       size: SizeConfig.safeBlockHorizontal * 4,
@@ -206,7 +206,7 @@ class WorkshopView extends StatelessWidget {
                         const ResponsiveRowColumnItem(child: Spacer()),
                         const ResponsiveRowColumnItem(child: Icon(Icons.star)),
                         ResponsiveRowColumnItem(
-                            child: RobotoTextView(
+                            child: InterTextView(
                           value: '4.7',
                           size: SizeConfig.safeBlockHorizontal * 3.5,
                           color: AppColors.black,

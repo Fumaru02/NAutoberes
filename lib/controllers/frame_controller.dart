@@ -10,7 +10,6 @@ import '../views/workshop/workshop_view.dart';
 
 class FrameController extends GetxController {
   RxInt defaultIndex = RxInt(0);
-
   RxList<OnTapIdentifier> onTapIdentifierList =
       RxList<OnTapIdentifier>(<OnTapIdentifier>[
     OnTapIdentifier(name: 'Home', index: 0, isOnTapped: true),

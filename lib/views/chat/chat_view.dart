@@ -7,7 +7,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
-import '../widgets/text/roboto_text_view.dart';
+import '../widgets/text/inter_text_view.dart';
 import 'chat_room_view.dart';
 
 class ChatView extends StatelessWidget {
@@ -51,7 +51,7 @@ class ChatView extends StatelessWidget {
                                   rowSpacing: 4,
                                   children: <ResponsiveRowColumnItem>[
                                     ResponsiveRowColumnItem(
-                                        child: RobotoTextView(
+                                        child: InterTextView(
                                             value: 'Fumaru',
                                             color: AppColors.black)),
                                     ResponsiveRowColumnItem(
@@ -64,13 +64,13 @@ class ChatView extends StatelessWidget {
                                                 horizontal:
                                                     SizeConfig.horizontal(2)),
                                             decoration: BoxDecoration(
-                                                color: AppColors.goldButton,
+                                                color: AppColors.grey,
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(
                                                         SizeConfig.horizontal(
                                                             1)))),
                                             child: Center(
-                                                child: RobotoTextView(
+                                                child: InterTextView(
                                                     color: AppColors.black,
                                                     value: 'Founder',
                                                     size:
@@ -81,7 +81,7 @@ class ChatView extends StatelessWidget {
                                 ResponsiveRowColumnItem(
                                     child: SizedBox(
                                         width: SizeConfig.horizontal(70),
-                                        child: RobotoTextView(
+                                        child: InterTextView(
                                             value:
                                                 'baru aja wloakwoda wokoakdokwa owdkoakdoasdaowmdoamwod',
                                             size:

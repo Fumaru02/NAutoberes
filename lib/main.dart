@@ -32,6 +32,7 @@ class AutoBeres extends StatelessWidget {
 
     SizeConfig().init(context);
     return GetMaterialApp(
+        theme: ThemeData(useMaterial3: false),
         title: 'AutoBeres',
         debugShowCheckedModeBanner: false,
         builder: (BuildContext context, Widget? child) => ResponsiveBreakpoints(

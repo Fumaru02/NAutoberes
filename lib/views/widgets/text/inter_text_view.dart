@@ -5,9 +5,9 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/enums.dart';
 import '../../../utils/size_config.dart';
 
-class RobotoTextView extends StatelessWidget {
+class InterTextView extends StatelessWidget {
   // constructor
-  const RobotoTextView({
+  const InterTextView({
     super.key,
     required this.value,
     this.color,
@@ -37,7 +37,7 @@ class RobotoTextView extends StatelessWidget {
       value,
       overflow: overFlow,
       maxLines: maxLines,
-      style: GoogleFonts.roboto(
+      style: GoogleFonts.inter(
         decoration: textDecoration,
         decorationColor: decorationColor,
         color: color ?? AppColors.white,
@@ -49,18 +49,20 @@ class RobotoTextView extends StatelessWidget {
           ? TextAlign.center
           : alignText == AlignTextType.right
               ? TextAlign.right
-              : TextAlign.left,
+              : alignText == AlignTextType.justify
+                  ? TextAlign.justify
+                  : TextAlign.left,
     );
   }
 }
 
-class WorkSansStyle {
+class InterStyle {
   TextStyle labelStyle(Color? color) {
-    return GoogleFonts.roboto(
+    return GoogleFonts.inter(
       color: color ?? Colors.grey,
       fontSize: SizeConfig.safeBlockHorizontal * 3.5,
       fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
     );
   }
 }

@@ -53,20 +53,20 @@ class CustomFlatButton extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-      width: width ?? SizeConfig.horizontal(90),
-      height: height ?? SizeConfig.vertical(6),
+      width: SizeConfig.horizontal(width ?? 80),
+      height: SizeConfig.vertical(height ?? 6),
       decoration: BoxDecoration(
           border: loading
               ? null
               : Border.all(
-                  color: borderColor ?? backgroundColor ?? AppColors.goldButton,
+                  color: borderColor ?? backgroundColor ?? AppColors.grey,
                 ),
           gradient: loading ? null : gradientColor,
           borderRadius:
-              BorderRadius.circular(SizeConfig.horizontal(radius ?? 10)),
+              BorderRadius.circular(SizeConfig.horizontal(radius ?? 3)),
           color: loading
               ? AppColors.greyDisabled
-              : backgroundColor ?? AppColors.goldButton),
+              : backgroundColor ?? AppColors.grey),
       child: CustomRippleButton(
         onTap: () {
           loading ? _emptyAction() : onTap();
@@ -84,24 +84,29 @@ class CustomFlatButton extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    text,
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.horizontal(textSize ?? 5),
-                        color: loading
-                            ? textColorLoading ?? AppColors.white
-                            : textColor ?? Colors.white),
-                  ),
+                  if (text == '')
+                    const SizedBox.shrink()
+                  else
+                    Text(
+                      text,
+                      style: GoogleFonts.inter(
+                          fontWeight: FontWeight.bold,
+                          fontSize: SizeConfig.horizontal(textSize ?? 4),
+                          color: loading
+                              ? textColorLoading ?? AppColors.white
+                              : textColor ?? Colors.white),
+                    ),
                   if (subText == null || subText == '')
                     const SizedBox.shrink()
                   else
-                    Text(subText,
-                        style: GoogleFonts.nunito(
-                            fontSize: SizeConfig.horizontal(textSize ?? 3),
-                            color: loading
-                                ? textColorLoading ?? AppColors.white
-                                : textColor ?? Colors.white)),
+                    text == ''
+                        ? const SizedBox.shrink()
+                        : Text(subText,
+                            style: GoogleFonts.nunito(
+                                fontSize: SizeConfig.horizontal(textSize ?? 3),
+                                color: loading
+                                    ? textColorLoading ?? AppColors.white
+                                    : textColor ?? Colors.white)),
                 ],
               )
           ],
