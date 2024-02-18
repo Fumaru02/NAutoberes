@@ -17,7 +17,7 @@ class AppColors {
   static Color textColor = AppColors.hex(colorCode: '#FFFFFF');
   static Color greenSuccess = AppColors.hex(colorCode: '#1F9941');
   static Color greenDRT = AppColors.hex(colorCode: '#A6FF96');
-  static Color blackBackground = AppColors.hex(colorCode: '#31E1F7');
+  static Color blackBackground = AppColors.hex(colorCode: '#5BC0F8');
   static Color cyanBackgroundAppBar = AppColors.hex(colorCode: '#30B1AF');
   static Color greenDark = AppColors.hex(colorCode: '#3bc0bd');
   static Color grey = AppColors.hex(colorCode: '#5C5C5C');
@@ -26,7 +26,8 @@ class AppColors {
   static Color redAlert = AppColors.hex(colorCode: '#FF004D');
   static Color black = AppColors.hex(colorCode: '#000000');
   static Color white = AppColors.hex(colorCode: '#FFFFFF');
-  static Color yellow = AppColors.hex(colorCode: '#FAEF5D');
+  static Color blueDark = AppColors.hex(colorCode: '#4CB9E7');
+  static Color gold = AppColors.hex(colorCode: '#FFC93C');
   static Color greyDisabled = AppColors.hex(colorCode: '#DADADA');
   static Color orangeActive = AppColors.hex(colorCode: '#D37116');
   static Color backgroundColor = AppColors.hex(colorCode: '#EFEFEF');
@@ -34,7 +35,6 @@ class AppColors {
   static Color greyTextDisabled = AppColors.hex(colorCode: '#BBBBBB');
   static Color blueColor = AppColors.hex(colorCode: '#0B60B0');
   static Color pinkColor = AppColors.hex(colorCode: '#FF9BD2');
-
   static Color rippleColor =
       AppColors.hex(colorCode: '#EFEFEF').withOpacity(0.20);
 }

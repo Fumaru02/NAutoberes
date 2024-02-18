@@ -8,6 +8,7 @@ class AssetList {
   static String passwordLogo = 'assets/passwordLogo.png';
   static String servicesIcon = 'assets/servicesIcon.png';
   static String homeIcon = 'assets/homeIcon.png';
+  static String instagramIcon = 'assets/instagramIcon.png';
   static String indonesian = 'assets/indonesian.png';
   static String chatIcon = 'assets/chatIcon.png';
   static String outletsIcon = 'assets/outletsIcon.png';

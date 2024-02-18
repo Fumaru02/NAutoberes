@@ -38,7 +38,7 @@ class AkunView extends StatelessWidget {
                         rowSpacing: 8,
                         children: <ResponsiveRowColumnItem>[
                           const ResponsiveRowColumnItem(
-                              child: UserPicture(size: 50)),
+                              child: UserPicture(size: 45)),
                           ResponsiveRowColumnItem(
                               child: ResponsiveRowColumn(
                             layout: ResponsiveRowColumnType.COLUMN,
@@ -176,7 +176,7 @@ class TextGoldDivider extends StatelessWidget {
               child: Container(
                   height: SizeConfig.horizontal(1),
                   width: SizeConfig.horizontal(5),
-                  color: AppColors.yellow)),
+                  color: AppColors.gold)),
           ResponsiveRowColumnItem(
               child: SizedBox(
                   width:

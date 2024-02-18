@@ -60,8 +60,10 @@ class FrameBottomNav extends FrameAppBar {
               statusBarBrightness: statusBarBrightness,
             ),
             body: Obx(
-              () => frameController
-                  .widgetViewList[frameController.defaultIndex.value],
+              () => IndexedStack(
+                index: frameController.defaultIndex.toInt(),
+                children: frameController.widgetViewList,
+              ),
             ),
             floatingActionButtonLocation:
                 frameController.defaultIndex.value == 0
@@ -97,8 +99,8 @@ class FrameBottomNav extends FrameAppBar {
           return frameController.onTapNav(index);
         },
         type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+        elevation: 8.0,
+        backgroundColor: const Color.fromARGB(255, 247, 247, 247),
         selectedLabelStyle: const TextStyle(fontSize: 0),
         unselectedLabelStyle: const TextStyle(fontSize: 0),
         iconSize: 0,

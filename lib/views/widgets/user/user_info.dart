@@ -98,7 +98,7 @@ class UserStatus extends StatelessWidget {
                 vertical: SizeConfig.horizontal(0.2),
                 horizontal: SizeConfig.horizontal(2)),
             decoration: BoxDecoration(
-                color: AppColors.yellow,
+                color: AppColors.gold,
                 borderRadius: BorderRadius.all(
                     Radius.circular(SizeConfig.horizontal(1)))),
             child: Center(

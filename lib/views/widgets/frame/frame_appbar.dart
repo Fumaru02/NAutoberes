@@ -64,8 +64,8 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       return InterTextView(
         value: titleScreen ?? '',
-        fontWeight: FontWeight.normal,
-        color: AppColors.black,
+        fontWeight: FontWeight.bold,
+        color: AppColors.white,
         size: SizeConfig.safeBlockHorizontal * 5,
       );
     }
@@ -114,7 +114,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottomOpacity: 0.0,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: statusBarColor ?? AppColors.blackBackground,
-        statusBarIconBrightness: statusBarIconBrightness ?? Brightness.dark,
+        statusBarIconBrightness: statusBarIconBrightness ?? Brightness.light,
         // iOS
         statusBarBrightness: statusBarBrightness ?? Brightness.light,
       ),

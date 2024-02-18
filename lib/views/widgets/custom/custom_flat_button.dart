@@ -59,14 +59,16 @@ class CustomFlatButton extends StatelessWidget {
           border: loading
               ? null
               : Border.all(
-                  color: borderColor ?? backgroundColor ?? AppColors.grey,
+                  color: borderColor ??
+                      backgroundColor ??
+                      AppColors.blackBackground,
                 ),
           gradient: loading ? null : gradientColor,
           borderRadius:
               BorderRadius.circular(SizeConfig.horizontal(radius ?? 3)),
           color: loading
               ? AppColors.greyDisabled
-              : backgroundColor ?? AppColors.grey),
+              : backgroundColor ?? AppColors.blackBackground),
       child: CustomRippleButton(
         onTap: () {
           loading ? _emptyAction() : onTap();

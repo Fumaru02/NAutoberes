@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../models/about_automotive/about_automotive_model.dart';
+import '../models/beresin_menu/beresin_menu_model.dart';
 
 class HomeController extends GetxController {
   final FirebaseStorage storage = FirebaseStorage.instance;
@@ -24,10 +25,13 @@ class HomeController extends GetxController {
   RxString userStatus = RxString('');
   RxString specialOffersTitle = RxString('');
   RxString aboutAutomotiveTitle = RxString('');
+  RxString gridMenuTitle = RxString('');
   RxString promoTitle = RxString('');
   RxList<String> promoImage = RxList<String>(<String>[]);
   RxList<AboutAutomotiveModel> aboutAutomotiveList =
       RxList<AboutAutomotiveModel>(<AboutAutomotiveModel>[]);
+  RxList<BeresinMenuModel> beresinMenuList =
+      RxList<BeresinMenuModel>(<BeresinMenuModel>[]);
 
   Future<void> getApplicationData() async {
     try {
@@ -51,7 +55,13 @@ class HomeController extends GetxController {
         final Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         aboutAutomotiveTitle.value = data['title'] as String;
-
+        gridMenuTitle.value = data['beresin_title'] as String;
+        final List<dynamic> beresinMenuData =
+            data['beresin_menu'] as List<dynamic>;
+        beresinMenuList.value = beresinMenuData
+            .map((dynamic e) =>
+                BeresinMenuModel.fromJson(e as Map<String, dynamic>))
+            .toList();
         final List<dynamic> aboutAutomotiveData =
             data['about_automotive'] as List<dynamic>;
         aboutAutomotiveList.value = aboutAutomotiveData

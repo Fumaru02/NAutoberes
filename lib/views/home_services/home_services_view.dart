@@ -7,6 +7,8 @@ import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
+import '../widgets/custom/custom_text_field.dart';
+import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
 
 class HomeServicesView extends StatelessWidget {
@@ -19,109 +21,196 @@ class HomeServicesView extends StatelessWidget {
         builder: (HomeServicesController homeServicesController) =>
             ResponsiveRowColumn(
               layout: ResponsiveRowColumnType.COLUMN,
+              columnCrossAxisAlignment: CrossAxisAlignment.start,
               children: <ResponsiveRowColumnItem>[
+                ResponsiveRowColumnItem(
+                    child: Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: SizeConfig.horizontal(2)),
+                  color: AppColors.blackBackground,
+                  child: ResponsiveRowColumn(
+                    layout: ResponsiveRowColumnType.ROW,
+                    rowMainAxisAlignment: MainAxisAlignment.center,
+                    children: <ResponsiveRowColumnItem>[
+                      ResponsiveRowColumnItem(
+                          child: CustomTextField(
+                        title: '',
+                        hintText: 'Search...',
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: AppColors.greyDisabled,
+                        ),
+                      )),
+                      const ResponsiveRowColumnItem(
+                          child: SpaceSizer(
+                        horizontal: 2,
+                      )),
+                      ResponsiveRowColumnItem(
+                          child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: Icon(
+                          Icons.sort,
+                          size: SizeConfig.horizontal(11),
+                          color: AppColors.blackBackground,
+                        ),
+                      ))
+                    ],
+                  ),
+                )),
                 ResponsiveRowColumnItem(
                     child: Obx(
                   () => homeServicesController.isTapped.isFalse
                       ? const SizedBox.shrink()
-                      : Container(
-                          margin:
-                              EdgeInsets.only(top: SizeConfig.horizontal(2)),
-                          decoration: BoxDecoration(
-                              color: AppColors.white,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    spreadRadius: 1,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 2),
-                                    color: AppColors.greyDisabled)
-                              ],
-                              border:
-                                  Border.all(width: SizeConfig.horizontal(0.3)),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10))),
-                          height: SizeConfig.horizontal(70),
-                          width: SizeConfig.horizontal(92),
-                          child: ResponsiveRowColumn(
-                            layout: ResponsiveRowColumnType.COLUMN,
-                            columnPadding:
-                                EdgeInsets.all(SizeConfig.horizontal(1)),
-                            children: <ResponsiveRowColumnItem>[
-                              ResponsiveRowColumnItem(
-                                  child: ResponsiveRowColumn(
-                                layout: ResponsiveRowColumnType.ROW,
-                                rowPadding: EdgeInsets.only(
-                                    left: SizeConfig.horizontal(8)),
-                                rowMainAxisAlignment: MainAxisAlignment.center,
+                      : Center(
+                          child: Container(
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.horizontal(2)),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        spreadRadius: 2.5,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 2),
+                                        color: AppColors.greyDisabled)
+                                  ],
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          SizeConfig.horizontal(4)))),
+                              width: SizeConfig.horizontal(92),
+                              child: ResponsiveRowColumn(
+                                layout: ResponsiveRowColumnType.COLUMN,
+                                columnPadding:
+                                    EdgeInsets.all(SizeConfig.horizontal(1)),
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
-                                      child: InterTextView(
-                                          value: 'Hermawan Sumarwan',
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.bold)),
+                                      child: ResponsiveRowColumn(
+                                    layout: ResponsiveRowColumnType.ROW,
+                                    rowPadding: EdgeInsets.only(
+                                        left: SizeConfig.horizontal(8)),
+                                    rowMainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: <ResponsiveRowColumnItem>[
+                                      ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: 'Hermawan Sumarwan',
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.bold)),
+                                      ResponsiveRowColumnItem(
+                                          child: IconButton(
+                                              onPressed: () =>
+                                                  homeServicesController
+                                                      .hideHomeServices(),
+                                              icon: Icon(
+                                                Icons.close_sharp,
+                                                size: SizeConfig.horizontal(8),
+                                              ))),
+                                    ],
+                                  )),
                                   ResponsiveRowColumnItem(
-                                      child: IconButton(
-                                          onPressed: () =>
-                                              homeServicesController
-                                                  .hideHomeServices(),
-                                          icon: Icon(
-                                            Icons.close_sharp,
-                                            size: SizeConfig.horizontal(8),
+                                      child: CircleAvatar(
+                                          maxRadius: SizeConfig.horizontal(14),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(
+                                                SizeConfig.horizontal(2)),
+                                            child: Image.asset(
+                                                fit: BoxFit.fill,
+                                                AssetList.autoberesLogo),
                                           ))),
-                                ],
-                              )),
-                              ResponsiveRowColumnItem(
-                                  child: Container(
-                                      decoration:
-                                          BoxDecoration(color: AppColors.black),
-                                      width: SizeConfig.horizontal(70),
-                                      height: SizeConfig.horizontal(30),
-                                      child: Image.asset(
-                                          AssetList.autoberesLogo))),
-                              ResponsiveRowColumnItem(
-                                  child: ResponsiveRowColumn(
-                                layout: ResponsiveRowColumnType.ROW,
-                                rowSpacing: 4,
-                                rowMainAxisAlignment: MainAxisAlignment.center,
-                                children: <ResponsiveRowColumnItem>[
-                                  ResponsiveRowColumnItem(
-                                      child: InterTextView(
-                                          value: 'Body Repair',
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.bold)),
-                                  ResponsiveRowColumnItem(
-                                      child: Icon(Icons.check_circle_sharp,
-                                          color: AppColors.greenSuccess))
-                                ],
-                              )),
-                              ResponsiveRowColumnItem(
-                                  child: ResponsiveRowColumn(
-                                layout: ResponsiveRowColumnType.ROW,
-                                rowSpacing: 4,
-                                rowMainAxisAlignment: MainAxisAlignment.center,
-                                children: <ResponsiveRowColumnItem>[
                                   const ResponsiveRowColumnItem(
-                                      child: Icon(Icons.call)),
+                                      child: SpaceSizer(vertical: 1)),
+                                  ResponsiveRowColumnItem(
+                                      child: ResponsiveRowColumn(
+                                    layout: ResponsiveRowColumnType.ROW,
+                                    rowSpacing: 4,
+                                    rowMainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: <ResponsiveRowColumnItem>[
+                                      ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: 'Shop And Drive',
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.bold)),
+                                      ResponsiveRowColumnItem(
+                                          child: Icon(Icons.check_circle_sharp,
+                                              color: AppColors.blueDark))
+                                    ],
+                                  )),
+                                  ResponsiveRowColumnItem(
+                                      child: ResponsiveRowColumn(
+                                    layout: ResponsiveRowColumnType.ROW,
+                                    rowSpacing: 4,
+                                    rowMainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: <ResponsiveRowColumnItem>[
+                                      ResponsiveRowColumnItem(
+                                          child: Icon(Icons.wifi_calling_3,
+                                              color: AppColors.blueDark)),
+                                      ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: '0812-1232-2232',
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.w600,
+                                              size: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  3.5))
+                                    ],
+                                  )),
+                                  ResponsiveRowColumnItem(
+                                      child: ResponsiveRowColumn(
+                                    layout: ResponsiveRowColumnType.ROW,
+                                    rowSpacing: 4,
+                                    rowMainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: <ResponsiveRowColumnItem>[
+                                      ResponsiveRowColumnItem(
+                                          child: Image.asset(
+                                        height: SizeConfig.horizontal(7),
+                                        AssetList.instagramIcon,
+                                        color: AppColors.blackBackground,
+                                      )),
+                                      ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: '@ShopAndDrive',
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.w600,
+                                              size: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  3.5))
+                                    ],
+                                  )),
+                                  ResponsiveRowColumnItem(
+                                      child: Icon(
+                                    Icons.star,
+                                    color: AppColors.gold,
+                                  )),
                                   ResponsiveRowColumnItem(
                                       child: InterTextView(
-                                          value:
-                                              'Contact Person 0812-1232-2232',
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.normal,
+                                          value: '5.0',
                                           size: SizeConfig.safeBlockHorizontal *
-                                              4))
+                                              3.5,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.black)),
+                                  const ResponsiveRowColumnItem(
+                                      child: SpaceSizer(vertical: 1)),
                                 ],
                               )),
-                              const ResponsiveRowColumnItem(
-                                  child: Icon(Icons.star)),
-                              ResponsiveRowColumnItem(
-                                  child: InterTextView(
-                                      value: '5.0',
-                                      size:
-                                          SizeConfig.safeBlockHorizontal * 3.5,
-                                      color: AppColors.black))
-                            ],
-                          )),
+                        ),
+                )),
+                ResponsiveRowColumnItem(
+                    child: Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.horizontal(6),
+                      top: SizeConfig.horizontal(2)),
+                  child: InterTextView(
+                    value: 'Search Result :',
+                    color: AppColors.black,
+                    fontWeight: FontWeight.bold,
+                    size: SizeConfig.safeBlockHorizontal * 4.5,
+                  ),
                 )),
                 ResponsiveRowColumnItem(
                     child: Expanded(
@@ -200,8 +289,11 @@ class HomeServicesView extends StatelessWidget {
                                             )),
                                             const ResponsiveRowColumnItem(
                                                 child: Spacer()),
-                                            const ResponsiveRowColumnItem(
-                                                child: Icon(Icons.star)),
+                                            ResponsiveRowColumnItem(
+                                                child: Icon(
+                                              Icons.star,
+                                              color: AppColors.gold,
+                                            )),
                                             ResponsiveRowColumnItem(
                                                 child: InterTextView(
                                                     value: '4.7',

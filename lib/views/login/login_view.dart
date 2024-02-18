@@ -125,7 +125,7 @@ class LoginView extends StatelessWidget {
       transform: Matrix4.identity()..rotateY(pi),
       child: Container(
         decoration: BoxDecoration(
-            color: AppColors.greyBackground,
+            color: AppColors.blackBackground,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         height: SizeConfig.vertical(65),
@@ -203,6 +203,8 @@ class LoginView extends StatelessWidget {
             )),
             ResponsiveRowColumnItem(
                 child: Obx(() => CustomFlatButton(
+                    backgroundColor: AppColors.white,
+                    textColor: AppColors.blackBackground,
                     text: 'Continue',
                     loading: loginController.isTapped.value,
                     onTap: () => showDialog(
@@ -354,7 +356,7 @@ class LoginView extends StatelessWidget {
   Widget frontCard(LoginController loginController) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.greyBackground,
+        color: AppColors.blackBackground,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
@@ -407,8 +409,9 @@ class LoginView extends StatelessWidget {
                               decorationColor: AppColors.white))))),
           ResponsiveRowColumnItem(
               child: Obx(() => CustomFlatButton(
-                  backgroundColor: AppColors.grey,
+                  backgroundColor: AppColors.white,
                   text: 'Sign In',
+                  textColor: AppColors.blackBackground,
                   loading: loginController.isTapped.value,
                   onTap: () => loginController.signInWithEmailAndPassword()))),
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 5)),

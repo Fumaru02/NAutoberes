@@ -7,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../controllers/home_controller.dart';
 import '../../models/about_automotive/about_automotive_model.dart';
+import '../../models/beresin_menu/beresin_menu_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
@@ -30,16 +31,63 @@ class HomeView extends StatelessWidget {
               child: CustomScrollView(primary: true, slivers: <Widget>[
                 SliverList(
                   delegate: SliverChildListDelegate(<Widget>[
-                    CustomAppBarHome(homeController: homeController),
+                    ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                              child: Container(
+                                  height: SizeConfig.horizontal(16),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.blackBackground,
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                            blurRadius: 2,
+                                            color: AppColors.greyDisabled,
+                                            spreadRadius: 2,
+                                            offset: const Offset(0, 2))
+                                      ]),
+                                  child: const CustomAppBarHome())),
+                          const ResponsiveRowColumnItem(
+                              child: SpaceSizer(vertical: 1)),
+                          ResponsiveRowColumnItem(
+                              child:
+                                  PromoWidget(homeController: homeController)),
+                          const ResponsiveRowColumnItem(
+                              child: SpaceSizer(vertical: 1)),
+                        ])
                   ]),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(<Widget>[
-                    InterTextView(
-                        value: homeController.aboutAutomotiveTitle.value,
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w900,
-                        size: SizeConfig.safeBlockHorizontal * 4.5)
+                    Padding(
+                      padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                      child: InterTextView(
+                          value: homeController.gridMenuTitle.value,
+                          color: AppColors.black,
+                          fontWeight: FontWeight.w900,
+                          size: SizeConfig.safeBlockHorizontal * 4.5),
+                    ),
+                  ]),
+                ),
+                SliverGrid.builder(
+                    itemCount: homeController.beresinMenuList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
+                    itemBuilder: (BuildContext context, int index) =>
+                        BeresinMenu(
+                          model: homeController.beresinMenuList[index],
+                        )),
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    Padding(
+                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                        child: InterTextView(
+                            value: homeController.aboutAutomotiveTitle.value,
+                            color: AppColors.black,
+                            fontWeight: FontWeight.w900,
+                            size: SizeConfig.safeBlockHorizontal * 4.5))
                   ]),
                 ),
                 SliverPadding(
@@ -52,6 +100,128 @@ class HomeView extends StatelessWidget {
                 ),
               ]),
             ));
+  }
+}
+
+class BeresinMenu extends StatelessWidget {
+  const BeresinMenu({
+    super.key,
+    required this.model,
+  });
+
+  final BeresinMenuModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveRowColumn(
+      layout: ResponsiveRowColumnType.COLUMN,
+      columnMainAxisAlignment: MainAxisAlignment.center,
+      children: <ResponsiveRowColumnItem>[
+        ResponsiveRowColumnItem(
+            child: CachedNetworkImage(
+          imageUrl: model.imageUrl,
+          width: SizeConfig.horizontal(12),
+          height: SizeConfig.horizontal(12),
+          fit: BoxFit.fill,
+        )),
+        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
+        ResponsiveRowColumnItem(
+            child: SizedBox(
+          width: SizeConfig.horizontal(22),
+          child: InterTextView(
+            value: model.title,
+            alignText: AlignTextType.center,
+            color: AppColors.black,
+            size: SizeConfig.safeBlockHorizontal * 3.5,
+            fontWeight: FontWeight.w500,
+          ),
+        ))
+      ],
+    );
+  }
+}
+
+class PromoWidget extends StatelessWidget {
+  const PromoWidget({
+    super.key,
+    required this.homeController,
+  });
+
+  final HomeController homeController;
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveRowColumn(
+        layout: ResponsiveRowColumnType.COLUMN,
+        columnCrossAxisAlignment: CrossAxisAlignment.start,
+        children: <ResponsiveRowColumnItem>[
+          ResponsiveRowColumnItem(
+              child: Padding(
+                  padding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
+                  child: InterTextView(
+                      value: homeController.promoTitle.value,
+                      color: AppColors.black,
+                      fontWeight: FontWeight.w900,
+                      size: SizeConfig.safeBlockHorizontal * 4.5))),
+          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+          ResponsiveRowColumnItem(
+              child: PromoSlideView(homeController: homeController)),
+          ResponsiveRowColumnItem(
+              child: AnimatedDotPromoSlide(homeController: homeController)),
+        ]);
+  }
+}
+
+class CustomAppBarHome extends StatelessWidget {
+  const CustomAppBarHome({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveRowColumn(
+      layout: ResponsiveRowColumnType.ROW,
+      rowPadding: EdgeInsets.symmetric(
+          horizontal: SizeConfig.horizontal(2),
+          vertical: SizeConfig.horizontal(2)),
+      rowSpacing: 8,
+      children: <ResponsiveRowColumnItem>[
+        ResponsiveRowColumnItem(
+            child: ResponsiveRowColumn(
+                layout: ResponsiveRowColumnType.COLUMN,
+                columnCrossAxisAlignment: CrossAxisAlignment.start,
+                columnMainAxisAlignment: MainAxisAlignment.center,
+                children: <ResponsiveRowColumnItem>[
+              ResponsiveRowColumnItem(
+                  child: InterTextView(
+                      value: 'Hi,',
+                      size: SizeConfig.safeBlockHorizontal * 3.5,
+                      fontWeight: FontWeight.bold,
+                      alignText: AlignTextType.left)),
+              ResponsiveRowColumnItem(
+                  child: Username(
+                color: AppColors.white,
+                size: 5,
+              )),
+            ])),
+        const ResponsiveRowColumnItem(child: Spacer()),
+        ResponsiveRowColumnItem(
+          child: Icon(
+            Icons.favorite,
+            color: AppColors.white,
+            size: SizeConfig.horizontal(8),
+          ),
+        ),
+        const ResponsiveRowColumnItem(child: SpaceSizer(horizontal: 1)),
+        ResponsiveRowColumnItem(
+          child: Icon(
+            Icons.notifications_sharp,
+            color: AppColors.white,
+            size: SizeConfig.horizontal(8),
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -68,94 +238,6 @@ class AutomotiveNews extends StatelessWidget {
                   model: homeController.aboutAutomotiveList[index],
                 ),
             childCount: homeController.aboutAutomotiveList.length));
-  }
-}
-
-class CustomAppBarHome extends StatelessWidget {
-  const CustomAppBarHome({
-    super.key,
-    required this.homeController,
-  });
-
-  final HomeController homeController;
-
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveRowColumn(
-        layout: ResponsiveRowColumnType.COLUMN,
-        columnCrossAxisAlignment: CrossAxisAlignment.start,
-        children: <ResponsiveRowColumnItem>[
-          ResponsiveRowColumnItem(
-              child: Container(
-            height: SizeConfig.horizontal(16),
-            decoration: BoxDecoration(
-                color: AppColors.blackBackground,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      blurRadius: 2,
-                      color: AppColors.greyDisabled,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 2))
-                ]),
-            child: ResponsiveRowColumn(
-              layout: ResponsiveRowColumnType.ROW,
-              rowPadding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.horizontal(2),
-                  vertical: SizeConfig.horizontal(2)),
-              rowSpacing: 8,
-              children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(
-                    child: ResponsiveRowColumn(
-                        layout: ResponsiveRowColumnType.COLUMN,
-                        columnCrossAxisAlignment: CrossAxisAlignment.start,
-                        columnMainAxisAlignment: MainAxisAlignment.center,
-                        children: <ResponsiveRowColumnItem>[
-                      ResponsiveRowColumnItem(
-                          child: InterTextView(
-                              value: 'Hi,',
-                              size: SizeConfig.safeBlockHorizontal * 3.5,
-                              fontWeight: FontWeight.bold,
-                              alignText: AlignTextType.left)),
-                      ResponsiveRowColumnItem(
-                          child: Username(
-                        color: AppColors.white,
-                        size: 5,
-                      )),
-                    ])),
-                const ResponsiveRowColumnItem(child: Spacer()),
-                ResponsiveRowColumnItem(
-                    child: Icon(
-                  Icons.notifications_sharp,
-                  color: AppColors.white,
-                  size: SizeConfig.horizontal(10),
-                ))
-              ],
-            ),
-          )),
-          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-          ResponsiveRowColumnItem(
-              child: ResponsiveRowColumn(
-                  layout: ResponsiveRowColumnType.COLUMN,
-                  columnCrossAxisAlignment: CrossAxisAlignment.start,
-                  children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(
-                    child: Padding(
-                        padding:
-                            EdgeInsets.only(left: SizeConfig.horizontal(2)),
-                        child: InterTextView(
-                            value: homeController.promoTitle.value,
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w900,
-                            size: SizeConfig.safeBlockHorizontal * 4.5))),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-                ResponsiveRowColumnItem(
-                    child: PromoSlideView(homeController: homeController)),
-                ResponsiveRowColumnItem(
-                    child:
-                        AnimatedDotPromoSlide(homeController: homeController)),
-              ])),
-          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-        ]);
   }
 }
 
@@ -181,7 +263,7 @@ class AnimatedDotPromoSlide extends StatelessWidget {
               spacing: SizeConfig.horizontal(4),
               dotHeight: SizeConfig.horizontal(2),
               dotWidth: SizeConfig.horizontal(2),
-              activeDotColor: AppColors.black)),
+              activeDotColor: AppColors.gold)),
     ));
   }
 }

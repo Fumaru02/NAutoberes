@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/frame_controller.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/frame/frame_bottom_nav_bar.dart';
 
@@ -26,11 +27,20 @@ class _FrameViewState extends State<FrameView> {
           elevation: 0,
           heightBar: _whenUseHeightBar(),
           isCenter: _isCenterTitle(),
+          statusBarColor: _colorStatusBar(),
           titleScreen: _useTitleAppBar(),
+          color: AppColors.blackBackground,
         ));
   }
 
   //need maintenance
+  Color _colorStatusBar() {
+    if (_controller.defaultIndex.value == 1) {
+      return Colors.white;
+    } else {
+      return AppColors.blackBackground;
+    }
+  }
 
   bool _isCenterTitle() {
     if (_controller.defaultIndex.value == 2 ||
@@ -47,7 +57,7 @@ class _FrameViewState extends State<FrameView> {
         _controller.defaultIndex.value == 2 ||
         _controller.defaultIndex.value == 3 ||
         _controller.defaultIndex.value == 4) {
-      return SizeConfig.horizontal(12);
+      return SizeConfig.horizontal(14);
     } else {
       return 0;
     }
