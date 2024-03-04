@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../controllers/home_controller.dart';
+import '../../controllers/home/home_controller.dart';
 import '../../models/about_automotive/about_automotive_model.dart';
 import '../../models/beresin_menu/beresin_menu_model.dart';
 import '../../utils/app_colors.dart';
@@ -66,7 +66,7 @@ class HomeView extends StatelessWidget {
                           value: homeController.gridMenuTitle.value,
                           color: AppColors.black,
                           fontWeight: FontWeight.w900,
-                          size: SizeConfig.safeBlockHorizontal * 4.5),
+                          size: SizeConfig.safeBlockHorizontal * 4),
                     ),
                   ]),
                 ),
@@ -77,6 +77,8 @@ class HomeView extends StatelessWidget {
                             crossAxisCount: 4),
                     itemBuilder: (BuildContext context, int index) =>
                         BeresinMenu(
+                          onRoute: () =>
+                              Get.to(homeController.listRouter[index]),
                           model: homeController.beresinMenuList[index],
                         )),
                 SliverList(
@@ -87,7 +89,7 @@ class HomeView extends StatelessWidget {
                             value: homeController.aboutAutomotiveTitle.value,
                             color: AppColors.black,
                             fontWeight: FontWeight.w900,
-                            size: SizeConfig.safeBlockHorizontal * 4.5))
+                            size: SizeConfig.safeBlockHorizontal * 4))
                   ]),
                 ),
                 SliverPadding(
@@ -106,37 +108,41 @@ class HomeView extends StatelessWidget {
 class BeresinMenu extends StatelessWidget {
   const BeresinMenu({
     super.key,
+    required this.onRoute,
     required this.model,
   });
 
+  final Function() onRoute;
   final BeresinMenuModel model;
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveRowColumn(
-      layout: ResponsiveRowColumnType.COLUMN,
-      columnMainAxisAlignment: MainAxisAlignment.center,
-      children: <ResponsiveRowColumnItem>[
-        ResponsiveRowColumnItem(
-            child: CachedNetworkImage(
-          imageUrl: model.imageUrl,
-          width: SizeConfig.horizontal(12),
-          height: SizeConfig.horizontal(12),
-          fit: BoxFit.fill,
-        )),
-        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
-        ResponsiveRowColumnItem(
-            child: SizedBox(
-          width: SizeConfig.horizontal(22),
-          child: InterTextView(
-            value: model.title,
-            alignText: AlignTextType.center,
-            color: AppColors.black,
-            size: SizeConfig.safeBlockHorizontal * 3.5,
-            fontWeight: FontWeight.w500,
-          ),
-        ))
-      ],
+    return CustomRippleButton(
+      onTap: onRoute,
+      child: ResponsiveRowColumn(
+        layout: ResponsiveRowColumnType.COLUMN,
+        columnMainAxisAlignment: MainAxisAlignment.center,
+        children: <ResponsiveRowColumnItem>[
+          ResponsiveRowColumnItem(
+              child: CachedNetworkImage(
+                  imageUrl: model.imageUrl,
+                  width: SizeConfig.horizontal(12),
+                  height: SizeConfig.horizontal(12),
+                  fit: BoxFit.fill)),
+          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
+          ResponsiveRowColumnItem(
+              child: SizedBox(
+            width: SizeConfig.horizontal(22),
+            child: InterTextView(
+              value: model.title,
+              alignText: AlignTextType.center,
+              color: AppColors.black,
+              size: SizeConfig.safeBlockHorizontal * 3,
+              fontWeight: FontWeight.w500,
+            ),
+          ))
+        ],
+      ),
     );
   }
 }
@@ -162,7 +168,7 @@ class PromoWidget extends StatelessWidget {
                       value: homeController.promoTitle.value,
                       color: AppColors.black,
                       fontWeight: FontWeight.w900,
-                      size: SizeConfig.safeBlockHorizontal * 4.5))),
+                      size: SizeConfig.safeBlockHorizontal * 4))),
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
           ResponsiveRowColumnItem(
               child: PromoSlideView(homeController: homeController)),
@@ -252,19 +258,17 @@ class AnimatedDotPromoSlide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Obx(
-      () => AnimatedSmoothIndicator(
-          activeIndex: homeController.currentDot.value,
-          count: homeController.promoImage.length,
-          effect: JumpingDotEffect(
-              jumpScale: 0.5,
-              verticalOffset: 15,
-              dotColor: AppColors.greyDisabled,
-              spacing: SizeConfig.horizontal(4),
-              dotHeight: SizeConfig.horizontal(2),
-              dotWidth: SizeConfig.horizontal(2),
-              activeDotColor: AppColors.gold)),
-    ));
+        child: Obx(() => AnimatedSmoothIndicator(
+            activeIndex: homeController.currentDot.value,
+            count: homeController.promoImage.length,
+            effect: JumpingDotEffect(
+                jumpScale: 0.5,
+                verticalOffset: 15,
+                dotColor: AppColors.greyDisabled,
+                spacing: SizeConfig.horizontal(4),
+                dotHeight: SizeConfig.horizontal(2),
+                dotWidth: SizeConfig.horizontal(2),
+                activeDotColor: AppColors.gold))));
   }
 }
 
@@ -347,7 +351,7 @@ class AboutAutomotiveList extends StatelessWidget {
                             value: model.title,
                             color: AppColors.black,
                             fontWeight: FontWeight.w900,
-                            size: SizeConfig.safeBlockHorizontal * 4.5)),
+                            size: SizeConfig.safeBlockHorizontal * 4)),
                     const ResponsiveRowColumnItem(
                         child: SpaceSizer(vertical: 1)),
                     ResponsiveRowColumnItem(

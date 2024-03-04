@@ -42,10 +42,17 @@ class SignUpController extends GetxController {
           .doc(credential.user!.uid)
           .set(
         <String, dynamic>{
+          'user_uid': credential.user!.uid,
           'username': fullnameController.text,
           'email': emailController.text,
           'status': 'User',
-          'user_image': ''
+          'user_image': '',
+          'last_sign_in_time':
+              credential.user!.metadata.lastSignInTime!.toIso8601String(),
+          'key_name': fullnameController.text.substring(0, 1).toUpperCase(),
+          'creation_time':
+              credential.user!.metadata.creationTime!.toIso8601String(),
+          'chats': <dynamic>[]
         },
       );
 

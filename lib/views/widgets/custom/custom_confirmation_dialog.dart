@@ -40,6 +40,10 @@ class CustomConfirmationDialog extends StatelessWidget {
                 height: 20,
                 width: 19,
               )),
+              const ResponsiveRowColumnItem(
+                  child: SpaceSizer(
+                vertical: 1,
+              )),
               ResponsiveRowColumnItem(
                   child: InterTextView(
                 value: title,
@@ -57,6 +61,7 @@ class CustomConfirmationDialog extends StatelessWidget {
                 children: <ResponsiveRowColumnItem>[
                   ResponsiveRowColumnItem(
                       child: CustomFlatButton(
+                          backgroundColor: AppColors.white,
                           textSize: 4,
                           radius: 1,
                           width: SizeConfig.horizontal(width ?? 70),

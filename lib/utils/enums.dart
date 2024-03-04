@@ -11,3 +11,5 @@ enum EndPointName {
 }
 
 enum SnackbarType { error, success, info, custom }
+
+enum CalendarFormat { month, twoWeeks, week }

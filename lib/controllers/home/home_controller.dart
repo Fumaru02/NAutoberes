@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../models/about_automotive/about_automotive_model.dart';
-import '../models/beresin_menu/beresin_menu_model.dart';
+import '../../models/about_automotive/about_automotive_model.dart';
+import '../../models/beresin_menu/beresin_menu_model.dart';
+import '../../views/home/home_menu/ganti_oli_view.dart';
 
 class HomeController extends GetxController {
   final FirebaseStorage storage = FirebaseStorage.instance;
@@ -32,6 +34,10 @@ class HomeController extends GetxController {
       RxList<AboutAutomotiveModel>(<AboutAutomotiveModel>[]);
   RxList<BeresinMenuModel> beresinMenuList =
       RxList<BeresinMenuModel>(<BeresinMenuModel>[]);
+
+  List<Widget> listRouter = <Widget>[
+    const GantiOliView(),
+  ];
 
   Future<void> getApplicationData() async {
     try {

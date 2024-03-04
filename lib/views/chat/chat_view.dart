@@ -8,7 +8,6 @@ import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/text/inter_text_view.dart';
-import 'chat_room_view.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({super.key});
@@ -21,7 +20,7 @@ class ChatView extends StatelessWidget {
             itemCount: 2,
             itemBuilder: (BuildContext context, int index) =>
                 CustomRippleButton(
-                    onTap: () => Get.to(const ChatRoomView()),
+                    onTap: () {},
                     child: Container(
                         decoration: BoxDecoration(
                             border: Border(

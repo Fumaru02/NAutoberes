@@ -51,7 +51,6 @@ class CustomFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Container(
       width: SizeConfig.horizontal(width ?? 80),
       height: SizeConfig.vertical(height ?? 6),

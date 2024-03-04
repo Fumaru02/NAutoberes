@@ -11,6 +11,8 @@ import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
 import '../widgets/user/user_info.dart';
 import 'edit_profile_view.dart';
+import 'home_service_manager_view.dart';
+import 'workshop_manager_view.dart';
 
 class AkunView extends StatelessWidget {
   const AkunView({super.key});
@@ -118,12 +120,12 @@ class AkunView extends StatelessWidget {
                       child: CustomDividerText(
                           icon: Icons.maps_home_work_outlined,
                           title: 'Workshop Manager',
-                          onTap: () {})),
+                          onTap: () => Get.to(const WorkShopManagerView()))),
                   ResponsiveRowColumnItem(
                       child: CustomDividerText(
                           icon: Icons.home_repair_service_rounded,
-                          title: 'Service Manager',
-                          onTap: () {})),
+                          title: 'Home Service Manager',
+                          onTap: () => Get.to(const HomeServiceManagerView()))),
                   ResponsiveRowColumnItem(
                       child: CustomDividerText(
                     icon: Icons.logout_sharp,
@@ -231,7 +233,9 @@ class CustomDividerText extends StatelessWidget {
           rowPadding: EdgeInsets.all(SizeConfig.horizontal(2)),
           children: <ResponsiveRowColumnItem>[
             ResponsiveRowColumnItem(
-                child: Icon(icon, size: iconSize, color: iconColor)),
+                child: icon == null
+                    ? const SizedBox.shrink()
+                    : Icon(icon, size: iconSize, color: iconColor)),
             ResponsiveRowColumnItem(
                 child: InterTextView(
                     value: title,

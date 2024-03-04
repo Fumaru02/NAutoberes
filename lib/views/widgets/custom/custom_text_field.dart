@@ -12,7 +12,9 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.title,
     this.height,
+    this.titleFontWeight,
     this.width,
+    this.borderRadius,
     this.labelText,
     this.hintText,
     this.textColor,
@@ -32,7 +34,9 @@ class CustomTextField extends StatelessWidget {
   });
   final String title;
   final double? height;
+  final FontWeight? titleFontWeight;
   final double? width;
+  final double? borderRadius;
   final String? labelText;
   final String? hintText;
   final Color? textColor;
@@ -65,12 +69,12 @@ class CustomTextField extends StatelessWidget {
                   : InterTextView(
                       value: title,
                       size: SizeConfig.safeBlockHorizontal * 4,
-                      fontWeight: FontWeight.w500,
-                      color: textColor ?? AppColors.white)),
+                      fontWeight: titleFontWeight ?? FontWeight.w500,
+                      color: textColor ?? AppColors.black)),
           ResponsiveRowColumnItem(
               child: SizedBox(
                   width: SizeConfig.horizontal(width ?? 80),
-                  height: SizeConfig.vertical(height ?? 6),
+                  height: height ?? SizeConfig.vertical(6),
                   // ignore: use_if_null_to_convert_nulls_to_bools
                   child: isPasswordField == true
                       ? Obx(
@@ -108,8 +112,8 @@ class CustomTextField extends StatelessWidget {
                                   filled: true,
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
-                                          Radius.circular(
-                                              SizeConfig.horizontal(4)))),
+                                          Radius.circular(SizeConfig.horizontal(
+                                              borderRadius ?? 4)))),
                                   labelText: hintText,
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.never,
@@ -130,12 +134,13 @@ class CustomTextField extends StatelessWidget {
                           decoration: InputDecoration(
                               contentPadding: contentPadding,
                               prefixIcon: prefixIcon,
+                              suffixIcon: suffixIcon,
                               fillColor: AppColors.white,
                               filled: true,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          SizeConfig.horizontal(4)))),
+                                      Radius.circular(SizeConfig.horizontal(
+                                          borderRadius ?? 4)))),
                               labelText: labelText,
                               hintText: hintText,
                               hintStyle: InterStyle().labelStyle(hintTextColor),

@@ -37,64 +37,59 @@ class LoginView extends StatelessWidget {
             statusBarColor: AppColors.black,
             colorScaffold: AppColors.blackBackground,
             statusBarBrightness: Brightness.light,
-            view: Container(
-                width: SizeConfig.screenWidth,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 46, 43, 43),
-                    image: DecorationImage(
-                        image: AssetImage(AssetList.background),
-                        fit: BoxFit.fill)),
-                child: GetBuilder<LoginController>(
-                  init: LoginController(),
-                  builder: (LoginController loginController) => Stack(
-                    children: <Widget>[
-                      Center(
-                        child: ResponsiveRowColumn(
-                          layout: ResponsiveRowColumnType.COLUMN,
-                          children: <ResponsiveRowColumnItem>[
-                            const ResponsiveRowColumnItem(
-                                child: SpaceSizer(vertical: 12)),
-                            ResponsiveRowColumnItem(
-                                child: Obx(() => Hero(
-                                    tag: authorizeController.tagHero.value,
-                                    child: const AutoBeresLogo()))),
-                            const ResponsiveRowColumnItem(
-                                child: SpaceSizer(vertical: 7)),
-                            ResponsiveRowColumnItem(
-                                child: InterTextView(
-                                    value: 'Welcome',
-                                    size: SizeConfig.safeBlockHorizontal * 4.5,
-                                    fontWeight: FontWeight.bold)),
-                            ResponsiveRowColumnItem(
-                                child: InterTextView(
-                                    value: 'Nice to see you',
-                                    size: SizeConfig.safeBlockHorizontal * 3.5,
-                                    fontWeight: FontWeight.w300)),
-                            const ResponsiveRowColumnItem(
-                                child: SpaceSizer(vertical: 35)),
-                            ResponsiveRowColumnItem(
-                                child: CustomFlatButton(
-                              text: 'Continue',
-                              onTap: () {
-                                loginController.tapAnimation.value =
-                                    !loginController.tapAnimation.value;
-                              },
-                            )),
-                          ],
-                        ),
-                      ),
-                      ResponsiveRowColumnItem(
-                          child: Obx(
-                        () => AnimatedPositioned(
-                            curve: Curves.fastOutSlowIn,
-                            bottom: SizeConfig.horizontal(
-                                loginController.tapAnimation.isTrue ? 0 : -200),
-                            duration: const Duration(milliseconds: 300),
-                            child: cardFlipper(loginController)),
-                      ))
-                    ],
+            view: GetBuilder<LoginController>(
+              init: LoginController(),
+              builder: (LoginController loginController) => Stack(
+                children: <Widget>[
+                  Center(
+                    child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.COLUMN,
+                      children: <ResponsiveRowColumnItem>[
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 12)),
+                        ResponsiveRowColumnItem(
+                            child: Obx(() => Hero(
+                                tag: authorizeController.tagHero.value,
+                                child: const AutoBeresLogo()))),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 7)),
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                                value: 'Welcome',
+                                size: SizeConfig.safeBlockHorizontal * 4.5,
+                                fontWeight: FontWeight.bold)),
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                                value: 'Nice to see you',
+                                size: SizeConfig.safeBlockHorizontal * 3.5,
+                                fontWeight: FontWeight.w300)),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 35)),
+                        ResponsiveRowColumnItem(
+                            child: CustomFlatButton(
+                          text: 'Continue',
+                          backgroundColor: AppColors.white,
+                          textColor: AppColors.blackBackground,
+                          onTap: () {
+                            loginController.tapAnimation.value =
+                                !loginController.tapAnimation.value;
+                          },
+                        )),
+                      ],
+                    ),
                   ),
-                ))));
+                  ResponsiveRowColumnItem(
+                      child: Obx(
+                    () => AnimatedPositioned(
+                        curve: Curves.fastOutSlowIn,
+                        bottom: SizeConfig.horizontal(
+                            loginController.tapAnimation.isTrue ? 0 : -200),
+                        duration: const Duration(milliseconds: 300),
+                        child: cardFlipper(loginController)),
+                  ))
+                ],
+              ),
+            )));
   }
 
   Widget cardFlipper(LoginController loginController) {
@@ -125,7 +120,7 @@ class LoginView extends StatelessWidget {
       transform: Matrix4.identity()..rotateY(pi),
       child: Container(
         decoration: BoxDecoration(
-            color: AppColors.blackBackground,
+            color: AppColors.blueDark,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         height: SizeConfig.vertical(65),
@@ -356,7 +351,7 @@ class LoginView extends StatelessWidget {
   Widget frontCard(LoginController loginController) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.blackBackground,
+        color: AppColors.blueDark,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),

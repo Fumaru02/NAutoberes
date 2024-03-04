@@ -115,7 +115,7 @@ class EditProfileController extends GetxController {
       Get.back();
       Snack.show(SnackbarType.success, 'Image',
           'Image has been uploaded, Image will replaced after pressing Submit');
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(user!.uid)
           .update(<Object, Object?>{'user_image': url});

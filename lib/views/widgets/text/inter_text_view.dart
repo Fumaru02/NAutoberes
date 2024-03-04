@@ -41,7 +41,7 @@ class InterTextView extends StatelessWidget {
         decoration: textDecoration,
         decorationColor: decorationColor,
         color: color ?? AppColors.white,
-        fontSize: size ?? SizeConfig.safeBlockHorizontal * 5,
+        fontSize: size ?? SizeConfig.safeBlockHorizontal * 4,
         fontStyle: fontStyle ?? FontStyle.normal,
         fontWeight: fontWeight ?? FontWeight.normal,
       ),

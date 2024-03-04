@@ -76,20 +76,31 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
       final User? user = userCreds.user;
       if (userCreds.user != null) {
         isTapped.value = true;
+        final CollectionReference<dynamic> users =
+            _firestore.collection('users');
         if (userCreds.additionalUserInfo!.isNewUser) {
-          await _firestore
-              .collection('users')
-              .doc(user!.uid)
-              .set(<String, dynamic>{
+          await users.doc(user!.uid).set(<String, dynamic>{
+            'user_uid': user.uid,
+            'update_time': DateTime.now().toIso8601String(),
+            'creation_time': user.metadata.creationTime!.toIso8601String(),
+            'last_sign_in_time':
+                user.metadata.lastSignInTime!.toIso8601String(),
             'email': user.email,
             'status': 'User',
+            'key_name': user.displayName!.substring(0, 1).toUpperCase(),
             'username': user.displayName,
             'user_image': user.photoURL,
             'description': '',
             'gender': '',
             'profiency': '',
             'city': '',
-            'subdistrict': ''
+            'subdistrict': '',
+            'chats': <dynamic>[]
+          });
+        } else {
+          await users.doc(user!.uid).update(<Object, Object?>{
+            'last_sign_in_time':
+                user.metadata.lastSignInTime!.toIso8601String(),
           });
         }
         isTapped.value = false;

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,13 @@ import '../../utils/size_config.dart';
 import '../widgets/text/inter_text_view.dart';
 
 class ChatRoomView extends StatelessWidget {
-  const ChatRoomView({super.key});
+  const ChatRoomView({
+    super.key,
+    required this.receiverName,
+    required this.receiverPic,
+  });
+  final String receiverName;
+  final String receiverPic;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +29,33 @@ class ChatRoomView extends StatelessWidget {
             init: ChatController(),
             builder: (ChatController chatController) => Scaffold(
                   appBar: AppBar(
-                      leading: IconButton(
-                          onPressed: () => Get.back(),
-                          icon: const Icon(Icons.arrow_back),
-                          color: AppColors.white),
+                      leadingWidth: SizeConfig.horizontal(22),
+                      leading: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.ROW,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                            child: IconButton(
+                                onPressed: () => Get.back(),
+                                icon: const Icon(Icons.arrow_back),
+                                color: AppColors.white),
+                          ),
+                          ResponsiveRowColumnItem(
+                              child: SizedBox(
+                            height: SizeConfig.horizontal(10),
+                            width: SizeConfig.horizontal(10),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(SizeConfig.horizontal(4))),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: receiverPic,
+                              ),
+                            ),
+                          )),
+                        ],
+                      ),
                       backgroundColor: AppColors.blackBackground,
-                      title: const InterTextView(value: 'Chat Room')),
+                      title: InterTextView(value: receiverName)),
                   body: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.COLUMN,
                     children: <ResponsiveRowColumnItem>[

@@ -8,7 +8,6 @@ import 'package:responsive_framework/responsive_row_column.dart';
 import '../../controllers/authorize_controller.dart';
 import '../../controllers/connection_status_controller.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_app_version.dart';
 import '../widgets/custom/custom_ripple_button.dart';
@@ -54,47 +53,41 @@ class _AuthorizeViewState extends State<AuthorizeView> {
             statusBarColor: AppColors.black,
             colorScaffold: AppColors.blackBackground,
             statusBarBrightness: Brightness.light,
-            view: Container(
-                width: SizeConfig.screenWidth,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 46, 43, 43),
-                    image: DecorationImage(
-                        image: AssetImage(AssetList.background),
-                        fit: BoxFit.fill)),
-                child: ResponsiveRowColumn(
-                  layout: ResponsiveRowColumnType.COLUMN,
-                  columnMainAxisAlignment: MainAxisAlignment.center,
-                  children: <ResponsiveRowColumnItem>[
-                    const ResponsiveRowColumnItem(
-                        child: SpaceSizer(vertical: 35)),
-                    ResponsiveRowColumnItem(
-                        child: RotationTransition(
-                            turns: Tween<double>(begin: 0.0, end: 1.0).animate(
-                                authorizeController.animationController),
-                            child: Obx(() => Hero(
-                                tag: authorizeController.tagHero.value,
-                                child: const AutoBeresLogo())))),
-                    const ResponsiveRowColumnItem(
-                        child: SpaceSizer(vertical: 10)),
-                    ResponsiveRowColumnItem(
-                        child: InterTextView(
-                            value: 'Connecting to Server...',
-                            size: SizeConfig.safeBlockHorizontal * 4.5,
-                            fontWeight: FontWeight.bold)),
-                    ResponsiveRowColumnItem(
-                        child: InterTextView(
-                            value: 'Please wait a moment',
-                            size: SizeConfig.safeBlockHorizontal * 3.5,
-                            fontWeight: FontWeight.w300)),
-                    const ResponsiveRowColumnItem(
-                        child: SpaceSizer(vertical: 12)),
-                    ResponsiveRowColumnItem(
-                        child: CustomAppVersion(
-                            authorizeController: authorizeController)),
-                    const ResponsiveRowColumnItem(
-                        child: SpaceSizer(vertical: 3))
-                  ],
-                ))));
+            view: Center(
+              child: ResponsiveRowColumn(
+                layout: ResponsiveRowColumnType.COLUMN,
+                columnMainAxisAlignment: MainAxisAlignment.center,
+                children: <ResponsiveRowColumnItem>[
+                  const ResponsiveRowColumnItem(
+                      child: SpaceSizer(vertical: 35)),
+                  ResponsiveRowColumnItem(
+                      child: RotationTransition(
+                          turns: Tween<double>(begin: 0.0, end: 1.0)
+                              .animate(authorizeController.animationController),
+                          child: Obx(() => Hero(
+                              tag: authorizeController.tagHero.value,
+                              child: const AutoBeresLogo())))),
+                  const ResponsiveRowColumnItem(
+                      child: SpaceSizer(vertical: 10)),
+                  ResponsiveRowColumnItem(
+                      child: InterTextView(
+                          value: 'Connecting to Server...',
+                          size: SizeConfig.safeBlockHorizontal * 4.5,
+                          fontWeight: FontWeight.bold)),
+                  ResponsiveRowColumnItem(
+                      child: InterTextView(
+                          value: 'Please wait a moment',
+                          size: SizeConfig.safeBlockHorizontal * 3.5,
+                          fontWeight: FontWeight.w300)),
+                  const ResponsiveRowColumnItem(
+                      child: SpaceSizer(vertical: 12)),
+                  ResponsiveRowColumnItem(
+                      child: CustomAppVersion(
+                          authorizeController: authorizeController)),
+                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 3))
+                ],
+              ),
+            )));
   }
 }
 

@@ -414,10 +414,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                                                 iconSize: 50,
                                                 colorIconImage: AppColors.white,
                                                 radius: 1,
-                                                width:
-                                                    SizeConfig.horizontal(25),
-                                                height:
-                                                    SizeConfig.horizontal(25),
+                                                width: 15,
+                                                height: 15,
                                                 text: '',
                                                 backgroundColor:
                                                     AppColors.blackBackground,
@@ -433,10 +431,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                                                 iconSize: 50,
                                                 colorIconImage: AppColors.white,
                                                 radius: 1,
-                                                width:
-                                                    SizeConfig.horizontal(25),
-                                                height:
-                                                    SizeConfig.horizontal(25),
+                                                width: 15,
+                                                height: 15,
                                                 text: '',
                                                 backgroundColor:
                                                     AppColors.blackBackground,
