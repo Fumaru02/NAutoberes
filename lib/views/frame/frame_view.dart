@@ -27,19 +27,9 @@ class _FrameViewState extends State<FrameView> {
           elevation: 0,
           heightBar: _whenUseHeightBar(),
           isCenter: _isCenterTitle(),
-          statusBarColor: _colorStatusBar(),
           titleScreen: _useTitleAppBar(),
           color: AppColors.blackBackground,
         ));
-  }
-
-  //need maintenance
-  Color _colorStatusBar() {
-    if (_controller.defaultIndex.value == 1) {
-      return Colors.white;
-    } else {
-      return AppColors.blackBackground;
-    }
   }
 
   bool _isCenterTitle() {

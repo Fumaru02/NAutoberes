@@ -31,6 +31,7 @@ class AkunController extends GetxController {
       TextEditingController();
 
   Future<void> signOut() async {
+    await GoogleSignIn().disconnect();
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     sharedPref.removeAccessToken();

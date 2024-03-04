@@ -32,30 +32,31 @@ class HomeServicesController extends GetxController {
   Future<void> addConncectionChat(
       String mechanicUid, String receiverImage) async {
     dynamic chatId;
-
     bool flagNewConnection = false;
     final String date = DateTime.now().toIso8601String();
     final CollectionReference<Map<String, dynamic>> chats =
         _firestore.collection('chats');
+
     final CollectionReference<Map<String, dynamic>> users =
         _firestore.collection('users');
 
-    final DocumentSnapshot<Map<String, dynamic>> docUser =
-        await users.doc(user!.uid).get();
-    final List<dynamic> docChats = (docUser.data()!)['chats'] as List<dynamic>;
-
+    final QuerySnapshot<Map<String, dynamic>> docChats =
+        await users.doc(user!.uid).collection('chats').get();
     // ignore: prefer_is_empty
-    if (docChats.length != 0) {
+    if (docChats.docs.length != 0) {
       // user sudah pernah chat
+      final QuerySnapshot<Map<String, dynamic>> checkConnection = await users
+          .doc(user!.uid)
+          .collection('chats')
+          .where('connection', isEqualTo: mechanicId.value)
+          .get();
 
-      for (final dynamic singleChat in docChats) {
-        if (singleChat['connection'] == mechanicId.value) {
-          chatId = singleChat['chat_id'];
-        }
-      }
-      if (chatId != null) {
+      // ignore: prefer_is_empty
+      if (checkConnection.docs.length != 0) {
         // sudah pernah buat koneksi dengan receiver
         flagNewConnection = false;
+        //chat_id from chats collection
+        chatId = checkConnection.docs[0].id;
       } else {
         flagNewConnection = true;
 
@@ -65,10 +66,9 @@ class HomeServicesController extends GetxController {
     } else {
       flagNewConnection = true;
 
-      //belum pernah chat dengan seseorang
-      //buat connection
+      //belum pernah buat koneksi
+      //buat koneksi
     }
-
     if (flagNewConnection == true) {
       //check dari chats collection apakah ada document yang koneksi antar ke 2 user
       //1. jika ada ....
@@ -94,15 +94,48 @@ class HomeServicesController extends GetxController {
         final String chatDataId = chatDocs.docs[0].id;
         final Map<String, dynamic> chatsData = chatDocs.docs[0].data();
 
-        users.doc(user!.uid).update(<Object, Object?>{
-          'chats': <Map<String, dynamic>>[
-            <String, dynamic>{
-              'connection': mechanicUid,
-              'chat_id': chatDataId,
-              'last_time': chatsData['last_time'],
-            }
-          ]
+        await users
+            .doc(user!.uid)
+            .collection('chats')
+            .doc(chatDataId)
+            .set(<String, dynamic>{
+          'connection': mechanicUid,
+          'last_time': chatsData['last_time'],
+          'total_unread': 0,
         });
+
+        await users.doc(user!.uid).update(
+          <Object, Object?>{
+            'chats': docChats,
+          },
+        );
+
+        final QuerySnapshot<Map<String, dynamic>> listChats =
+            await users.doc(user!.uid).collection('chats').get();
+
+        // ignore: prefer_is_empty
+        if (listChats.docs.length != 0) {
+          final List<ChatUser> dataListChat = List<ChatUser>.empty();
+          // ignore: avoid_function_literals_in_foreach_calls
+          listChats.docs.forEach(
+            (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+              final Map<String, dynamic> dataDocChat = element.data();
+              final String dataDocChatId = element.id;
+              dataListChat.add(ChatUser(
+                  chatId: dataDocChatId,
+                  connection: dataDocChat['connection'] as String?,
+                  lastTime: dataDocChat['last_time'] as String?,
+                  totalUnread: dataDocChat['total_unread'] as int?));
+            },
+          );
+          usersModel.update((UsersModel? user) {
+            user!.chats = dataListChat;
+          });
+        } else {
+          usersModel.update((UsersModel? user) {
+            user!.chats = <ChatUser>[];
+          });
+        }
         usersModel.update((UsersModel? user) {
           user!.chats = <ChatUser>[
             ChatUser(
@@ -125,31 +158,46 @@ class HomeServicesController extends GetxController {
             user!.uid,
             mechanicUid,
           ],
-          'total_chats': 0,
-          'total_read': 0,
-          'total_unread': 0,
           'chat': <dynamic>[],
-          'last_time': date
         });
 
-        users.doc(user!.uid).update(<Object, Object?>{
-          'chats': <Map<String, dynamic>>[
-            <String, dynamic>{
-              'connection': mechanicUid,
-              'chat_id': newChatDoc.id,
-              'last_time': date,
-            }
-          ]
+        await users
+            .doc(user!.uid)
+            .collection('chats')
+            .doc(newChatDoc.id)
+            .set(<String, dynamic>{
+          'connection': mechanicUid,
+          'last_time': date,
+          'total_unread': 0,
         });
-        usersModel.update((UsersModel? user) {
-          user!.chats = <ChatUser>[
-            ChatUser(
-              chatId: newChatDoc.id,
-              connection: mechanicUid,
-              lastTime: date,
-            )
-          ];
-        });
+
+        final QuerySnapshot<Map<String, dynamic>> listChats =
+            await users.doc(user!.uid).collection('chats').get();
+
+        // ignore: prefer_is_empty
+        if (listChats.docs.length != 0) {
+          final List<ChatUser> dataListChat =
+              List<ChatUser>.empty(growable: true);
+          // ignore: avoid_function_literals_in_foreach_calls
+          listChats.docs.forEach(
+            (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+              final Map<String, dynamic> dataDocChat = element.data();
+              final String dataDocChatId = element.id;
+              dataListChat.add(ChatUser(
+                  chatId: dataDocChatId,
+                  connection: dataDocChat['connection'] as String?,
+                  lastTime: dataDocChat['last_time'] as String?,
+                  totalUnread: dataDocChat['total_unread'] as int?));
+            },
+          );
+          usersModel.update((UsersModel? user) {
+            user!.chats = dataListChat;
+          });
+        } else {
+          usersModel.update((UsersModel? user) {
+            user!.chats = <ChatUser>[];
+          });
+        }
 
         chatId = newChatDoc.id;
 

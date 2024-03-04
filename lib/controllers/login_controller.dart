@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../helpers/snackbar.dart';
+import '../models/users/users_model.dart';
 import '../services/shared_pref.dart';
 import '../utils/enums.dart';
 
@@ -27,6 +28,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   final RxBool tapAnimation = false.obs;
   final RxDouble angle = RxDouble(0);
   final RxString termsOfUse = RxString('');
+  Rx<UsersModel> userModel = UsersModel().obs;
 
   @override
   void onInit() {
@@ -95,12 +97,46 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
             'profiency': '',
             'city': '',
             'subdistrict': '',
-            'chats': <dynamic>[]
           });
+
+          users.doc(user.uid).collection('chats');
         } else {
           await users.doc(user!.uid).update(<Object, Object?>{
             'last_sign_in_time':
                 user.metadata.lastSignInTime!.toIso8601String(),
+          });
+        }
+
+        final DocumentSnapshot<Object?> currUser =
+            await users.doc(user.uid).get();
+        final Map<String, dynamic> currUserData =
+            currUser.data()! as Map<String, dynamic>;
+
+        userModel(UsersModel.fromJson(currUserData));
+        final QuerySnapshot<Map<String, dynamic>> listChats =
+            await users.doc(user.uid).collection('chats').get();
+
+        // ignore: prefer_is_empty
+        if (listChats.docs.length != 0) {
+          final List<ChatUser> dataListChat = List<ChatUser>.empty();
+          // ignore: avoid_function_literals_in_foreach_calls
+          listChats.docs.forEach(
+            (QueryDocumentSnapshot<Map<String, dynamic>> element) {
+              final Map<String, dynamic> dataDocChat = element.data();
+              final String dataDocChatId = element.id;
+              dataListChat.add(ChatUser(
+                  chatId: dataDocChatId,
+                  connection: dataDocChat['connection'] as String?,
+                  lastTime: dataDocChat['last_time'] as String?,
+                  totalUnread: dataDocChat['total_unread'] as int?));
+            },
+          );
+          userModel.update((UsersModel? user) {
+            user!.chats = dataListChat;
+          });
+        } else {
+          userModel.update((UsersModel? user) {
+            user!.chats = <ChatUser>[];
           });
         }
         isTapped.value = false;
