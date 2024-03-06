@@ -42,6 +42,7 @@ class HomeServicesController extends GetxController {
 
     final QuerySnapshot<Map<String, dynamic>> docChats =
         await users.doc(user!.uid).collection('chats').get();
+
     // ignore: prefer_is_empty
     if (docChats.docs.length != 0) {
       // user sudah pernah chat
@@ -158,8 +159,9 @@ class HomeServicesController extends GetxController {
             user!.uid,
             mechanicUid,
           ],
-          'chat': <dynamic>[],
         });
+
+        chats.doc(newChatDoc.id).collection('chat');
 
         await users
             .doc(user!.uid)
@@ -176,6 +178,7 @@ class HomeServicesController extends GetxController {
 
         // ignore: prefer_is_empty
         if (listChats.docs.length != 0) {
+          // ignore: always_specify_types
           final List<ChatUser> dataListChat =
               List<ChatUser>.empty(growable: true);
           // ignore: avoid_function_literals_in_foreach_calls
@@ -204,14 +207,46 @@ class HomeServicesController extends GetxController {
         usersModel.refresh();
       }
     }
-    log(chatId.toString());
+    final QuerySnapshot<Map<String, dynamic>> updateStatusChat = await chats
+        .doc(chatId as String)
+        .collection('chat')
+        .where('isRead', isEqualTo: false)
+        .where('penerima', isEqualTo: mechanicUid)
+        .get();
+
+    updateStatusChat.docs
+        // ignore: avoid_function_literals_in_foreach_calls
+        .forEach((QueryDocumentSnapshot<Map<String, dynamic>> element) async {
+      element.id;
+
+      await chats
+          .doc(chatId as String)
+          .collection('chat')
+          .doc(element.id)
+          .update(<Object, Object?>{
+        'isRead': true,
+      });
+    });
+
+    await users
+        .doc(user!.uid)
+        .collection('chats')
+        .doc(chatId)
+        .update(<Object, Object?>{
+      'total_unread': 0,
+    });
 
     Get.to(
-        ChatRoomView(
-          receiverName: mechanicUid,
-          receiverPic: receiverImage,
-        ),
-        arguments: chatId);
+      ChatRoomView(
+        userUid: mechanicId.value,
+        receiverName: mechanicUid,
+        receiverPic: receiverImage,
+      ),
+      arguments: <String, dynamic>{
+        'chat_id': chatId,
+        'mechanicUid': mechanicUid
+      },
+    );
   }
 
   Future<void> onRefreshPage() async {

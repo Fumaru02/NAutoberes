@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
 
 import '../../controllers/chat_controller.dart';
+import '../../controllers/home_services_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/text/inter_text_view.dart';
@@ -14,12 +15,15 @@ class ChatRoomView extends StatelessWidget {
     super.key,
     required this.receiverName,
     required this.receiverPic,
+    required this.userUid,
   });
   final String receiverName;
   final String receiverPic;
-
+  final String userUid;
   @override
   Widget build(BuildContext context) {
+    final HomeServicesController homeServicesController = Get.find();
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           systemNavigationBarColor: AppColors.blackBackground,
@@ -159,11 +163,22 @@ class ChatRoomView extends StatelessWidget {
                                           )))),
                                   ResponsiveRowColumnItem(
                                       child: Container(
-                                    color: AppColors.redAlert,
+                                    color: AppColors.blueDark,
                                     width: SizeConfig.horizontal(12),
                                     height: SizeConfig.horizontal(12),
-                                    child: Icon(Icons.mic,
-                                        size: SizeConfig.horizontal(8)),
+                                    child: IconButton(
+                                        onPressed: () => chatController.newChat(
+                                            homeServicesController.user!.uid,
+                                            Get.arguments
+                                                as Map<String, dynamic>,
+                                            chatController
+                                                .chatEditingController.text,
+                                            userUid),
+                                        icon: Icon(
+                                          Icons.send,
+                                          size: SizeConfig.horizontal(8),
+                                          color: AppColors.white,
+                                        )),
                                   ))
                                 ],
                               ))),

@@ -113,12 +113,15 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
             currUser.data()! as Map<String, dynamic>;
 
         userModel(UsersModel.fromJson(currUserData));
+
+        userModel.refresh();
+
         final QuerySnapshot<Map<String, dynamic>> listChats =
             await users.doc(user.uid).collection('chats').get();
 
         // ignore: prefer_is_empty
         if (listChats.docs.length != 0) {
-          final List<ChatUser> dataListChat = List<ChatUser>.empty();
+          final List<ChatUser> dataListChat = <ChatUser>[];
           // ignore: avoid_function_literals_in_foreach_calls
           listChats.docs.forEach(
             (QueryDocumentSnapshot<Map<String, dynamic>> element) {
@@ -139,6 +142,8 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
             user!.chats = <ChatUser>[];
           });
         }
+        userModel.refresh();
+
         isTapped.value = false;
         Get.offAllNamed('/frame');
       } else {

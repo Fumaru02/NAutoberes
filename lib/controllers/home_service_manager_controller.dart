@@ -49,6 +49,12 @@ class HomeServiceManagerController extends GetxController {
         'home_service_image': url,
       });
       Get.back();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update(<String, dynamic>{
+        'home_service_image': url,
+      });
       update();
       Snack.show(SnackbarType.success, 'Image',
           'Image has been uploaded, Image will replaced after pressing Submit');
