@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
@@ -113,9 +111,6 @@ class ListMechanics extends StatelessWidget {
         onTap: () {
           // homeServicesController.mechanicId.value = model.;
           homeServicesController.mechanicId.value = model.userUid;
-          log('ini idnya ${homeServicesController.mechanicId.value}');
-          log('ini model idnya ${model.id}');
-
           Get.to(HomeServicesAbout(
             mechanicId: model.userUid,
             homeServicesController: homeServicesController,

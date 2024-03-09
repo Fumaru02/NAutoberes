@@ -60,9 +60,8 @@ class HomeServicesAbout extends StatelessWidget {
                       children: <ResponsiveRowColumnItem>[
                         ResponsiveRowColumnItem(
                             child: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () => Get.back(),
-                        )),
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: () => Get.back())),
                         ResponsiveRowColumnItem(
                             child: IconButton(
                           icon: Icon(
@@ -76,11 +75,10 @@ class HomeServicesAbout extends StatelessWidget {
                   ),
                   ResponsiveRowColumnItem(
                       child: InterTextView(
-                    value: mechanicAlias,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.bold,
-                    size: SizeConfig.safeBlockHorizontal * 5,
-                  )),
+                          value: mechanicAlias,
+                          color: AppColors.black,
+                          fontWeight: FontWeight.bold,
+                          size: SizeConfig.safeBlockHorizontal * 5)),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
                   ResponsiveRowColumnItem(
                       child: Container(
@@ -93,13 +91,10 @@ class HomeServicesAbout extends StatelessWidget {
                     height: SizeConfig.horizontal(50),
                     width: SizeConfig.horizontal(50),
                     child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
-                      child: CachedNetworkImage(
-                        imageUrl: mechanicPic,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(100)),
+                        child: CachedNetworkImage(
+                            imageUrl: mechanicPic, fit: BoxFit.cover)),
                   )),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(

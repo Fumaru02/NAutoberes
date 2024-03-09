@@ -241,6 +241,7 @@ class HomeServicesController extends GetxController {
         userUid: mechanicId.value,
         receiverName: mechanicUid,
         receiverPic: receiverImage,
+        chatId: chatId,
       ),
       arguments: <String, dynamic>{
         'chat_id': chatId,
