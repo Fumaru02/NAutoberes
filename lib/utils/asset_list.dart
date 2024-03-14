@@ -14,4 +14,6 @@ class AssetList {
   static String outletsIcon = 'assets/outletsIcon.png';
   static String akunIcon = 'assets/akunIcon.png';
   static String trashMap = 'assets/trash-map.png';
+  static String backgroundRoom = 'assets/backgroundRoom.png';
+  static String backgroundBubble = 'assets/backgroundBubble.png';
 }

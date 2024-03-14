@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/akun_controller.dart';
 import '../../controllers/edit_profile_controller.dart';
@@ -365,7 +365,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       height: SizeConfig.horizontal(30),
       child: Stack(
         children: <Widget>[
-          const UserPicture(size: 40),
+          const UserPicture(width: 40),
           Align(
               alignment: Alignment.bottomRight,
               child: Container(

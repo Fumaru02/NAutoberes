@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/authorize_controller.dart';
 import '../../../utils/size_config.dart';

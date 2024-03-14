@@ -2,8 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/breakpoint.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'controllers/authorize_controller.dart';
 import 'routes/app_routes.dart';
@@ -23,6 +22,7 @@ Future<void> main() async {
   });
 }
 
+//3.19.2
 class AutoBeres extends StatelessWidget {
   const AutoBeres({super.key});
 
@@ -35,9 +35,10 @@ class AutoBeres extends StatelessWidget {
         theme: ThemeData(useMaterial3: false),
         title: 'AutoBeres',
         debugShowCheckedModeBanner: false,
-        builder: (BuildContext context, Widget? child) => ResponsiveBreakpoints(
-            breakpoints: const <Breakpoint>[Breakpoint(start: 0, end: 480)],
-            child: child!),
+        builder: (BuildContext context, Widget? child) =>
+            ResponsiveBreakpoints.builder(breakpoints: const <Breakpoint>[
+              Breakpoint(start: 0, end: 480, name: MOBILE),
+            ], child: child!),
         home: const AuthorizeView(),
         getPages: AppRoutes.routes,
         defaultTransition: Transition.noTransition);

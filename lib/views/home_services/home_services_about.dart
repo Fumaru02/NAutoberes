@@ -2,14 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_services_controller.dart';
+import '../../controllers/maps_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_bordered_container.dart';
 import '../widgets/custom/custom_flat_button.dart';
+import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/frame/frame_scaffold.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
@@ -23,6 +25,8 @@ class HomeServicesAbout extends StatelessWidget {
     required this.mechanicPic,
     required this.mechanicLevel,
     required this.mechanicId,
+    required this.mechanicLat,
+    required this.mechanicLong,
     required this.mechanicRating,
     required this.homeServicesController,
   });
@@ -33,12 +37,15 @@ class HomeServicesAbout extends StatelessWidget {
   final String mechanicPic;
   final String mechanicLevel;
   final String mechanicId;
+  final String mechanicLat;
+  final String mechanicLong;
 
   final double mechanicRating;
   final HomeServicesController homeServicesController;
 
   @override
   Widget build(BuildContext context) {
+    final MapsController mapsController = Get.put(MapsController());
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
             systemNavigationBarColor: AppColors.black,
@@ -145,32 +152,41 @@ class HomeServicesAbout extends StatelessWidget {
                           textSize: 3.5,
                           onTap: () {
                             homeServicesController.addConncectionChat(
-                                mechanicId, mechanicPic);
+                                mechanicName, mechanicId, mechanicPic);
                           })),
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(
-                      child: CustomBorderedContainer(
-                          child: ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.COLUMN,
-                    children: <ResponsiveRowColumnItem>[
-                      ResponsiveRowColumnItem(
-                          child: Padding(
-                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
-                        child: Image.asset(
-                          AssetList.trashMap,
-                        ),
-                      )),
-                      ResponsiveRowColumnItem(
-                          child: Padding(
-                        padding: EdgeInsets.all(SizeConfig.horizontal(4)),
-                        child: InterTextView(
-                          value:
-                              'Jl.Raya Pendidikan 4 No 2599, Bekasi Timur,Jawa Barat,Indonesia',
-                          color: AppColors.greyTextDisabled,
-                        ),
-                      ))
-                    ],
-                  ))),
+                      child: CustomRippleButton(
+                    onTap: () =>
+                        mapsController.openGoogleMap(mechanicLat, mechanicLong),
+                    child: CustomBorderedContainer(
+                        child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.COLUMN,
+                      children: <ResponsiveRowColumnItem>[
+                        ResponsiveRowColumnItem(
+                            child: Padding(
+                          padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                          child: SizedBox(
+                            height: SizeConfig.horizontal(40),
+                            width: SizeConfig.horizontal(80),
+                            child: Image.asset(
+                              AssetList.trashMap,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        )),
+                        ResponsiveRowColumnItem(
+                            child: Padding(
+                          padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                          child: InterTextView(
+                            value:
+                                'Detail alamat:\nJl.Raya Pendidikan 4 No 2599, Bekasi Timur,Jawa Barat,Indonesia',
+                            color: AppColors.greyTextDisabled,
+                          ),
+                        ))
+                      ],
+                    )),
+                  )),
                   ResponsiveRowColumnItem(
                       child: CustomBorderedContainer(
                           child: ResponsiveRowColumn(

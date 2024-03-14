@@ -23,6 +23,11 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   final TextEditingController phoneNumbController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final RxBool isTapped = false.obs;
+  final RxBool isTapBubble1 = false.obs;
+  final RxBool isTapBubble2 = false.obs;
+  final RxBool isTapBubble3 = false.obs;
+  final RxBool isTapBubble4 = false.obs;
+  final RxBool isFloating = false.obs;
   final RxBool isFront = true.obs;
   final RxBool isChecked = false.obs;
   final RxBool tapAnimation = false.obs;
@@ -31,10 +36,13 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   Rx<UsersModel> userModel = UsersModel().obs;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     tabController = TabController(length: 2, vsync: this);
     getAuthData();
+    await Future<dynamic>.delayed(
+        const Duration(seconds: 2)); // Menunggu selama 2 detik
+    isFloating.value = true; // Mengubah nilai menjadi true setelah 2 detik
   }
 
   Future<void> getAuthData() async {

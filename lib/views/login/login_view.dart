@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/login_controller.dart';
 import '../../utils/app_colors.dart';
@@ -12,6 +12,7 @@ import '../../utils/asset_list.dart';
 import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../authorize/authorize_view.dart';
+import '../widgets/custom/custom_background_apps.dart';
 import '../widgets/custom/custom_flat_button.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/custom/custom_text_field.dart';
@@ -31,15 +32,16 @@ class LoginView extends StatelessWidget {
             systemNavigationBarColor: AppColors.black,
             systemNavigationBarIconBrightness: Brightness.dark),
         child: FrameScaffold(
-            heightBar: 0,
-            elevation: 0,
-            color: Platform.isIOS ? AppColors.black : null,
-            statusBarColor: AppColors.black,
-            colorScaffold: AppColors.blackBackground,
-            statusBarBrightness: Brightness.light,
-            view: GetBuilder<LoginController>(
-              init: LoginController(),
-              builder: (LoginController loginController) => Stack(
+          heightBar: 0,
+          elevation: 0,
+          color: Platform.isIOS ? AppColors.black : null,
+          statusBarColor: AppColors.black,
+          colorScaffold: AppColors.blackBackground,
+          statusBarBrightness: Brightness.light,
+          view: GetBuilder<LoginController>(
+            init: LoginController(),
+            builder: (LoginController loginController) => CustomBackgroundApps(
+              child: Stack(
                 children: <Widget>[
                   Center(
                     child: ResponsiveRowColumn(
@@ -89,7 +91,9 @@ class LoginView extends StatelessWidget {
                   ))
                 ],
               ),
-            )));
+            ),
+          ),
+        ));
   }
 
   Widget cardFlipper(LoginController loginController) {

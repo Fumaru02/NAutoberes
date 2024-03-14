@@ -3,20 +3,20 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../models/about_automotive/about_automotive_model.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/size_config.dart';
-import '../widgets/frame/frame_scaffold.dart';
-import '../widgets/layouts/space_sizer.dart';
-import '../widgets/text/inter_text_view.dart';
+import '../../../models/about_automotive/about_automotive_model.dart';
+import '../../../utils/app_colors.dart';
+import '../../../utils/size_config.dart';
+import '../../widgets/frame/frame_scaffold.dart';
+import '../../widgets/layouts/space_sizer.dart';
+import '../../widgets/text/inter_text_view.dart';
 
 class AboutAutomotiveDetailView extends StatelessWidget {
   const AboutAutomotiveDetailView({
-    Key? key,
+    super.key,
     required this.model,
-  }) : super(key: key);
+  });
 
   final AboutAutomotiveModel model;
 
@@ -38,7 +38,7 @@ class AboutAutomotiveDetailView extends StatelessWidget {
           view: ResponsiveRowColumn(
             layout: ResponsiveRowColumnType.COLUMN,
             columnCrossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <ResponsiveRowColumnItem>[
               ResponsiveRowColumnItem(
                   child: Hero(
                       tag: model.id,
@@ -69,7 +69,7 @@ class AboutAutomotiveDetailView extends StatelessWidget {
                   child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.COLUMN,
                     columnCrossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <ResponsiveRowColumnItem>[
                       ResponsiveRowColumnItem(
                           child: InterTextView(
                         value: 'Description',

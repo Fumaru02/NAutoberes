@@ -5,6 +5,7 @@ import '../../controllers/frame_controller.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/frame/frame_bottom_nav_bar.dart';
+import '../widgets/user/user_info.dart';
 
 class FrameView extends StatefulWidget {
   const FrameView({super.key});
@@ -25,11 +26,26 @@ class _FrameViewState extends State<FrameView> {
           isUseLeading: _useBackButton(),
           isImplyLeading: false,
           elevation: 0,
+          action: _customAction(),
           heightBar: _whenUseHeightBar(),
           isCenter: _isCenterTitle(),
           titleScreen: _useTitleAppBar(),
           color: AppColors.blackBackground,
         ));
+  }
+
+  Widget _customAction() {
+    if (_controller.defaultIndex.value == 1) {
+      return const Padding(
+        padding: EdgeInsets.all(2),
+        child: UserPicture(
+          width: 13,
+          height: 12,
+        ),
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   bool _isCenterTitle() {
@@ -44,9 +60,7 @@ class _FrameViewState extends State<FrameView> {
 
   double _whenUseHeightBar() {
     if (_controller.defaultIndex.value == 1 ||
-        _controller.defaultIndex.value == 2 ||
-        _controller.defaultIndex.value == 3 ||
-        _controller.defaultIndex.value == 4) {
+        _controller.defaultIndex.value == 3) {
       return SizeConfig.horizontal(14);
     } else {
       return 0;
@@ -56,12 +70,8 @@ class _FrameViewState extends State<FrameView> {
   String _useTitleAppBar() {
     if (_controller.defaultIndex.value == 1) {
       return 'Chat Room';
-    } else if (_controller.defaultIndex.value == 2) {
-      return 'Home Services';
     } else if (_controller.defaultIndex.value == 3) {
       return 'Workshop';
-    } else if (_controller.defaultIndex.value == 4) {
-      return 'My Profile';
     } else {
       return '';
     }

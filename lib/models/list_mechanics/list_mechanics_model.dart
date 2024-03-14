@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'list_mechanics_model.g.dart';
 
 @JsonSerializable()
-class  ListMechanicsModel {
+class ListMechanicsModel {
   ListMechanicsModel({
     required this.id,
     required this.name,
@@ -12,6 +12,8 @@ class  ListMechanicsModel {
     required this.homeServiceImage,
     required this.homeServiceName,
     required this.homeServiceSkill,
+    required this.homeServiceLat,
+    required this.homeServiceLong,
     required this.userEmail,
     required this.userLevel,
     required this.userUid,
@@ -38,6 +40,10 @@ class  ListMechanicsModel {
   String homeServiceImage;
   @JsonKey(name: 'home_service_address')
   String homeServiceAddress;
+  @JsonKey(name: 'home_service_lat')
+  String homeServiceLat;
+  @JsonKey(name: 'home_service_long')
+  String homeServiceLong;
 
   Map<String, dynamic> toJson() => _$ListMechanicsModelToJson(this);
 }

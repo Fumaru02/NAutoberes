@@ -15,8 +15,9 @@ class HomeServicesController extends GetxController {
     getMechanics();
   }
 
-  RxBool flagNewConnection = RxBool(false);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  RxBool flagNewConnection = RxBool(false);
+  RxBool isLoading = RxBool(false);
   RxString userImage = RxString('');
   RxString userAlias = RxString('');
   RxString userName = RxString('');
@@ -30,7 +31,8 @@ class HomeServicesController extends GetxController {
   Rx<UsersModel> usersModel = UsersModel().obs;
 
   Future<void> addConncectionChat(
-      String mechanicUid, String receiverImage) async {
+      String mechanicName, String mechanicUid, String receiverImage) async {
+    isLoading.value = true;
     dynamic chatId;
     bool flagNewConnection = false;
     final String date = DateTime.now().toIso8601String();
@@ -58,15 +60,17 @@ class HomeServicesController extends GetxController {
         flagNewConnection = false;
         //chat_id from chats collection
         chatId = checkConnection.docs[0].id;
+        isLoading.value = false;
       } else {
         flagNewConnection = true;
 
         //belum pernah buat koneksi
         //buat koneksi
+        isLoading.value = false;
       }
     } else {
       flagNewConnection = true;
-
+      isLoading.value = false;
       //belum pernah buat koneksi
       //buat koneksi
     }
@@ -86,7 +90,6 @@ class HomeServicesController extends GetxController {
           ],
         ],
       ).get();
-
       // ignore: prefer_is_empty
       if (chatDocs.docs.length != 0) {
         //terdapat data chats
@@ -132,6 +135,7 @@ class HomeServicesController extends GetxController {
           usersModel.update((UsersModel? user) {
             user!.chats = dataListChat;
           });
+          isLoading.value = false;
         } else {
           usersModel.update((UsersModel? user) {
             user!.chats = <ChatUser>[];
@@ -150,6 +154,7 @@ class HomeServicesController extends GetxController {
         chatId = chatDataId;
 
         usersModel.refresh();
+        isLoading.value = false;
       } else {
         //tidak dapat data chats
         //create new
@@ -196,6 +201,7 @@ class HomeServicesController extends GetxController {
           usersModel.update((UsersModel? user) {
             user!.chats = dataListChat;
           });
+          isLoading.value = false;
         } else {
           usersModel.update((UsersModel? user) {
             user!.chats = <ChatUser>[];
@@ -235,11 +241,12 @@ class HomeServicesController extends GetxController {
         .update(<Object, Object?>{
       'total_unread': 0,
     });
-
+    isLoading.value = false;
     Get.to(
       ChatRoomView(
+        mechanicUid: mechanicId.value,
         userUid: mechanicId.value,
-        receiverName: mechanicUid,
+        receiverName: mechanicName,
         receiverPic: receiverImage,
         chatId: chatId,
       ),
@@ -255,6 +262,8 @@ class HomeServicesController extends GetxController {
   }
 
   Future<void> getMechanics() async {
+    isLoading.value = true;
+
     try {
       final QuerySnapshot<Map<String, dynamic>> collectionSnapshot =
           await _firestore.collection('mechanic').get();
@@ -263,8 +272,10 @@ class HomeServicesController extends GetxController {
               ListMechanicsModel.fromJson(doc.data()))
           .toList();
       update();
+      isLoading.value = false;
     } catch (e) {
       log(e.toString());
+      isLoading.value = false;
     }
   }
 }

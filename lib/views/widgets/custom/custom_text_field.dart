@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/login_controller.dart';
 import '../../../utils/app_colors.dart';
@@ -31,6 +31,10 @@ class CustomTextField extends StatelessWidget {
     this.textAlignVertical,
     this.onFieldSubmitted,
     this.minLines,
+    this.maxLength,
+    this.maxLines,
+    this.focusNode,
+    this.keyboardType,
   });
   final String title;
   final double? height;
@@ -53,10 +57,12 @@ class CustomTextField extends StatelessWidget {
   final TextAlignVertical? textAlignVertical;
   final Function(String)? onFieldSubmitted;
   final int? minLines;
-
+  final int? maxLength;
+  final int? maxLines;
+  final FocusNode? focusNode;
+  final TextInputType? keyboardType;
   @override
   Widget build(BuildContext context) {
-    final FocusNode focus = FocusNode();
     final LoginController loginController = Get.put(LoginController());
     return ResponsiveRowColumn(
         layout: ResponsiveRowColumnType.COLUMN,
@@ -74,7 +80,7 @@ class CustomTextField extends StatelessWidget {
           ResponsiveRowColumnItem(
               child: SizedBox(
                   width: SizeConfig.horizontal(width ?? 80),
-                  height: height ?? SizeConfig.vertical(6),
+                  height: height ?? SizeConfig.vertical(7),
                   // ignore: use_if_null_to_convert_nulls_to_bools
                   child: isPasswordField == true
                       ? Obx(
@@ -82,7 +88,7 @@ class CustomTextField extends StatelessWidget {
                               autofillHints: autofillHint,
                               minLines: minLines,
                               controller: controller,
-                              focusNode: focus,
+                              focusNode: focusNode,
                               onChanged: onChanged,
                               keyboardType: TextInputType.text,
                               textInputAction: textInputAction,
@@ -125,14 +131,14 @@ class CustomTextField extends StatelessWidget {
                           minLines: minLines,
                           controller: controller,
                           textAlignVertical: textAlignVertical,
-                          focusNode: focus,
+                          focusNode: focusNode,
+                          maxLines: maxLines,
                           textInputAction: textInputAction,
                           onChanged: onChanged,
                           onFieldSubmitted: onFieldSubmitted,
-                          keyboardType: TextInputType.text,
+                          keyboardType: keyboardType ?? TextInputType.text,
                           // ignore: avoid_bool_literals_in_conditional_expressions, use_if_null_to_convert_nulls_to_bools
                           decoration: InputDecoration(
-                              contentPadding: contentPadding,
                               prefixIcon: prefixIcon,
                               suffixIcon: suffixIcon,
                               fillColor: AppColors.white,

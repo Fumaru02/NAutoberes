@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -68,35 +69,47 @@ class HomeServiceManagerController extends GetxController {
     update();
   }
 
-  Future<void> onConfirm() async {
+  Future<void> onConfirm(String lat, String long) async {
     isLoading.value = true;
     user = FirebaseAuth.instance.currentUser;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .update(<String, dynamic>{
-      'mechanic': 1,
-      'home_service': <String, dynamic>{
+    log('$lat test1');
+    if (lat == '' && long == '') {
+      isLoading.value = false;
+
+      return Snack.show(SnackbarType.error, 'ERROR Upload Data',
+          'Pastikan kamu sudah klik pada icon radius');
+    } else {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .update(<String, dynamic>{
+        'mechanic': 1,
+        'home_service': <String, dynamic>{
+          'home_service_lat': lat,
+          'home_service_long': long,
+          'home_service_name': hsName.text.trim(),
+          'home_service_address': hsAddress.text.trim(),
+          'home_service_skill': hsSkill.text.trim(),
+        }
+      });
+      await FirebaseFirestore.instance
+          .collection('mechanic')
+          .doc('${user!.displayName}${user!.uid}')
+          .update(<String, dynamic>{
+        'id': '${DateTime.now()}+${user!.uid}',
+        'name': user!.displayName,
+        'user_rating': 0.0,
+        'user_level': 'Beginner',
+        'user_email': user!.email,
+        'user_uid': user!.uid,
+        'home_service_lat': lat,
+        'home_service_long': long,
         'home_service_name': hsName.text.trim(),
         'home_service_address': hsAddress.text.trim(),
         'home_service_skill': hsSkill.text.trim(),
-      }
-    });
-    await FirebaseFirestore.instance
-        .collection('mechanic')
-        .doc('${user!.displayName}${user!.uid}')
-        .update(<String, dynamic>{
-      'id': '${DateTime.now()}+${user!.uid}',
-      'name': user!.displayName,
-      'user_rating': 0.0,
-      'user_level': 'Beginner',
-      'user_email': user!.email,
-      'user_uid': user!.uid,
-      'home_service_name': hsName.text.trim(),
-      'home_service_address': hsAddress.text.trim(),
-      'home_service_skill': hsSkill.text.trim(),
-    });
-    isLoading.value = false;
-    Get.back();
+      });
+      isLoading.value = false;
+      Get.back();
+    }
   }
 }

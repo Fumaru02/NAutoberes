@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +19,21 @@ class HomeController extends GetxController {
     super.onInit();
     await getApplicationData();
     getContent();
+    scrollController.addListener(() {
+      listen();
+    });
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    scrollController.removeListener(() {
+      listen();
+    });
+    super.onClose();
+  }
+
+  ScrollController scrollController = ScrollController();
   final CarouselController carouselController = CarouselController();
   final RxInt currentDot = RxInt(0);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -34,10 +48,22 @@ class HomeController extends GetxController {
       RxList<AboutAutomotiveModel>(<AboutAutomotiveModel>[]);
   RxList<BeresinMenuModel> beresinMenuList =
       RxList<BeresinMenuModel>(<BeresinMenuModel>[]);
+  RxBool isLoading = RxBool(false);
+  RxBool isVisible = RxBool(false);
 
   List<Widget> listRouter = <Widget>[
     const GantiOliView(),
   ];
+
+  void listen() {
+    final ScrollDirection direction =
+        scrollController.position.userScrollDirection;
+    if (direction == ScrollDirection.forward) {
+      isVisible.value = false;
+    } else if (direction == ScrollDirection.reverse) {
+      isVisible.value = true;
+    } else {}
+  }
 
   Future<void> getApplicationData() async {
     try {
@@ -52,6 +78,7 @@ class HomeController extends GetxController {
   }
 
   dynamic getContent() async {
+    isLoading.value = true;
     try {
       await _firestore
           .collection('home')
@@ -74,14 +101,17 @@ class HomeController extends GetxController {
             .map((dynamic e) =>
                 AboutAutomotiveModel.fromJson(e as Map<String, dynamic>))
             .toList();
-        update();
       });
+      update();
+      isLoading.value = false;
     } catch (e) {
+      isLoading.value = false;
       log(e.toString());
     }
   }
 
   dynamic getPromoApps() async {
+    isLoading.value = true;
     await _firestore
         .collection('home')
         .doc('promo')
@@ -94,5 +124,7 @@ class HomeController extends GetxController {
           List<String>.from(data['promo']['promo_image'] as List<dynamic>);
       promoTitle.value = data['promo']['promo_title'] as String;
     });
+    update();
+    isLoading.value = false;
   }
 }

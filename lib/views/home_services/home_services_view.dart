@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_row_column.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_services_controller.dart';
 import '../../models/list_mechanics/list_mechanics_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_ripple_button.dart';
+import '../widgets/custom/custom_shimmer_placeholder.dart';
 import '../widgets/custom/custom_text_field.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
@@ -78,17 +79,33 @@ class HomeServicesView extends StatelessWidget {
                     ),
                   )),
                   ResponsiveRowColumnItem(
-                      child: Expanded(
-                          child: ListView.builder(
-                              itemCount: homeServicesController
+                    child: Expanded(
+                      child: Obx(
+                        () => ListView.builder(
+                          itemCount: homeServicesController.isLoading.isTrue
+                              ? 2
+                              : homeServicesController
                                   .listMechanicsModel.length,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  ListMechanics(
-                                    model: homeServicesController
-                                        .listMechanicsModel[index],
-                                    homeServicesController:
-                                        homeServicesController,
-                                  ))))
+                          itemBuilder: (BuildContext context, int index) =>
+                              homeServicesController.isLoading.value == true
+                                  ? Padding(
+                                      padding: EdgeInsets.all(
+                                          SizeConfig.horizontal(2)),
+                                      child: CustomShimmerPlaceHolder(
+                                        width: SizeConfig.horizontal(30),
+                                        height: SizeConfig.horizontal(20),
+                                      ),
+                                    )
+                                  : ListMechanics(
+                                      model: homeServicesController
+                                          .listMechanicsModel[index],
+                                      homeServicesController:
+                                          homeServicesController,
+                                    ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ));
@@ -120,6 +137,8 @@ class ListMechanics extends StatelessWidget {
             mechanicAlias: model.homeServiceName,
             mechanicRating: model.userRating,
             mechanicLevel: model.userLevel,
+            mechanicLat: model.homeServiceLat,
+            mechanicLong: model.homeServiceLong,
           ));
         },
         child: Container(
@@ -133,7 +152,7 @@ class ListMechanics extends StatelessWidget {
                   BoxShadow(
                       spreadRadius: 3,
                       blurRadius: 2,
-                      offset: const Offset(0, 1),
+                      offset: const Offset(0, 2),
                       color: AppColors.greyDisabled)
                 ],
                 borderRadius: BorderRadius.all(
@@ -144,12 +163,17 @@ class ListMechanics extends StatelessWidget {
                 ResponsiveRowColumnItem(
                     child: SizedBox(
                         height: SizeConfig.horizontal(16),
-                        child: CircleAvatar(
-                          minRadius: 30,
-                          backgroundImage: NetworkImage(
-                            model.homeServiceImage,
-                          ),
-                        ))),
+                        child: model.homeServiceImage == '' ||
+                                model.homeServiceImage == null
+                            ? CustomShimmerPlaceHolder(
+                                borderRadius: SizeConfig.horizontal(20),
+                                width: SizeConfig.horizontal(16))
+                            : CircleAvatar(
+                                minRadius: 30,
+                                backgroundImage: NetworkImage(
+                                  model.homeServiceImage,
+                                  //     ),
+                                )))),
                 ResponsiveRowColumnItem(
                     child: ResponsiveRowColumn(
                   columnMainAxisSize: MainAxisSize.min,

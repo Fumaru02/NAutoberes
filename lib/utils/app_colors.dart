@@ -19,6 +19,8 @@ class AppColors {
   static Color greenDRT = AppColors.hex(colorCode: '#A6FF96');
   static Color blackBackground = AppColors.hex(colorCode: '#0081C9');
   static Color cyanBackgroundAppBar = AppColors.hex(colorCode: '#30B1AF');
+  static Color linearCurverBegin = AppColors.hex(colorCode: '#D1D5DE');
+  static Color shimmerHightlight = AppColors.hex(colorCode: '#ABABAB');
   static Color greenDark = AppColors.hex(colorCode: '#3bc0bd');
   static Color grey = AppColors.hex(colorCode: '#5C5C5C');
   static Color greyBackground = AppColors.hex(colorCode: '#F0EEED');
