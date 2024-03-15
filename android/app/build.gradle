@@ -1,7 +1,7 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "org.jetbrains.kotlin.android"
 }
 
 def localProperties = new Properties()
@@ -76,4 +76,5 @@ flutter {
 
 dependencies {
      implementation 'androidx.multidex:multidex:2.0.1'
+     
 }
