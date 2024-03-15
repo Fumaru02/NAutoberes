@@ -98,7 +98,9 @@ class HomeView extends StatelessWidget {
                     SliverList(
                       delegate: SliverChildListDelegate(<Widget>[
                         Padding(
-                            padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.horizontal(2),
+                                left: SizeConfig.horizontal(2)),
                             child: Obx(
                               () => homeController.isLoading.isTrue
                                   ? CustomShimmerPlaceHolder(
@@ -118,10 +120,8 @@ class HomeView extends StatelessWidget {
                     // ignore: prefer_if_elements_to_conditional_expressions
                     SliverPadding(
                       padding: EdgeInsets.only(
-                          left: SizeConfig.horizontal(4),
                           top: SizeConfig.horizontal(4),
-                          right: SizeConfig.horizontal(4),
-                          bottom: SizeConfig.horizontal(20)),
+                          bottom: SizeConfig.horizontal(15)),
                       sliver: Obx(
                         () => homeController.isLoading.isTrue
                             ? SliverToBoxAdapter(

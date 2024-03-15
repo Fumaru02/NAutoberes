@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../models/brands_car/brands_car_model.dart';
 import '../models/list_mechanics/list_mechanics_model.dart';
 import '../models/users/users_model.dart';
 import '../views/chat/chat_room_view.dart';
@@ -13,6 +14,7 @@ class HomeServicesController extends GetxController {
   void onInit() {
     super.onInit();
     getMechanics();
+    getBrands();
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -25,10 +27,37 @@ class HomeServicesController extends GetxController {
   RxString userLevel = RxString('');
   RxString mechanicEmail = RxString('');
   RxString mechanicId = RxString('');
+  RxList<BrandsCarModel> brandsCarList =
+      RxList<BrandsCarModel>(<BrandsCarModel>[]);
   RxList<ListMechanicsModel> listMechanicsModel =
       RxList<ListMechanicsModel>(<ListMechanicsModel>[]);
   final User? user = FirebaseAuth.instance.currentUser;
   Rx<UsersModel> usersModel = UsersModel().obs;
+
+  Future<void> getBrands() async {
+    isLoading.value = true;
+    try {
+      await _firestore
+          .collection('data')
+          .doc('brands')
+          .get()
+          .then((DocumentSnapshot<dynamic> documentSnapshot) {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        final List<dynamic> carBrands = data['brands_car'] as List<dynamic>;
+        brandsCarList.value = carBrands
+            .map((dynamic e) =>
+                BrandsCarModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        log(data.toString());
+      });
+      update();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      log(e.toString());
+    }
+  }
 
   Future<void> addConncectionChat(
       String mechanicName, String mechanicUid, String receiverImage) async {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -45,13 +43,7 @@ class ChatBubbleWidget extends StatelessWidget {
                       //     );
                       //   }
                       // });
-                      Timer(
-                          Duration.zero,
-                          () => chatController.scrollController.animateTo(
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.fastOutSlowIn,
-                              chatController
-                                  .scrollController.position.maxScrollExtent));
+
                       if (index == 0) {
                         return ResponsiveRowColumn(
                           layout: ResponsiveRowColumnType.COLUMN,

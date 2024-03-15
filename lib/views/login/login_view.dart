@@ -12,7 +12,6 @@ import '../../utils/asset_list.dart';
 import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../authorize/authorize_view.dart';
-import '../widgets/custom/custom_background_apps.dart';
 import '../widgets/custom/custom_flat_button.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/custom/custom_text_field.dart';
@@ -28,72 +27,71 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-            systemNavigationBarColor: AppColors.black,
-            systemNavigationBarIconBrightness: Brightness.dark),
-        child: FrameScaffold(
-          heightBar: 0,
-          elevation: 0,
-          color: Platform.isIOS ? AppColors.black : null,
-          statusBarColor: AppColors.black,
-          colorScaffold: AppColors.blackBackground,
-          statusBarBrightness: Brightness.light,
-          view: GetBuilder<LoginController>(
-            init: LoginController(),
-            builder: (LoginController loginController) => CustomBackgroundApps(
-              child: Stack(
-                children: <Widget>[
-                  Center(
-                    child: ResponsiveRowColumn(
-                      layout: ResponsiveRowColumnType.COLUMN,
-                      children: <ResponsiveRowColumnItem>[
-                        const ResponsiveRowColumnItem(
-                            child: SpaceSizer(vertical: 12)),
-                        ResponsiveRowColumnItem(
-                            child: Obx(() => Hero(
-                                tag: authorizeController.tagHero.value,
-                                child: const AutoBeresLogo()))),
-                        const ResponsiveRowColumnItem(
-                            child: SpaceSizer(vertical: 7)),
-                        ResponsiveRowColumnItem(
-                            child: InterTextView(
-                                value: 'Welcome',
-                                size: SizeConfig.safeBlockHorizontal * 4.5,
-                                fontWeight: FontWeight.bold)),
-                        ResponsiveRowColumnItem(
-                            child: InterTextView(
-                                value: 'Nice to see you',
-                                size: SizeConfig.safeBlockHorizontal * 3.5,
-                                fontWeight: FontWeight.w300)),
-                        const ResponsiveRowColumnItem(
-                            child: SpaceSizer(vertical: 35)),
-                        ResponsiveRowColumnItem(
-                            child: CustomFlatButton(
-                          text: 'Continue',
-                          backgroundColor: AppColors.white,
-                          textColor: AppColors.blackBackground,
-                          onTap: () {
-                            loginController.tapAnimation.value =
-                                !loginController.tapAnimation.value;
-                          },
-                        )),
-                      ],
-                    ),
-                  ),
-                  ResponsiveRowColumnItem(
-                      child: Obx(
-                    () => AnimatedPositioned(
-                        curve: Curves.fastOutSlowIn,
-                        bottom: SizeConfig.horizontal(
-                            loginController.tapAnimation.isTrue ? 0 : -200),
-                        duration: const Duration(milliseconds: 300),
-                        child: cardFlipper(loginController)),
-                  ))
-                ],
+      value: SystemUiOverlayStyle(
+          systemNavigationBarColor: AppColors.black,
+          systemNavigationBarIconBrightness: Brightness.dark),
+      child: FrameScaffold(
+        heightBar: 0,
+        elevation: 0,
+        color: Platform.isIOS ? AppColors.black : null,
+        statusBarColor: AppColors.black,
+        colorScaffold: AppColors.blackBackground,
+        statusBarBrightness: Brightness.light,
+        view: GetBuilder<LoginController>(
+          init: LoginController(),
+          builder: (LoginController loginController) => Stack(
+            children: <Widget>[
+              Center(
+                child: ResponsiveRowColumn(
+                  layout: ResponsiveRowColumnType.COLUMN,
+                  children: <ResponsiveRowColumnItem>[
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 12)),
+                    ResponsiveRowColumnItem(
+                        child: Obx(() => Hero(
+                            tag: authorizeController.tagHero.value,
+                            child: const AutoBeresLogo()))),
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 7)),
+                    ResponsiveRowColumnItem(
+                        child: InterTextView(
+                            value: 'Welcome',
+                            size: SizeConfig.safeBlockHorizontal * 4.5,
+                            fontWeight: FontWeight.bold)),
+                    ResponsiveRowColumnItem(
+                        child: InterTextView(
+                            value: 'Nice to see you',
+                            size: SizeConfig.safeBlockHorizontal * 3.5,
+                            fontWeight: FontWeight.w300)),
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 35)),
+                    ResponsiveRowColumnItem(
+                        child: CustomFlatButton(
+                      text: 'Continue',
+                      backgroundColor: AppColors.white,
+                      textColor: AppColors.blackBackground,
+                      onTap: () {
+                        loginController.tapAnimation.value =
+                            !loginController.tapAnimation.value;
+                      },
+                    )),
+                  ],
+                ),
               ),
-            ),
+              ResponsiveRowColumnItem(
+                  child: Obx(
+                () => AnimatedPositioned(
+                    curve: Curves.fastOutSlowIn,
+                    bottom: SizeConfig.horizontal(
+                        loginController.tapAnimation.isTrue ? 0 : -200),
+                    duration: const Duration(milliseconds: 300),
+                    child: cardFlipper(loginController)),
+              ))
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget cardFlipper(LoginController loginController) {

@@ -1,8 +1,9 @@
+// ignore: prefer_relative_imports
+import 'package:autoberes/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../../../utils/size_config.dart';
 import '../../../utils/app_colors.dart';
 import '../text/inter_text_view.dart';
 

@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_services_controller.dart';
+import '../../models/brands_car/brands_car_model.dart';
 import '../../models/list_mechanics/list_mechanics_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
@@ -66,18 +68,18 @@ class HomeServicesView extends StatelessWidget {
                       ],
                     ),
                   )),
-                  ResponsiveRowColumnItem(
-                      child: Padding(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.horizontal(6),
-                        top: SizeConfig.horizontal(2)),
-                    child: InterTextView(
-                      value: 'Hasil Pencarian :',
-                      color: AppColors.black,
-                      fontWeight: FontWeight.bold,
-                      size: SizeConfig.safeBlockHorizontal * 4.5,
-                    ),
-                  )),
+                  // ResponsiveRowColumnItem(
+                  //     child: Padding(
+                  //   padding: EdgeInsets.only(
+                  //       left: SizeConfig.horizontal(6),
+                  //       top: SizeConfig.horizontal(2)),
+                  //   child: InterTextView(
+                  //     value: 'Hasil Pencarian :',
+                  //     color: AppColors.black,
+                  //     fontWeight: FontWeight.bold,
+                  //     size: SizeConfig.safeBlockHorizontal * 4.5,
+                  //   ),
+                  // )),
                   ResponsiveRowColumnItem(
                     child: Expanded(
                       child: Obx(
@@ -142,76 +144,235 @@ class ListMechanics extends StatelessWidget {
           ));
         },
         child: Container(
-            padding: EdgeInsets.all(SizeConfig.horizontal(4)),
-            margin: EdgeInsets.symmetric(
-                horizontal: SizeConfig.horizontal(6),
-                vertical: SizeConfig.horizontal(3)),
-            decoration: BoxDecoration(
-                color: AppColors.white,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      spreadRadius: 3,
-                      blurRadius: 2,
-                      offset: const Offset(0, 2),
-                      color: AppColors.greyDisabled)
-                ],
-                borderRadius: BorderRadius.all(
-                    Radius.circular(SizeConfig.horizontal(4)))),
-            child: ResponsiveRowColumn(
-              layout: ResponsiveRowColumnType.ROW,
-              children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(
-                    child: SizedBox(
-                        height: SizeConfig.horizontal(16),
-                        child: model.homeServiceImage == '' ||
-                                model.homeServiceImage == null
-                            ? CustomShimmerPlaceHolder(
-                                borderRadius: SizeConfig.horizontal(20),
-                                width: SizeConfig.horizontal(16))
-                            : CircleAvatar(
-                                minRadius: 30,
-                                backgroundImage: NetworkImage(
-                                  model.homeServiceImage,
-                                  //     ),
-                                )))),
-                ResponsiveRowColumnItem(
-                    child: ResponsiveRowColumn(
-                  columnMainAxisSize: MainAxisSize.min,
-                  layout: ResponsiveRowColumnType.COLUMN,
-                  columnPadding:
-                      EdgeInsets.only(left: SizeConfig.horizontal(2)),
-                  columnCrossAxisAlignment: CrossAxisAlignment.start,
-                  children: <ResponsiveRowColumnItem>[
-                    ResponsiveRowColumnItem(
-                        child: InterTextView(
-                            value: model.homeServiceName,
-                            color: AppColors.black,
-                            fontWeight: FontWeight.bold)),
-                    ResponsiveRowColumnItem(
-                        child: InterTextView(
-                            value: model.homeServiceAddress,
-                            color: AppColors.greyButton,
-                            size: SizeConfig.safeBlockHorizontal * 3.5)),
-                    ResponsiveRowColumnItem(
-                        child: InterTextView(
-                            value: model.userLevel,
-                            color: AppColors.black,
-                            size: SizeConfig.safeBlockHorizontal * 4,
-                            fontWeight: FontWeight.bold))
-                  ],
-                )),
-                const ResponsiveRowColumnItem(child: Spacer()),
-                ResponsiveRowColumnItem(
-                    child: Icon(
-                  Icons.star,
-                  color: AppColors.gold,
-                )),
-                ResponsiveRowColumnItem(
-                    child: InterTextView(
-                        value: model.userRating.toString(),
-                        size: SizeConfig.safeBlockHorizontal * 3.5,
-                        color: AppColors.black)),
+          height: SizeConfig.horizontal(62),
+          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+          margin: EdgeInsets.symmetric(
+              horizontal: SizeConfig.horizontal(6),
+              vertical: SizeConfig.horizontal(3)),
+          decoration: BoxDecoration(
+              color: AppColors.white,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    spreadRadius: 3,
+                    blurRadius: 2,
+                    offset: const Offset(0, 2),
+                    color: AppColors.greyDisabled)
               ],
-            )));
+              borderRadius:
+                  BorderRadius.all(Radius.circular(SizeConfig.horizontal(1)))),
+          child: ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.COLUMN,
+            columnCrossAxisAlignment: CrossAxisAlignment.start,
+            children: <ResponsiveRowColumnItem>[
+              ResponsiveRowColumnItem(
+                  child: SizedBox(
+                      height: SizeConfig.horizontal(16),
+                      child: model.homeServiceImage == '' ||
+                              model.homeServiceImage == null
+                          ? CustomShimmerPlaceHolder(
+                              borderRadius: SizeConfig.horizontal(20),
+                              width: SizeConfig.horizontal(16))
+                          : ResponsiveRowColumn(
+                              layout: ResponsiveRowColumnType.ROW,
+                              children: <ResponsiveRowColumnItem>[
+                                ResponsiveRowColumnItem(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            SizeConfig.horizontal(1))),
+                                    child: SizedBox(
+                                        height: SizeConfig.horizontal(25),
+                                        width: SizeConfig.horizontal(25),
+                                        child: CachedNetworkImage(
+                                          memCacheHeight: 300,
+                                          memCacheWidth: 300,
+                                          imageUrl: model.homeServiceImage,
+                                          fit: BoxFit.fill,
+                                        )),
+                                  ),
+                                ),
+                                const ResponsiveRowColumnItem(
+                                    child: SpaceSizer(
+                                  horizontal: 3,
+                                )),
+                                ResponsiveRowColumnItem(
+                                    child: ResponsiveRowColumn(
+                                  layout: ResponsiveRowColumnType.COLUMN,
+                                  columnCrossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: <ResponsiveRowColumnItem>[
+                                    ResponsiveRowColumnItem(
+                                      child: InterTextView(
+                                          value: model.homeServiceName,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    ResponsiveRowColumnItem(
+                                      child: InterTextView(
+                                        value: model.homeServiceAddress,
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        size: SizeConfig.safeBlockHorizontal *
+                                            3.5,
+                                      ),
+                                    ),
+                                    ResponsiveRowColumnItem(
+                                        child: ResponsiveRowColumn(
+                                      layout: ResponsiveRowColumnType.ROW,
+                                      rowMainAxisSize: MainAxisSize.min,
+                                      children: <ResponsiveRowColumnItem>[
+                                        ResponsiveRowColumnItem(
+                                          child: Icon(
+                                            Icons.star,
+                                            color: AppColors.gold,
+                                          ),
+                                        ),
+                                        ResponsiveRowColumnItem(
+                                            child: InterTextView(
+                                                value:
+                                                    model.userRating.toString(),
+                                                size: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    3.5,
+                                                color: AppColors.black)),
+                                      ],
+                                    )),
+                                  ],
+                                )),
+                              ],
+                            ))),
+              const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+              ResponsiveRowColumnItem(
+                  child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.ROW,
+                      children: <ResponsiveRowColumnItem>[
+                    ResponsiveRowColumnItem(
+                        child: Icon(
+                      Icons.collections_bookmark_rounded,
+                      color: AppColors.blackBackground,
+                      size: SizeConfig.horizontal(8),
+                    )),
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(horizontal: 1.5)),
+                    ResponsiveRowColumnItem(
+                        child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.COLUMN,
+                      columnCrossAxisAlignment: CrossAxisAlignment.start,
+                      children: <ResponsiveRowColumnItem>[
+                        ResponsiveRowColumnItem(
+                          child: InterTextView(
+                            value: 'Handled Brands',
+                            color: AppColors.black,
+                            size: SizeConfig.safeBlockHorizontal * 3,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        ResponsiveRowColumnItem(
+                            child: SizedBox(
+                          height: SizeConfig.horizontal(7.5),
+                          width: SizeConfig.horizontal(62),
+                          child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  homeServicesController.brandsCarList.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  BrandsList(
+                                    model: homeServicesController
+                                        .brandsCarList[index],
+                                  )),
+                        )),
+                      ],
+                    ))
+                  ])),
+              const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+              ResponsiveRowColumnItem(
+                  child: InterTextView(
+                value: 'Description',
+                color: AppColors.black,
+                size: SizeConfig.safeBlockHorizontal * 3.5,
+                fontWeight: FontWeight.w500,
+              )),
+              ResponsiveRowColumnItem(
+                  child: SizedBox(
+                width: SizeConfig.horizontal(80),
+                height: SizeConfig.horizontal(18),
+                child: InterTextView(
+                  overFlow: TextOverflow.ellipsis,
+                  fontWeight: FontWeight.w300,
+                  maxLines: 4,
+                  value:
+                      'blawlaldawdlaowdkoajwdojawodkoawkdoakwodkaossasdasdasdsadsdkdoakwodkaoksodwoakodkwaodkoaksodkwaodkowakodkaowdkoawkdojaowjhoajavoiajoijavoiwvjwoqajvdjajdjwdoajwvoajdoijawoidjaoiwjdoiajdoivajdjvaojwdvoiawjdojowajdvoiajdojaowj',
+                  color: AppColors.black,
+                  size: SizeConfig.safeBlockHorizontal * 3,
+                ),
+              ))
+            ],
+          ),
+          // child: ResponsiveRowColumn(
+          //   layout: ResponsiveRowColumnType.ROW,
+          //   children: <ResponsiveRowColumnItem>[
+          //     ResponsiveRowColumnItem(
+          //         child: SizedBox(
+          //             height: SizeConfig.horizontal(16),
+          //             child: model.homeServiceImage == '' ||
+          //                     model.homeServiceImage == null
+          //                 ? CustomShimmerPlaceHolder(
+          //                     borderRadius: SizeConfig.horizontal(20),
+          //                     width: SizeConfig.horizontal(16))
+          //                 : CircleAvatar(
+          //                     minRadius: 30,
+          //                     backgroundImage: NetworkImage(
+          //                       model.homeServiceImage,
+          //                       //     ),
+          //                     )))),
+          //     ResponsiveRowColumnItem(
+          //         child: ResponsiveRowColumn(
+          //       columnMainAxisSize: MainAxisSize.min,
+          //       layout: ResponsiveRowColumnType.COLUMN,
+          //       columnPadding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
+          //       columnCrossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <ResponsiveRowColumnItem>[
+
+          //         ResponsiveRowColumnItem(
+          //             child: InterTextView(
+          //                 value: model.homeServiceAddress,
+          //                 color: AppColors.greyButton,
+          //                 size: SizeConfig.safeBlockHorizontal * 3.5)),
+          //         ResponsiveRowColumnItem(
+          //             child: InterTextView(
+          //                 value: model.userLevel,
+          //                 color: AppColors.black,
+          //                 size: SizeConfig.safeBlockHorizontal * 4,
+          //                 fontWeight: FontWeight.bold))
+          //       ],
+          //     )),
+
+          //   ],
+          // ),
+        ));
+  }
+}
+
+class BrandsList extends StatelessWidget {
+  const BrandsList({
+    super.key,
+    required this.model,
+  });
+
+  final BrandsCarModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.horizontal(1)),
+        child: CachedNetworkImage(
+          imageUrl: model.brandImage,
+          memCacheHeight: 90,
+          memCacheWidth: 90,
+          width: SizeConfig.horizontal(5),
+          height: SizeConfig.horizontal(12),
+        ));
   }
 }
