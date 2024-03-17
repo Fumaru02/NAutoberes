@@ -42,6 +42,7 @@ class HomeServicesView extends StatelessWidget {
                       children: <ResponsiveRowColumnItem>[
                         ResponsiveRowColumnItem(
                             child: CustomTextField(
+                          borderRadius: 2,
                           title: '',
                           hintText: 'Search...',
                           prefixIcon: Icon(
@@ -58,7 +59,7 @@ class HomeServicesView extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(8))),
+                                  const BorderRadius.all(Radius.circular(2))),
                           child: Icon(
                             Icons.sort,
                             size: SizeConfig.horizontal(11),
@@ -81,33 +82,81 @@ class HomeServicesView extends StatelessWidget {
                   //   ),
                   // )),
                   ResponsiveRowColumnItem(
-                    child: Expanded(
-                      child: Obx(
-                        () => ListView.builder(
-                          itemCount: homeServicesController.isLoading.isTrue
-                              ? 2
-                              : homeServicesController
-                                  .listMechanicsModel.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              homeServicesController.isLoading.value == true
-                                  ? Padding(
-                                      padding: EdgeInsets.all(
-                                          SizeConfig.horizontal(2)),
-                                      child: CustomShimmerPlaceHolder(
-                                        width: SizeConfig.horizontal(30),
-                                        height: SizeConfig.horizontal(20),
-                                      ),
-                                    )
-                                  : ListMechanics(
-                                      model: homeServicesController
-                                          .listMechanicsModel[index],
-                                      homeServicesController:
-                                          homeServicesController,
-                                    ),
-                        ),
-                      ),
-                    ),
+                    child: TabBar(
+                        indicatorColor: AppColors.blackBackground,
+                        controller: homeServicesController.tabController,
+                        labelStyle:
+                            InterStyle().labelStyle(AppColors.blackBackground),
+                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                        tabs: <Widget>[
+                          InterTextView(
+                              value: 'Mobil',
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                              size: SizeConfig.safeBlockHorizontal * 4),
+                          InterTextView(
+                              value: 'Motor',
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                              size: SizeConfig.safeBlockHorizontal * 4),
+                        ]),
                   ),
+                  ResponsiveRowColumnItem(
+                      child: Expanded(
+                    child: TabBarView(
+                      controller: homeServicesController.tabController,
+                      children: <Widget>[
+                        Obx(
+                          () => ListView.builder(
+                            itemCount: homeServicesController.isLoading.isTrue
+                                ? 2
+                                : homeServicesController
+                                    .listMechanicsModel.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                homeServicesController.isLoading.value == true
+                                    ? Padding(
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.horizontal(2)),
+                                        child: CustomShimmerPlaceHolder(
+                                          width: SizeConfig.horizontal(30),
+                                          height: SizeConfig.horizontal(20),
+                                        ),
+                                      )
+                                    : ListMechanics(
+                                        model: homeServicesController
+                                            .listMechanicsModel[index],
+                                        homeServicesController:
+                                            homeServicesController,
+                                      ),
+                          ),
+                        ),
+                        Obx(
+                          () => ListView.builder(
+                            itemCount: homeServicesController.isLoading.isTrue
+                                ? 2
+                                : homeServicesController
+                                    .listMechanicsModel.length,
+                            itemBuilder: (BuildContext context, int index) =>
+                                homeServicesController.isLoading.value == true
+                                    ? Padding(
+                                        padding: EdgeInsets.all(
+                                            SizeConfig.horizontal(2)),
+                                        child: CustomShimmerPlaceHolder(
+                                          width: SizeConfig.horizontal(30),
+                                          height: SizeConfig.horizontal(20),
+                                        ),
+                                      )
+                                    : ListMechanics(
+                                        model: homeServicesController
+                                            .listMechanicsModel[index],
+                                        homeServicesController:
+                                            homeServicesController,
+                                      ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
                 ],
               ),
             ));
@@ -145,7 +194,7 @@ class ListMechanics extends StatelessWidget {
         },
         child: Container(
           height: SizeConfig.horizontal(62),
-          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+          padding: EdgeInsets.all(SizeConfig.horizontal(3)),
           margin: EdgeInsets.symmetric(
               horizontal: SizeConfig.horizontal(6),
               vertical: SizeConfig.horizontal(3)),
@@ -294,63 +343,23 @@ class ListMechanics extends StatelessWidget {
                 size: SizeConfig.safeBlockHorizontal * 3.5,
                 fontWeight: FontWeight.w500,
               )),
+              const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
               ResponsiveRowColumnItem(
                   child: SizedBox(
                 width: SizeConfig.horizontal(80),
-                height: SizeConfig.horizontal(18),
+                height: SizeConfig.horizontal(19),
                 child: InterTextView(
                   overFlow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w300,
                   maxLines: 4,
                   value:
-                      'blawlaldawdlaowdkoajwdojawodkoawkdoakwodkaossasdasdasdsadsdkdoakwodkaoksodwoakodkwaodkoaksodkwaodkowakodkaowdkoawkdojaowjhoajavoiajoijavoiwvjwoqajvdjajdjwdoajwvoajdoijawoidjaoiwjdoiajdoivajdjvaojwdvoiawjdojowajdvoiajdojaowj',
+                      'blawlaldawdlaowdkoajwdojawodkoawkdasdasdaoakwodsdsdkaossasdasdasdsadsdkdoakwodkaoksodwoakodkwaodkoaksodkwaodkowakodkaowdkoawkdojaowjhoajavoiajoijavoiwvjwoqajvdjajdjwdoajwvoajdoijawoidjaoiwjdoiajdoivajdjvaojwdvoiawjdojowajdvoiajdojaowj',
                   color: AppColors.black,
                   size: SizeConfig.safeBlockHorizontal * 3,
                 ),
               ))
             ],
           ),
-          // child: ResponsiveRowColumn(
-          //   layout: ResponsiveRowColumnType.ROW,
-          //   children: <ResponsiveRowColumnItem>[
-          //     ResponsiveRowColumnItem(
-          //         child: SizedBox(
-          //             height: SizeConfig.horizontal(16),
-          //             child: model.homeServiceImage == '' ||
-          //                     model.homeServiceImage == null
-          //                 ? CustomShimmerPlaceHolder(
-          //                     borderRadius: SizeConfig.horizontal(20),
-          //                     width: SizeConfig.horizontal(16))
-          //                 : CircleAvatar(
-          //                     minRadius: 30,
-          //                     backgroundImage: NetworkImage(
-          //                       model.homeServiceImage,
-          //                       //     ),
-          //                     )))),
-          //     ResponsiveRowColumnItem(
-          //         child: ResponsiveRowColumn(
-          //       columnMainAxisSize: MainAxisSize.min,
-          //       layout: ResponsiveRowColumnType.COLUMN,
-          //       columnPadding: EdgeInsets.only(left: SizeConfig.horizontal(2)),
-          //       columnCrossAxisAlignment: CrossAxisAlignment.start,
-          //       children: <ResponsiveRowColumnItem>[
-
-          //         ResponsiveRowColumnItem(
-          //             child: InterTextView(
-          //                 value: model.homeServiceAddress,
-          //                 color: AppColors.greyButton,
-          //                 size: SizeConfig.safeBlockHorizontal * 3.5)),
-          //         ResponsiveRowColumnItem(
-          //             child: InterTextView(
-          //                 value: model.userLevel,
-          //                 color: AppColors.black,
-          //                 size: SizeConfig.safeBlockHorizontal * 4,
-          //                 fontWeight: FontWeight.bold))
-          //       ],
-          //     )),
-
-          //   ],
-          // ),
         ));
   }
 }

@@ -14,7 +14,6 @@ import '../utils/enums.dart';
 
 class LoginController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;
-
   final SharedPref sharedPref = SharedPref();
   final RxBool isObscurePassword = true.obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;

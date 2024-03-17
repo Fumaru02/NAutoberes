@@ -10,16 +10,68 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../helpers/snackbar.dart';
+import '../models/brands_car/brands_car_model.dart';
 import '../utils/enums.dart';
 
 class HomeServiceManagerController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+    getBrands();
+  }
+
   final TextEditingController hsName = TextEditingController();
   final TextEditingController hsAddress = TextEditingController();
   final TextEditingController hsSkill = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   User? user;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   RxBool isLoading = RxBool(false);
+  RxBool isSelected = RxBool(false);
   File? workshopImage;
+  RxList<BrandsCarModel> brandsCarList =
+      RxList<BrandsCarModel>(<BrandsCarModel>[]);
+  RxList<BrandsCarModel> foundedBrand =
+      RxList<BrandsCarModel>(<BrandsCarModel>[]);
+  // RxList<BrandsCarModel> selectedBrand =
+  //     RxList<BrandsCarModel>(<BrandsCarModel>[]);
+
+  void searchBrand(String query) {
+    final List<BrandsCarModel> suggestions =
+        brandsCarList.where((BrandsCarModel brandKey) {
+      final String brandName = brandKey.brand.toLowerCase();
+      final String input = query.toLowerCase();
+      return brandName.contains(input);
+    }).toList();
+
+    foundedBrand.value = suggestions;
+    update();
+  }
+
+  Future<void> getBrands() async {
+    isLoading.value = true;
+    try {
+      await _firestore
+          .collection('data')
+          .doc('brands')
+          .get()
+          .then((DocumentSnapshot<dynamic> documentSnapshot) {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        final List<dynamic> carBrands = data['brands_car'] as List<dynamic>;
+        brandsCarList.value = carBrands
+            .map((dynamic e) =>
+                BrandsCarModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        log(data.toString());
+      });
+      update();
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      log(e.toString());
+    }
+  }
 
   Future<dynamic> pickImage(ImageSource source) async {
     isLoading.value = true;

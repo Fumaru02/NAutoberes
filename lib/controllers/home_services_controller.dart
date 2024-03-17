@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/brands_car/brands_car_model.dart';
@@ -9,7 +10,8 @@ import '../models/list_mechanics/list_mechanics_model.dart';
 import '../models/users/users_model.dart';
 import '../views/chat/chat_room_view.dart';
 
-class HomeServicesController extends GetxController {
+class HomeServicesController extends GetxController
+    with GetTickerProviderStateMixin {
   @override
   void onInit() {
     super.onInit();
@@ -17,6 +19,7 @@ class HomeServicesController extends GetxController {
     getBrands();
   }
 
+  late TabController tabController = TabController(length: 2, vsync: this);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxBool flagNewConnection = RxBool(false);
   RxBool isLoading = RxBool(false);
@@ -31,8 +34,8 @@ class HomeServicesController extends GetxController {
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
   RxList<ListMechanicsModel> listMechanicsModel =
       RxList<ListMechanicsModel>(<ListMechanicsModel>[]);
-  final User? user = FirebaseAuth.instance.currentUser;
   Rx<UsersModel> usersModel = UsersModel().obs;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> getBrands() async {
     isLoading.value = true;

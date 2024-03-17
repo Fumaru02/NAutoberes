@@ -19,6 +19,8 @@ import '../widgets/frame/frame_scaffold.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/logo/autoberes_logo.dart';
 import '../widgets/text/inter_text_view.dart';
+import 'akun_view.dart';
+import 'widgets/select_cars.dart';
 
 class HomeServiceManagerView extends StatelessWidget {
   const HomeServiceManagerView({super.key});
@@ -71,8 +73,9 @@ class HomeServiceManagerView extends StatelessWidget {
                                   child: SpaceSizer(vertical: 2)),
                               ResponsiveRowColumnItem(
                                   child: CustomTextField(
-                                title: 'Home Service Name',
-                                hintText: 'ex:KARSOSALI',
+                                borderRadius: 2,
+                                title: 'Nama Usaha Individu Service',
+                                hintText: 'contoh:Rian Motor',
                                 controller: homeServiceManagerController.hsName,
                               )),
                               ResponsiveRowColumnItem(
@@ -89,8 +92,14 @@ class HomeServiceManagerView extends StatelessWidget {
                                 children: <ResponsiveRowColumnItem>[
                                   ResponsiveRowColumnItem(
                                     child: CustomTextField(
-                                        width: 59,
-                                        hintText: 'ex:disamping kuburan hitler',
+                                        textAlignVertical:
+                                            TextAlignVertical.top,
+                                        expands: true,
+                                        height: SizeConfig.horizontal(20),
+                                        width: 60,
+                                        borderRadius: 2,
+                                        hintText:
+                                            'contoh:5m dari masjid At-taqwa',
                                         title: 'Berikan Details alamat',
                                         controller: homeServiceManagerController
                                             .hsAddress),
@@ -118,13 +127,38 @@ class HomeServiceManagerView extends StatelessWidget {
                               const ResponsiveRowColumnItem(
                                   child: SpaceSizer(vertical: 1)),
                               ResponsiveRowColumnItem(
+                                  child: _dropdown(context)),
+                              const ResponsiveRowColumnItem(
+                                  child: SpaceSizer(vertical: 1)),
+                              ResponsiveRowColumnItem(
+                                  child:
+                                      _brandsBox(homeServiceManagerController)),
+                              const ResponsiveRowColumnItem(
+                                  child: SpaceSizer(vertical: 1)),
+                              ResponsiveRowColumnItem(
                                   child: CustomTextField(
-                                      title: 'Kemampuan mu',
-                                      hintText: 'Tune-Up Ibu ibu',
+                                      textAlignVertical: TextAlignVertical.top,
+                                      expands: true,
+                                      height: SizeConfig.horizontal(30),
+                                      title: 'Deskripsikan Kemampuan mu',
+                                      hintText:
+                                          'contoh: Saya adalah Seorang mekanik handal di daerah bekasi',
+                                      borderRadius: 2,
                                       controller: homeServiceManagerController
                                           .hsSkill)),
                               const ResponsiveRowColumnItem(
                                   child: SpaceSizer(vertical: 5)),
+                              ResponsiveRowColumnItem(
+                                  child: Padding(
+                                padding: EdgeInsets.only(
+                                    right: SizeConfig.horizontal(8)),
+                                child: InterTextView(
+                                  value:
+                                      '*Pastikan kamu sudah mengetap icon biru diatas',
+                                  size: SizeConfig.safeBlockHorizontal * 3,
+                                  color: AppColors.redAlert,
+                                ),
+                              )),
                               ResponsiveRowColumnItem(
                                   child: Obx(
                                 () => CustomFlatButton(
@@ -145,6 +179,121 @@ class HomeServiceManagerView extends StatelessWidget {
                 ),
               )),
         ));
+  }
+
+  ResponsiveRowColumn _brandsBox(
+      HomeServiceManagerController homeServiceManagerController) {
+    return ResponsiveRowColumn(
+      layout: ResponsiveRowColumnType.COLUMN,
+      columnCrossAxisAlignment: CrossAxisAlignment.start,
+      children: <ResponsiveRowColumnItem>[
+        ResponsiveRowColumnItem(
+            child: InterTextView(
+                value: 'Pilih brand yang kamu kuasai',
+                color: AppColors.black,
+                size: SizeConfig.safeBlockHorizontal * 4,
+                fontWeight: FontWeight.w500)),
+        ResponsiveRowColumnItem(
+            child: CustomRippleButton(
+                borderRadius: BorderRadius.zero,
+                onTap: () => Get.to(const SelectCars()),
+                child: Container(
+                    width: SizeConfig.horizontal(80),
+                    height: SizeConfig.horizontal(14),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(SizeConfig.horizontal(2))),
+                        color: AppColors.white,
+                        border: Border.all(width: SizeConfig.horizontal(0.2))),
+                    child: Center(
+                      child: InterTextView(
+                        value: 'No Brand Selected',
+                        color: AppColors.greyDisabled,
+                      ),
+                    )))),
+      ],
+    );
+  }
+
+  ResponsiveRowColumn _dropdown(BuildContext context) {
+    return ResponsiveRowColumn(
+      layout: ResponsiveRowColumnType.COLUMN,
+      columnCrossAxisAlignment: CrossAxisAlignment.start,
+      children: <ResponsiveRowColumnItem>[
+        ResponsiveRowColumnItem(
+            child: InterTextView(
+                value: 'Jenis Kendaraan',
+                color: AppColors.black,
+                size: SizeConfig.safeBlockHorizontal * 4,
+                fontWeight: FontWeight.w500)),
+        ResponsiveRowColumnItem(
+            child: CustomRippleButton(
+                borderRadius: BorderRadius.zero,
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) => SizedBox(
+                      height: SizeConfig.horizontal(40),
+                      width: SizeConfig.screenWidth,
+                      child: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        columnMainAxisAlignment: MainAxisAlignment.center,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                              child: CustomDividerText(
+                            useArrowIcon: false,
+                            isCenter: false,
+                            title: 'Motor',
+                            textSize: 5,
+                            onTap: () {
+                              Get.back();
+                            },
+                          )),
+                          const ResponsiveRowColumnItem(
+                              child: SpaceSizer(vertical: 1)),
+                          ResponsiveRowColumnItem(
+                              child: CustomDividerText(
+                            useArrowIcon: false,
+                            isCenter: false,
+                            title: 'Mobil',
+                            textSize: 5,
+                            onTap: () {
+                              Get.back();
+                            },
+                          ))
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                    width: SizeConfig.horizontal(80),
+                    height: SizeConfig.horizontal(14),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(SizeConfig.horizontal(2))),
+                        color: AppColors.white,
+                        border: Border.all(width: SizeConfig.horizontal(0.2))),
+                    child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.ROW,
+                      rowPadding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.horizontal(2)),
+                      children: <ResponsiveRowColumnItem>[
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                          value: 'No Selected',
+                          color: AppColors.greyDisabled,
+                        )),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(horizontal: 1)),
+                        const ResponsiveRowColumnItem(child: Spacer()),
+                        ResponsiveRowColumnItem(
+                            child: Icon(Icons.arrow_drop_down,
+                                color: AppColors.blackBackground, size: 34)),
+                      ],
+                    )))),
+      ],
+    );
   }
 
   Obx _mapImageWrapper(MapsController mapsController) {

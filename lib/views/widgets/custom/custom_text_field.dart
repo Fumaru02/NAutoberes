@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.textColor,
     this.hintTextColor,
     this.isPasswordField = false,
+    this.expands = false,
     this.suffixIcon,
     this.onChanged,
     this.autofillHint,
@@ -46,6 +47,7 @@ class CustomTextField extends StatelessWidget {
   final Color? textColor;
   final Color? hintTextColor;
   final bool? isPasswordField;
+  final bool expands;
   final Widget? suffixIcon;
   final Function(String)? onChanged;
   final Iterable<String>? autofillHint;
@@ -135,6 +137,7 @@ class CustomTextField extends StatelessWidget {
                           maxLines: maxLines,
                           textInputAction: textInputAction,
                           onChanged: onChanged,
+                          expands: expands,
                           onFieldSubmitted: onFieldSubmitted,
                           keyboardType: keyboardType ?? TextInputType.text,
                           // ignore: avoid_bool_literals_in_conditional_expressions, use_if_null_to_convert_nulls_to_bools
