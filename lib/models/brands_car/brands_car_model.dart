@@ -8,6 +8,7 @@ class BrandsCarModel {
     required this.id,
     required this.brand,
     required this.brandImage,
+    required this.isSelected,
   });
   factory BrandsCarModel.fromJson(Map<String, dynamic> json) =>
       _$BrandsCarModelFromJson(json);
@@ -17,6 +18,8 @@ class BrandsCarModel {
   String brand;
   @JsonKey(name: 'brand_image')
   String brandImage;
+  @JsonKey(name: 'is_selected')
+  bool isSelected;
 
   Map<String, dynamic> toJson() => _$BrandsCarModelToJson(this);
 }

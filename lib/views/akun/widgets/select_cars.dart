@@ -9,6 +9,7 @@ import '../../../models/brands_car/brands_car_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
 import '../../widgets/custom/custom_flat_button.dart';
+import '../../widgets/custom/custom_ripple_button.dart';
 import '../../widgets/custom/custom_text_field.dart';
 import '../../widgets/frame/frame_scaffold.dart';
 import '../../widgets/text/inter_text_view.dart';
@@ -54,26 +55,33 @@ class SelectCars extends StatelessWidget {
                                 title: '')),
                         ResponsiveRowColumnItem(
                           child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(
-                                bottom: SizeConfig.horizontal(10)),
-                            itemCount: homeServiceManagerController
-                                    .foundedBrand.isNotEmpty
-                                ? homeServiceManagerController
-                                    .foundedBrand.length
-                                : homeServiceManagerController
-                                    .brandsCarList.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                listTileBrands(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(
+                                  bottom: SizeConfig.horizontal(10)),
+                              itemCount: homeServiceManagerController
+                                      .foundedBrand.isNotEmpty
+                                  ? homeServiceManagerController
+                                      .foundedBrand.length
+                                  : homeServiceManagerController
+                                      .brandsCarList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final BrandsCarModel item =
                                     homeServiceManagerController
-                                            .foundedBrand.isNotEmpty
-                                        ? homeServiceManagerController
-                                            .foundedBrand[index]
-                                        : homeServiceManagerController
-                                            .brandsCarList[index],
-                                    homeServiceManagerController),
-                          ),
+                                        .brandsCarList[index];
+                                return CustomRippleButton(
+                                  onTap: () => homeServiceManagerController
+                                      .toggleSelection(item),
+                                  child: listTileBrands(
+                                      homeServiceManagerController
+                                              .foundedBrand.isNotEmpty
+                                          ? homeServiceManagerController
+                                              .foundedBrand[index]
+                                          : homeServiceManagerController
+                                              .brandsCarList[index],
+                                      homeServiceManagerController),
+                                );
+                              }),
                         ),
                       ],
                     ),
@@ -87,8 +95,11 @@ class SelectCars extends StatelessWidget {
                       child: CustomFlatButton(
                           width: 80,
                           height: 8,
-                          text: 'Selected (0)',
-                          onTap: () {}),
+                          text:
+                              'Selected (${homeServiceManagerController.selectedBrand.length})',
+                          onTap: () {
+                            Get.back();
+                          }),
                     ),
                   )
                 ],
@@ -103,8 +114,11 @@ class SelectCars extends StatelessWidget {
         value: model.brand,
         color: AppColors.black,
       ),
-      trailing: homeServiceManagerController.isSelected.isTrue
-          ? const Icon(Icons.check)
+      trailing: model.isSelected == true
+          ? Icon(
+              Icons.check,
+              color: AppColors.blackBackground,
+            )
           : const SizedBox.shrink(),
       leading: CachedNetworkImage(
         width: SizeConfig.horizontal(10),

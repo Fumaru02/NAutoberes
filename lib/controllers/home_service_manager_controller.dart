@@ -33,8 +33,18 @@ class HomeServiceManagerController extends GetxController {
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
   RxList<BrandsCarModel> foundedBrand =
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
-  // RxList<BrandsCarModel> selectedBrand =
-  //     RxList<BrandsCarModel>(<BrandsCarModel>[]);
+  RxList<BrandsCarModel> selectedBrand =
+      RxList<BrandsCarModel>(<BrandsCarModel>[]);
+
+  void toggleSelection(BrandsCarModel item) {
+    if (item.isSelected) {
+      selectedBrand.remove(item);
+    } else {
+      selectedBrand.add(item);
+    }
+    item.isSelected = !item.isSelected;
+    update();
+  }
 
   void searchBrand(String query) {
     final List<BrandsCarModel> suggestions =

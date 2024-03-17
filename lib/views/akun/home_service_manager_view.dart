@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
@@ -7,6 +8,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_service_manager_controller.dart';
 import '../../controllers/maps_controller.dart';
+import '../../models/brands_car/brands_car_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
 import '../../utils/enums.dart';
@@ -198,19 +200,38 @@ class HomeServiceManagerView extends StatelessWidget {
                 borderRadius: BorderRadius.zero,
                 onTap: () => Get.to(const SelectCars()),
                 child: Container(
-                    width: SizeConfig.horizontal(80),
-                    height: SizeConfig.horizontal(14),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(SizeConfig.horizontal(2))),
-                        color: AppColors.white,
-                        border: Border.all(width: SizeConfig.horizontal(0.2))),
-                    child: Center(
-                      child: InterTextView(
-                        value: 'No Brand Selected',
-                        color: AppColors.greyDisabled,
-                      ),
-                    )))),
+                  width: SizeConfig.horizontal(80),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(SizeConfig.horizontal(2))),
+                      color: AppColors.white,
+                      border: Border.all(width: SizeConfig.horizontal(0.2))),
+                  child: homeServiceManagerController.selectedBrand.isEmpty
+                      ? Center(
+                          child: InterTextView(
+                            value: 'No Brand Selected',
+                            color: AppColors.greyDisabled,
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+                          child: Wrap(
+                            spacing: SizeConfig.horizontal(2),
+                            runSpacing: SizeConfig.horizontal(2),
+                            children: homeServiceManagerController.selectedBrand
+                                .map(
+                                  (BrandsCarModel item) => CachedNetworkImage(
+                                    width: SizeConfig.horizontal(10),
+                                    height: SizeConfig.horizontal(10),
+                                    imageUrl: item.brandImage,
+                                    memCacheHeight: 50,
+                                    memCacheWidth: 50,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                )))
       ],
     );
   }

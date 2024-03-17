@@ -11,6 +11,7 @@ BrandsCarModel _$BrandsCarModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       brand: json['brand'] as String,
       brandImage: json['brand_image'] as String,
+      isSelected: json['is_selected'] as bool,
     );
 
 Map<String, dynamic> _$BrandsCarModelToJson(BrandsCarModel instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$BrandsCarModelToJson(BrandsCarModel instance) =>
       'id': instance.id,
       'brand': instance.brand,
       'brand_image': instance.brandImage,
+      'is_selected': instance.isSelected,
     };
