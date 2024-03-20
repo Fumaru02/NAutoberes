@@ -142,8 +142,13 @@ class CustomTextField extends StatelessWidget {
                           keyboardType: keyboardType ?? TextInputType.text,
                           // ignore: avoid_bool_literals_in_conditional_expressions, use_if_null_to_convert_nulls_to_bools
                           decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.horizontal(2),
+                                vertical: SizeConfig.horizontal(2),
+                              ),
                               prefixIcon: prefixIcon,
                               suffixIcon: suffixIcon,
+                              hintMaxLines: 4,
                               fillColor: AppColors.white,
                               filled: true,
                               border: OutlineInputBorder(

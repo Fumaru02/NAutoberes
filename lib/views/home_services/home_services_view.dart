@@ -84,21 +84,23 @@ class HomeServicesView extends StatelessWidget {
                   ResponsiveRowColumnItem(
                     child: TabBar(
                         indicatorColor: AppColors.blackBackground,
+                        labelPadding:
+                            EdgeInsets.only(bottom: SizeConfig.horizontal(1)),
                         controller: homeServicesController.tabController,
+                        unselectedLabelColor: AppColors.greyTextDisabled,
                         labelStyle:
                             InterStyle().labelStyle(AppColors.blackBackground),
-                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: SizeConfig.horizontal(2)),
                         tabs: <Widget>[
-                          InterTextView(
-                              value: 'Mobil',
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.black,
-                              size: SizeConfig.safeBlockHorizontal * 4),
-                          InterTextView(
-                              value: 'Motor',
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.black,
-                              size: SizeConfig.safeBlockHorizontal * 4),
+                          Icon(
+                            Icons.directions_car,
+                            size: SizeConfig.safeBlockHorizontal * 7,
+                          ),
+                          Icon(
+                            Icons.directions_bike_outlined,
+                            size: SizeConfig.safeBlockHorizontal * 7,
+                          ),
                         ]),
                   ),
                   ResponsiveRowColumnItem(

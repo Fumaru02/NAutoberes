@@ -11,15 +11,12 @@ import 'package:image_picker/image_picker.dart';
 
 import '../helpers/snackbar.dart';
 import '../models/brands_car/brands_car_model.dart';
+import '../models/specialist/specialist_model.dart';
 import '../utils/enums.dart';
+import '../views/akun/widgets/select_cars.dart';
+import '../views/akun/widgets/select_specialist.dart';
 
 class HomeServiceManagerController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
-    getBrands();
-  }
-
   final TextEditingController hsName = TextEditingController();
   final TextEditingController hsAddress = TextEditingController();
   final TextEditingController hsSkill = TextEditingController();
@@ -27,22 +24,85 @@ class HomeServiceManagerController extends GetxController {
   User? user;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   RxBool isLoading = RxBool(false);
+  RxBool isLoadingBrands = RxBool(false);
   RxBool isSelected = RxBool(false);
+  RxString selectedDropDownMenu = RxString('');
   File? workshopImage;
+  ScrollController specialistScrollbar = ScrollController();
+  //select brand list
   RxList<BrandsCarModel> brandsCarList =
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
   RxList<BrandsCarModel> foundedBrand =
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
   RxList<BrandsCarModel> selectedBrand =
       RxList<BrandsCarModel>(<BrandsCarModel>[]);
+  //select specialist list
+  RxList<SpecialistModel> specialistList =
+      RxList<SpecialistModel>(<SpecialistModel>[]);
+  RxList<SpecialistModel> specialistSelected =
+      RxList<SpecialistModel>(<SpecialistModel>[]);
+  RxList<SpecialistModel> foundedSpecialist =
+      RxList<SpecialistModel>(<SpecialistModel>[]);
 
-  void toggleSelection(BrandsCarModel item) {
+  String selectedBrandWrapper() {
+    return selectedBrand.isEmpty
+        ? 'Pilih brand yang kamu kuasai'
+        : 'Brand yang kamu kuasai';
+  }
+
+  String selectedSpecialistWrapper() {
+    return selectedBrand.isEmpty
+        ? 'Pilih specialis yang kamu kuasai'
+        : 'specialis yang kamu kuasai';
+  }
+
+  void verifySpecialist() {
+    if (selectedDropDownMenu.isEmpty) {
+      Snack.show(SnackbarType.error, 'Error Getting Data',
+          'Jenis kendaraan tidak boleh kosong');
+    } else {
+      Get.to(const SelectSpecialist());
+    }
+  }
+
+  void verifyBrands() {
+    if (selectedDropDownMenu.isEmpty) {
+      Snack.show(SnackbarType.error, 'Error Getting Data',
+          'Jenis kendaraan tidak boleh kosong');
+    } else {
+      Get.to(const SelectCars());
+    }
+  }
+
+  void toggleSelectionSpecialist(SpecialistModel item) {
+    if (item.isSelected) {
+      specialistSelected.remove(item);
+    } else {
+      specialistSelected.add(item);
+    }
+    item.isSelected = !item.isSelected;
+    update();
+  }
+
+  void toggleSelectionBrand(BrandsCarModel item) {
     if (item.isSelected) {
       selectedBrand.remove(item);
     } else {
       selectedBrand.add(item);
     }
     item.isSelected = !item.isSelected;
+    update();
+  }
+
+  void searchSpecialist(String query) {
+    final List<SpecialistModel> suggestions =
+        specialistList.where((SpecialistModel brandKey) {
+      final String brandName = brandKey.brand.toLowerCase();
+      final String input = query.toLowerCase();
+      return brandName.contains(input);
+    }).toList();
+
+    foundedSpecialist.value = suggestions;
     update();
   }
 
@@ -58,9 +118,36 @@ class HomeServiceManagerController extends GetxController {
     update();
   }
 
-  Future<void> getBrands() async {
-    isLoading.value = true;
+  Future<void> getSpecialist(String type) async {
     try {
+      selectedDropDownMenu.value = '';
+      await _firestore
+          .collection('data')
+          .doc('specialist')
+          .get()
+          .then((DocumentSnapshot<dynamic> documentSnapshot) {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        final List<dynamic> specialistData = data[type] as List<dynamic>;
+        specialistList.value = specialistData
+            .map((dynamic e) =>
+                SpecialistModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      });
+
+      update();
+      isLoadingBrands.value = false;
+    } catch (e) {
+      isLoadingBrands.value = false;
+
+      log(e.toString());
+    }
+  }
+
+  Future<void> getBrands(String type) async {
+    isLoadingBrands.value = true;
+    try {
+      selectedDropDownMenu.value = '';
       await _firestore
           .collection('data')
           .doc('brands')
@@ -68,17 +155,23 @@ class HomeServiceManagerController extends GetxController {
           .then((DocumentSnapshot<dynamic> documentSnapshot) {
         final Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
-        final List<dynamic> carBrands = data['brands_car'] as List<dynamic>;
+        final List<dynamic> carBrands = data[type] as List<dynamic>;
         brandsCarList.value = carBrands
             .map((dynamic e) =>
                 BrandsCarModel.fromJson(e as Map<String, dynamic>))
             .toList();
-        log(data.toString());
       });
+      if (type == 'brands_bike') {
+        selectedDropDownMenu.value = 'Motor';
+      } else {
+        selectedDropDownMenu.value = 'Mobil';
+      }
+      selectedBrand.clear();
       update();
-      isLoading.value = false;
+      isLoadingBrands.value = false;
     } catch (e) {
-      isLoading.value = false;
+      isLoadingBrands.value = false;
+
       log(e.toString());
     }
   }
@@ -135,11 +228,14 @@ class HomeServiceManagerController extends GetxController {
     isLoading.value = true;
     user = FirebaseAuth.instance.currentUser;
     log('$lat test1');
-    if (lat == '' && long == '') {
+    if (lat == ''.trim() &&
+        long == ''.trim() &&
+        workshopImage == null &&
+        hsName.text.trim() == null) {
       isLoading.value = false;
 
       return Snack.show(SnackbarType.error, 'ERROR Upload Data',
-          'Pastikan kamu sudah klik pada icon radius');
+          'Pastikan kamu sudah mengisi form pendaftaran');
     } else {
       await FirebaseFirestore.instance
           .collection('users')

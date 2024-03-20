@@ -18,6 +18,7 @@ class HomeController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     await getApplicationData();
+    updateGreating();
     getContent();
     scrollController.addListener(() {
       listen();
@@ -43,6 +44,7 @@ class HomeController extends GetxController {
   RxString aboutAutomotiveTitle = RxString('');
   RxString gridMenuTitle = RxString('');
   RxString promoTitle = RxString('');
+  RxString greetings = RxString('');
   RxList<String> promoImage = RxList<String>(<String>[]);
   RxList<AboutAutomotiveModel> aboutAutomotiveList =
       RxList<AboutAutomotiveModel>(<AboutAutomotiveModel>[]);
@@ -54,6 +56,20 @@ class HomeController extends GetxController {
   List<Widget> listRouter = <Widget>[
     const GantiOliView(),
   ];
+
+  void updateGreating() {
+    final int hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 10) {
+      greetings.value = 'Selamat Pagi';
+    } else if (hour >= 10 && hour < 15) {
+      greetings.value = 'Selamat Siang';
+    } else if (hour >= 15 && hour < 18) {
+      greetings.value = 'Selamat Sore';
+    } else {
+      greetings.value = 'Selamat Malam';
+    }
+    update();
+  }
 
   void listen() {
     final ScrollDirection direction =
@@ -74,7 +90,7 @@ class HomeController extends GetxController {
   }
 
   dynamic refreshPage() async {
-    getContent();
+    await getContent();
   }
 
   dynamic getContent() async {

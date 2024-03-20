@@ -35,7 +35,7 @@ class CustomAppBarHome extends StatelessWidget {
                 children: <ResponsiveRowColumnItem>[
               ResponsiveRowColumnItem(
                   child: InterTextView(
-                      value: 'Hi,',
+                      value: '${homeController.greetings.value},',
                       size: SizeConfig.safeBlockHorizontal * 3.5,
                       fontWeight: FontWeight.bold,
                       alignText: AlignTextType.left)),

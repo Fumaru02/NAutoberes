@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -49,8 +47,8 @@ class _AuthorizeViewState extends State<AuthorizeView> {
         child: FrameScaffold(
           heightBar: 0,
           elevation: 0,
-          color: Platform.isIOS ? AppColors.black : null,
-          statusBarColor: AppColors.black,
+          color: AppColors.blackBackground,
+          statusBarColor: AppColors.blackBackground,
           colorScaffold: AppColors.blackBackground,
           statusBarBrightness: Brightness.light,
           view: Center(

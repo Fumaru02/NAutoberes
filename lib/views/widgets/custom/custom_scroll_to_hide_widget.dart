@@ -10,14 +10,12 @@ class ScrollToHideWidget extends StatelessWidget {
     required this.controller,
     this.duration = const Duration(milliseconds: 200),
     required this.homeController,
-    required this.height,
   });
 
   final Widget child;
   final ScrollController controller;
   final Duration duration;
   final HomeController homeController;
-  final double height;
 
   @override
   Widget build(BuildContext context) {

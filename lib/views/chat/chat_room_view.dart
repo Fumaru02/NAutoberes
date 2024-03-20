@@ -7,8 +7,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../controllers/chat_controller.dart';
 import '../../controllers/home_services_controller.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/asset_list.dart';
 import '../../utils/size_config.dart';
+import '../widgets/custom/custom_background_apps.dart';
 import '../widgets/text/inter_text_view.dart';
 import 'widgets/chat_bubble_widget.dart';
 import 'widgets/keyboard_widget.dart';
@@ -73,11 +73,7 @@ class ChatRoomView extends StatelessWidget {
                       ),
                       backgroundColor: AppColors.blackBackground,
                       title: InterTextView(value: receiverName)),
-                  body: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(AssetList.backgroundRoom),
-                            fit: BoxFit.fill)),
+                  body: CustomBackgroundApp(
                     child: ResponsiveRowColumn(
                       layout: ResponsiveRowColumnType.COLUMN,
                       children: <ResponsiveRowColumnItem>[

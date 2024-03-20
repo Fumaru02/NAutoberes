@@ -100,7 +100,6 @@ class FrameBottomNav extends FrameAppBar {
       elevation: 0,
       clipBehavior: Clip.antiAlias,
       child: ScrollToHideWidget(
-        height: 100,
         homeController: homeController,
         controller: homeController.scrollController,
         child: SingleChildScrollView(

@@ -11,6 +11,7 @@ class MapsController extends GetxController {
   final RxString lat = RxString('');
   final RxString long = RxString('');
   final RxBool isLoading = RxBool(false);
+  final RxBool isLoadingGetCoordinate = RxBool(false);
 
   Future<Position> getCurrentLocation() async {
     isLoading.value = true;
@@ -68,7 +69,7 @@ class MapsController extends GetxController {
   }
 
   Future<void> getCoordinateUser() async {
-    isLoading.value = true;
+    isLoadingGetCoordinate.value = true;
     await getCurrentLocation().then((Position val) {
       if (val.isMocked) {
         Snack.show(
@@ -85,6 +86,6 @@ class MapsController extends GetxController {
       }
     });
     liveLocation();
-    isLoading.value = false;
+    isLoadingGetCoordinate.value = false;
   }
 }

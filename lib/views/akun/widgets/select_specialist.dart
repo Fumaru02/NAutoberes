@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/home_service_manager_controller.dart';
-import '../../../models/brands_car/brands_car_model.dart';
+import '../../../models/specialist/specialist_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
 import '../../widgets/custom/custom_flat_button.dart';
@@ -14,8 +13,8 @@ import '../../widgets/custom/custom_text_field.dart';
 import '../../widgets/frame/frame_scaffold.dart';
 import '../../widgets/text/inter_text_view.dart';
 
-class SelectCars extends StatelessWidget {
-  const SelectCars({
+class SelectSpecialist extends StatelessWidget {
+  const SelectSpecialist({
     super.key,
   });
   @override
@@ -27,7 +26,7 @@ class SelectCars extends StatelessWidget {
         child: FrameScaffold(
             heightBar: 60,
             isUseLeading: true,
-            titleScreen: 'Select Brand',
+            titleScreen: 'Select Specialist',
             isCenter: true,
             elevation: 0,
             color: AppColors.blackBackground,
@@ -48,11 +47,11 @@ class SelectCars extends StatelessWidget {
                             child: CustomTextField(
                                 width: 92,
                                 borderRadius: 1,
-                                hintText: 'Masukkan nama brand...',
+                                hintText: 'ketik spesialist',
                                 prefixIcon: const Icon(Icons.search),
                                 onChanged: (String p0) =>
                                     homeServiceManagerController
-                                        .searchBrand(p0),
+                                        .searchSpecialist(p0),
                                 title: '')),
                         ResponsiveRowColumnItem(
                           child: ListView.builder(
@@ -61,26 +60,26 @@ class SelectCars extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   bottom: SizeConfig.horizontal(10)),
                               itemCount: homeServiceManagerController
-                                      .foundedBrand.isNotEmpty
+                                      .foundedSpecialist.isNotEmpty
                                   ? homeServiceManagerController
-                                      .foundedBrand.length
+                                      .foundedSpecialist.length
                                   : homeServiceManagerController
-                                      .brandsCarList.length,
+                                      .specialistList.length,
                               itemBuilder: (BuildContext context, int index) {
-                                final BrandsCarModel item =
+                                final SpecialistModel item =
                                     homeServiceManagerController
-                                        .brandsCarList[index];
+                                        .specialistList[index];
                                 return CustomRippleButton(
                                   borderRadius: BorderRadius.zero,
                                   onTap: () => homeServiceManagerController
-                                      .toggleSelectionBrand(item),
-                                  child: listTileBrands(
+                                      .toggleSelectionSpecialist(item),
+                                  child: listTileModel(
                                       homeServiceManagerController
-                                              .foundedBrand.isNotEmpty
+                                              .foundedSpecialist.isNotEmpty
                                           ? homeServiceManagerController
-                                              .foundedBrand[index]
+                                              .foundedSpecialist[index]
                                           : homeServiceManagerController
-                                              .brandsCarList[index],
+                                              .specialistList[index],
                                       homeServiceManagerController),
                                 );
                               }),
@@ -98,7 +97,7 @@ class SelectCars extends StatelessWidget {
                           width: 80,
                           height: 8,
                           text:
-                              'Selected (${homeServiceManagerController.selectedBrand.length})',
+                              'Selected (${homeServiceManagerController.specialistSelected.length})',
                           onTap: () {
                             Get.back();
                           }),
@@ -109,7 +108,7 @@ class SelectCars extends StatelessWidget {
             )));
   }
 
-  Widget listTileBrands(BrandsCarModel model,
+  Widget listTileModel(SpecialistModel model,
       HomeServiceManagerController homeServiceManagerController) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
@@ -118,13 +117,6 @@ class SelectCars extends StatelessWidget {
         title: InterTextView(
           value: model.brand,
           color: AppColors.black,
-        ),
-        leading: CachedNetworkImage(
-          width: SizeConfig.horizontal(10),
-          height: SizeConfig.horizontal(10),
-          imageUrl: model.brandImage,
-          memCacheHeight: 100,
-          memCacheWidth: 100,
         ),
       ),
     );

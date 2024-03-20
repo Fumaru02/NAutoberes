@@ -13,7 +13,7 @@ class BrandsCarModel {
   factory BrandsCarModel.fromJson(Map<String, dynamic> json) =>
       _$BrandsCarModelFromJson(json);
   @JsonKey(name: 'id')
-  String id;
+  int id;
   @JsonKey(name: 'brand')
   String brand;
   @JsonKey(name: 'brand_image')

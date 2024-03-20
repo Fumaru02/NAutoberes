@@ -100,6 +100,7 @@ class HomeView extends StatelessWidget {
                         Padding(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.horizontal(2),
+                                right: SizeConfig.horizontal(2),
                                 left: SizeConfig.horizontal(2)),
                             child: Obx(
                               () => homeController.isLoading.isTrue
@@ -107,12 +108,32 @@ class HomeView extends StatelessWidget {
                                       borderRadius: 4,
                                       width: SizeConfig.horizontal(10),
                                     )
-                                  : InterTextView(
-                                      value: homeController
-                                          .aboutAutomotiveTitle.value,
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.w900,
-                                      size: SizeConfig.safeBlockHorizontal * 4),
+                                  : ResponsiveRowColumn(
+                                      layout: ResponsiveRowColumnType.ROW,
+                                      rowMainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <ResponsiveRowColumnItem>[
+                                        ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: homeController
+                                                  .aboutAutomotiveTitle.value,
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.w700,
+                                              size: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  4),
+                                        ),
+                                        ResponsiveRowColumnItem(
+                                          child: InterTextView(
+                                              value: 'See all',
+                                              color: AppColors.black,
+                                              fontWeight: FontWeight.w500,
+                                              size: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  3.5),
+                                        ),
+                                      ],
+                                    ),
                             ))
                       ]),
                     ),
@@ -120,7 +141,7 @@ class HomeView extends StatelessWidget {
                     // ignore: prefer_if_elements_to_conditional_expressions
                     SliverPadding(
                       padding: EdgeInsets.only(
-                          top: SizeConfig.horizontal(4),
+                          top: SizeConfig.horizontal(1),
                           bottom: SizeConfig.horizontal(15)),
                       sliver: Obx(
                         () => homeController.isLoading.isTrue
@@ -155,7 +176,7 @@ class HomeView extends StatelessWidget {
             child: InterTextView(
                 value: homeController.gridMenuTitle.value,
                 color: AppColors.black,
-                fontWeight: FontWeight.w900,
+                fontWeight: FontWeight.w700,
                 size: SizeConfig.safeBlockHorizontal * 4),
           ),
         )

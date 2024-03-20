@@ -1,23 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'brands_car_model.dart';
+part of 'specialist_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BrandsCarModel _$BrandsCarModelFromJson(Map<String, dynamic> json) =>
-    BrandsCarModel(
+SpecialistModel _$SpecialistModelFromJson(Map<String, dynamic> json) =>
+    SpecialistModel(
       id: json['id'] as int,
-      brand: json['brand'] as String,
-      brandImage: json['brand_image'] as String,
+      brand: json['title'] as String,
       isSelected: json['is_selected'] as bool,
     );
 
-Map<String, dynamic> _$BrandsCarModelToJson(BrandsCarModel instance) =>
+Map<String, dynamic> _$SpecialistModelToJson(SpecialistModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'brand': instance.brand,
-      'brand_image': instance.brandImage,
+      'title': instance.brand,
       'is_selected': instance.isSelected,
     };

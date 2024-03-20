@@ -10,6 +10,7 @@ import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
 import '../widgets/user/user_info.dart';
+import 'bantuan_view.dart';
 import 'edit_profile_view.dart';
 import 'home_service_manager_view.dart';
 import 'workshop_manager_view.dart';
@@ -99,6 +100,13 @@ class AkunView extends StatelessWidget {
                               title: 'Home Service Manager',
                               onTap: () =>
                                   Get.to(const HomeServiceManagerView()))),
+                      const ResponsiveRowColumnItem(
+                          child: SpaceSizer(vertical: 2)),
+                      ResponsiveRowColumnItem(
+                          child: CustomDividerText(
+                              icon: Icons.sticky_note_2_outlined,
+                              title: 'Bantuan',
+                              onTap: () => Get.to(const BantuanView()))),
                       const ResponsiveRowColumnItem(
                           child: SpaceSizer(vertical: 2)),
                       ResponsiveRowColumnItem(
@@ -200,8 +208,10 @@ class CustomDividerText extends StatelessWidget {
         child: ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.ROW,
           rowMainAxisAlignment: MainAxisAlignment.center,
-          rowSpacing: 8,
-          rowPadding: EdgeInsets.all(SizeConfig.horizontal(2)),
+          rowPadding: EdgeInsets.symmetric(
+            vertical: SizeConfig.horizontal(2),
+            horizontal: SizeConfig.horizontal(5),
+          ),
           children: <ResponsiveRowColumnItem>[
             ResponsiveRowColumnItem(
                 child: icon == null
@@ -211,6 +221,10 @@ class CustomDividerText extends StatelessWidget {
                         size: SizeConfig.horizontal(8),
                         color: AppColors.white,
                       )),
+            const ResponsiveRowColumnItem(
+                child: SpaceSizer(
+              horizontal: 2,
+            )),
             ResponsiveRowColumnItem(
                 child: InterTextView(
                     value: title,
