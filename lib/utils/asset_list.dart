@@ -6,13 +6,8 @@ class AssetList {
   static String facebookLogo = 'assets/facebookLogo.png';
   static String emailLogo = 'assets/emailLogo.png';
   static String passwordLogo = 'assets/passwordLogo.png';
-  static String servicesIcon = 'assets/servicesIcon.png';
-  static String homeIcon = 'assets/homeIcon.png';
   static String instagramIcon = 'assets/instagramIcon.png';
   static String indonesian = 'assets/indonesian.png';
-  static String chatIcon = 'assets/chatIcon.png';
-  static String outletsIcon = 'assets/outletsIcon.png';
-  static String akunIcon = 'assets/akunIcon.png';
   static String trashMap = 'assets/trash-map.png';
   static String backgroundRoom = 'assets/backgroundRoom.png';
   static String backgroundBubble = 'assets/backgroundBubble.png';

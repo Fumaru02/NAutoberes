@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/chat_controller.dart';
 import '../../../controllers/home_services_controller.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
+import '../../widgets/custom/custom_bordered_container.dart';
+import '../../widgets/custom/custom_html_wrapper.dart';
+import '../../widgets/custom/custom_ripple_button.dart';
 import '../../widgets/layouts/space_sizer.dart';
 import '../../widgets/text/inter_text_view.dart';
 import 'item_chat.dart';
@@ -48,6 +52,24 @@ class ChatBubbleWidget extends StatelessWidget {
                         return ResponsiveRowColumn(
                           layout: ResponsiveRowColumnType.COLUMN,
                           children: <ResponsiveRowColumnItem>[
+                            ResponsiveRowColumnItem(
+                                child: Obx(
+                              () => chatController.isHideWarning.isFalse
+                                  ? CustomRippleButton(
+                                      onTap: () {
+                                        chatController.isHideWarning.value =
+                                            true;
+                                      },
+                                      child: CustomBorderedContainer(
+                                          padding: EdgeInsets.all(
+                                              SizeConfig.horizontal(2)),
+                                          color: AppColors.yellow,
+                                          child: CustomHtmlWrapper(
+                                              data: chatController
+                                                  .warningChat.value)),
+                                    )
+                                  : const SizedBox.shrink(),
+                            )),
                             ResponsiveRowColumnItem(
                                 child: Padding(
                               padding: EdgeInsets.all(SizeConfig.horizontal(2)),

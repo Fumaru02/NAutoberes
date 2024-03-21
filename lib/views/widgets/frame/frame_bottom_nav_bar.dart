@@ -6,11 +6,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../controllers/frame_controller.dart';
 import '../../../controllers/home/home_controller.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/asset_list.dart';
 import '../../../utils/size_config.dart';
-import '../custom/custom_image_asset.dart';
 import '../custom/custom_scroll_to_hide_widget.dart';
-import '../layouts/space_sizer.dart';
 import '../text/inter_text_view.dart';
 import '../user/user_info.dart';
 import 'frame_appbar.dart';
@@ -124,31 +121,31 @@ class FrameBottomNav extends FrameAppBar {
     return <BottomNavigationBarItem>[
       _bottomNavigationBarItemDefault(
         frameController: frameController,
-        asset: AssetList.homeIcon,
+        icon: Icons.home,
         label: 'Home',
         index: 0,
       ),
       _chatBottomNavBar(
-        asset: AssetList.chatIcon,
+        icon: Icons.chat,
         label: 'Chat',
         index: 1,
         frameController: frameController,
       ),
       _bottomNavigationBarItemDefault(
         frameController: frameController,
-        asset: AssetList.servicesIcon,
+        icon: Icons.home_repair_service,
         label: 'Home Service',
         index: 2,
       ),
       _bottomNavigationBarItemDefault(
         frameController: frameController,
-        asset: AssetList.outletsIcon,
+        icon: Icons.store_mall_directory_sharp,
         label: 'Workshop',
         index: 3,
       ),
       _akunBottomNavBar(
         frameController: frameController,
-        asset: AssetList.akunIcon,
+        icon: Icons.person_2_outlined,
         label: 'Akun',
         index: 4,
       ),
@@ -156,7 +153,7 @@ class FrameBottomNav extends FrameAppBar {
   }
 
   BottomNavigationBarItem _akunBottomNavBar({
-    required String asset,
+    required IconData icon,
     required String label,
     required int index,
     required FrameController frameController,
@@ -166,7 +163,7 @@ class FrameBottomNav extends FrameAppBar {
     return BottomNavigationBarItem(
       icon: _AkunWrapper(
         frameController: frameController,
-        asset: asset,
+        icon: icon,
         label: label,
         index: index,
         widthIcon: widthIcon,
@@ -177,7 +174,7 @@ class FrameBottomNav extends FrameAppBar {
   }
 
   BottomNavigationBarItem _chatBottomNavBar({
-    required String asset,
+    required IconData icon,
     required String label,
     required int index,
     required FrameController frameController,
@@ -187,7 +184,7 @@ class FrameBottomNav extends FrameAppBar {
     return BottomNavigationBarItem(
       icon: _ChatMenuItemWrapper(
         frameController: frameController,
-        asset: asset,
+        icon: icon,
         label: label,
         index: index,
         widthIcon: widthIcon,
@@ -198,7 +195,7 @@ class FrameBottomNav extends FrameAppBar {
   }
 
   BottomNavigationBarItem _bottomNavigationBarItemDefault({
-    required String asset,
+    required IconData icon,
     required String label,
     required int index,
     required FrameController frameController,
@@ -208,7 +205,7 @@ class FrameBottomNav extends FrameAppBar {
     return BottomNavigationBarItem(
       icon: _MenuItemWrapper(
         frameController: frameController,
-        asset: asset,
+        icon: icon,
         label: label,
         index: index,
         widthIcon: widthIcon,
@@ -245,7 +242,7 @@ class _CenterFloatingButton extends StatelessWidget {
 
 class _AkunWrapper extends StatelessWidget {
   const _AkunWrapper({
-    required this.asset,
+    required this.icon,
     required this.label,
     required this.index,
     this.widthIcon,
@@ -253,7 +250,7 @@ class _AkunWrapper extends StatelessWidget {
     required this.frameController,
   });
 
-  final String asset;
+  final IconData icon;
   final String label;
   final int index;
   final double? widthIcon;
@@ -266,27 +263,15 @@ class _AkunWrapper extends StatelessWidget {
       layout: ResponsiveRowColumnType.COLUMN,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-            child: Obx(() => frameController
-                    .onTapIdentifierList[index].isOnTapped
-                ? CustomImageAsset(
-                    decoration: frameController
-                            .onTapIdentifierList[index].isOnTapped
-                        ? BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(SizeConfig.horizontal(6)),
-                                right:
-                                    Radius.circular(SizeConfig.horizontal(6))))
-                        : null,
-                    asset: asset,
-                    height: heightIcon ?? 6,
-                    color: frameController.onTapIdentifierList[index].isOnTapped
-                        ? AppColors.blackBackground
-                        : AppColors.greyDisabled)
-                : const UserPicture(
-                    width: 7,
-                    height: 7,
-                  ))),
-        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
+            child: Obx(() =>
+                frameController.onTapIdentifierList[index].isOnTapped
+                    ? Icon(icon,
+                        size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
+                        color: AppColors.blackBackground)
+                    : const UserPicture(
+                        width: 7,
+                        height: 7,
+                      ))),
         ResponsiveRowColumnItem(
             child: InterTextView(
                 value: label,
@@ -304,7 +289,7 @@ class _AkunWrapper extends StatelessWidget {
 
 class _MenuItemWrapper extends StatelessWidget {
   const _MenuItemWrapper({
-    required this.asset,
+    required this.icon,
     required this.label,
     required this.index,
     this.widthIcon,
@@ -312,7 +297,7 @@ class _MenuItemWrapper extends StatelessWidget {
     required this.frameController,
   });
 
-  final String asset;
+  final IconData icon;
   final String label;
   final int index;
   final double? widthIcon;
@@ -325,20 +310,16 @@ class _MenuItemWrapper extends StatelessWidget {
       layout: ResponsiveRowColumnType.COLUMN,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-            child: Obx(() => CustomImageAsset(
-                decoration: frameController
-                        .onTapIdentifierList[index].isOnTapped
-                    ? BoxDecoration(
-                        borderRadius: BorderRadius.horizontal(
-                            left: Radius.circular(SizeConfig.horizontal(6)),
-                            right: Radius.circular(SizeConfig.horizontal(6))))
-                    : null,
-                asset: asset,
-                height: heightIcon ?? 6,
-                color: frameController.onTapIdentifierList[index].isOnTapped
-                    ? AppColors.blackBackground
-                    : AppColors.greyDisabled))),
-        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
+          child: Obx(
+            () => Icon(
+              icon,
+              size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
+              color: frameController.onTapIdentifierList[index].isOnTapped
+                  ? AppColors.blackBackground
+                  : AppColors.greyDisabled,
+            ),
+          ),
+        ),
         ResponsiveRowColumnItem(
             child: InterTextView(
                 value: label,
@@ -356,7 +337,7 @@ class _MenuItemWrapper extends StatelessWidget {
 
 class _ChatMenuItemWrapper extends StatelessWidget {
   const _ChatMenuItemWrapper({
-    required this.asset,
+    required this.icon,
     required this.label,
     required this.index,
     this.widthIcon,
@@ -364,7 +345,7 @@ class _ChatMenuItemWrapper extends StatelessWidget {
     required this.frameController,
   });
 
-  final String asset;
+  final IconData icon;
   final String label;
   final int index;
   final double? widthIcon;
@@ -396,18 +377,9 @@ class _ChatMenuItemWrapper extends StatelessWidget {
                 ResponsiveRowColumnItem(
                     child: Obx(() => Stack(
                           children: <Widget>[
-                            CustomImageAsset(
-                                decoration: frameController
-                                        .onTapIdentifierList[index].isOnTapped
-                                    ? BoxDecoration(
-                                        borderRadius: BorderRadius.horizontal(
-                                            left: Radius.circular(
-                                                SizeConfig.horizontal(6)),
-                                            right: Radius.circular(
-                                                SizeConfig.horizontal(6))))
-                                    : null,
-                                asset: asset,
-                                height: heightIcon ?? 6,
+                            Icon(icon,
+                                size: heightIcon ??
+                                    SizeConfig.safeBlockHorizontal * 8,
                                 color: AppColors.greyDisabled),
                             // ignore: prefer_if_elements_to_conditional_expressions
                             frameController.unReadNotif.value == 0
@@ -429,7 +401,6 @@ class _ChatMenuItemWrapper extends StatelessWidget {
                                   )
                           ],
                         ))),
-                const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 0.5)),
                 ResponsiveRowColumnItem(
                     child: InterTextView(
                         value: label,

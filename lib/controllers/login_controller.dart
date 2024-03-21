@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -21,6 +22,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNumbController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TapGestureRecognizer privacyPolicyRecognizer = TapGestureRecognizer();
   final RxBool isTapped = false.obs;
   final RxBool isTapBubble1 = false.obs;
   final RxBool isTapBubble2 = false.obs;
@@ -31,34 +33,23 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   final RxBool isChecked = false.obs;
   final RxBool tapAnimation = false.obs;
   final RxDouble angle = RxDouble(0);
-  final RxString termsOfUse = RxString('');
+
   Rx<UsersModel> userModel = UsersModel().obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
     tabController = TabController(length: 2, vsync: this);
-    getAuthData();
+
     await Future<dynamic>.delayed(
         const Duration(seconds: 2)); // Menunggu selama 2 detik
     isFloating.value = true; // Mengubah nilai menjadi true setelah 2 detik
   }
 
-  Future<void> getAuthData() async {
-    try {
-      await _firestore
-          .collection('auth')
-          .doc('newUser')
-          .get()
-          .then((DocumentSnapshot<dynamic> docSnapshot) {
-        final Map<String, dynamic> data =
-            docSnapshot.data() as Map<String, dynamic>;
-        termsOfUse.value = data['data']['termsOfUse'] as String;
-        update();
-      });
-    } catch (e) {
-      log(e.toString());
-    }
+  @override
+  void onClose() {
+    super.onClose();
+    privacyPolicyRecognizer.dispose();
   }
 
   void flipped() {

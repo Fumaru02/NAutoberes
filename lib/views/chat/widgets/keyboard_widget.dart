@@ -35,20 +35,24 @@ class KeyboardWidget extends StatelessWidget {
         height: SizeConfig.horizontal(17),
         child: ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.ROW,
-          rowMainAxisAlignment: MainAxisAlignment.spaceAround,
+          rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <ResponsiveRowColumnItem>[
             ResponsiveRowColumnItem(
-                child: CustomTextField(
-              textInputAction: TextInputAction.newline,
-              maxLines: 20,
-              title: '',
-              hintText: 'Enter Message...',
-              focusNode: chatController.myFocusNode,
-              keyboardType: TextInputType.multiline,
-              controller: chatController.chatEditingController,
-              onFieldSubmitted: (String value) {
-                chatController.myMessage.value = value;
-              },
+                child: Padding(
+              padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+              child: CustomTextField(
+                height: SizeConfig.horizontal(12),
+                textInputAction: TextInputAction.newline,
+                maxLines: 20,
+                title: '',
+                hintText: 'Enter Message...',
+                focusNode: chatController.myFocusNode,
+                keyboardType: TextInputType.multiline,
+                controller: chatController.chatEditingController,
+                onFieldSubmitted: (String value) {
+                  chatController.myMessage.value = value;
+                },
+              ),
             )),
             ResponsiveRowColumnItem(
                 child: CircleAvatar(

@@ -20,13 +20,11 @@ class AnimatedDotPromoSlide extends StatelessWidget {
         child: Obx(() => AnimatedSmoothIndicator(
             activeIndex: homeController.currentDot.value,
             count: homeController.promoImage.length,
-            effect: JumpingDotEffect(
-                jumpScale: 0.5,
-                verticalOffset: 15,
+            effect: ExpandingDotsEffect(
                 dotColor: AppColors.greyDisabled,
-                spacing: SizeConfig.horizontal(4),
-                dotHeight: SizeConfig.horizontal(2),
-                dotWidth: SizeConfig.horizontal(2),
-                activeDotColor: AppColors.gold))));
+                spacing: SizeConfig.horizontal(3),
+                dotHeight: SizeConfig.horizontal(2.5),
+                dotWidth: SizeConfig.horizontal(2.5),
+                activeDotColor: AppColors.blueDark))));
   }
 }

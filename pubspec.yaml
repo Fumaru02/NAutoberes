@@ -41,6 +41,7 @@ dependencies:
   firebase_storage: ^11.6.0
   flutter:
     sdk: flutter
+  flutter_html: ^3.0.0-beta.2
   flutter_keyboard_size: ^1.0.1
   geolocator: ^11.0.0
   get: ^4.6.6

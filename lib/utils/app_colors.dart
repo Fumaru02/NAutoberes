@@ -30,6 +30,7 @@ class AppColors {
   static Color white = AppColors.hex(colorCode: '#FFFFFF');
   static Color blueDark = AppColors.hex(colorCode: '#0C359E');
   static Color gold = AppColors.hex(colorCode: '#FFC93C');
+  static Color yellow = AppColors.hex(colorCode: '#FBF3D5');
   static Color greyDisabled = AppColors.hex(colorCode: '#DADADA');
   static Color orangeActive = AppColors.hex(colorCode: '#D37116');
   static Color backgroundColor = AppColors.hex(colorCode: '#EFEFEF');

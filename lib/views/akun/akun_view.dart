@@ -104,7 +104,7 @@ class AkunView extends StatelessWidget {
                           child: SpaceSizer(vertical: 2)),
                       ResponsiveRowColumnItem(
                           child: CustomDividerText(
-                              icon: Icons.sticky_note_2_outlined,
+                              icon: Icons.question_mark_rounded,
                               title: 'Bantuan',
                               onTap: () => Get.to(const BantuanView()))),
                       const ResponsiveRowColumnItem(

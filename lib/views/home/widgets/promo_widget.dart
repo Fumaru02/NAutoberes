@@ -23,6 +23,7 @@ class PromoWidget extends StatelessWidget {
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 5)),
           ResponsiveRowColumnItem(
               child: PromoSlideView(homeController: homeController)),
+          const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
           ResponsiveRowColumnItem(
               child: AnimatedDotPromoSlide(homeController: homeController)),
         ]);

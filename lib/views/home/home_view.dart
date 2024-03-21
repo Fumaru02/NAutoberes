@@ -16,6 +16,7 @@ import 'widgets/automotive_news.dart';
 import 'widgets/beresin_menu.dart';
 import 'widgets/custom_app_bar.dart';
 import 'widgets/home_shimmer.dart';
+import 'widgets/lihat_semua_view.dart';
 import 'widgets/promo_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -124,13 +125,19 @@ class HomeView extends StatelessWidget {
                                                   4),
                                         ),
                                         ResponsiveRowColumnItem(
-                                          child: InterTextView(
-                                              value: 'See all',
-                                              color: AppColors.black,
-                                              fontWeight: FontWeight.w500,
-                                              size: SizeConfig
-                                                      .safeBlockHorizontal *
-                                                  3.5),
+                                          child: CustomRippleButton(
+                                            onTap: () => Get.to(LihatSemuaView(
+                                              homeController: homeController,
+                                            )),
+                                            child: InterTextView(
+                                                value: 'Lihat semua',
+                                                color:
+                                                    AppColors.blackBackground,
+                                                fontWeight: FontWeight.w500,
+                                                size: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    3.5),
+                                          ),
                                         ),
                                       ],
                                     ),

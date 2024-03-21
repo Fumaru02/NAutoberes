@@ -10,18 +10,22 @@ import '../../../utils/size_config.dart';
 import '../../widgets/custom/custom_ripple_button.dart';
 import '../../widgets/layouts/space_sizer.dart';
 import '../../widgets/text/inter_text_view.dart';
+import 'about_automotive_detail_view.dart';
 
 class AboutAutomotiveList extends StatelessWidget {
   const AboutAutomotiveList({
     super.key,
+    this.width,
+    this.height,
     required this.model,
   });
-
+  final double? width;
+  final double? height;
   final AboutAutomotiveModel model;
   @override
   Widget build(BuildContext context) {
     return CustomRippleButton(
-      onTap: () => Get.to(AboutAutomotiveList(model: model)),
+      onTap: () => Get.to(AboutAutomotiveDetailView(model: model)),
       child: ResponsiveRowColumn(
         layout: ResponsiveRowColumnType.COLUMN,
         columnPadding:
@@ -47,12 +51,12 @@ class AboutAutomotiveList extends StatelessWidget {
                               maxHeightDiskCache: 300,
                               maxWidthDiskCache: 300,
                               imageUrl: model.imageUrl,
-                              width: SizeConfig.horizontal(75),
-                              height: SizeConfig.horizontal(50),
+                              width: SizeConfig.horizontal(width ?? 75),
+                              height: SizeConfig.horizontal(height ?? 50),
                               fit: BoxFit.fill)))),
               Container(
-                  width: SizeConfig.horizontal(75),
-                  height: SizeConfig.horizontal(50),
+                  width: SizeConfig.horizontal(width ?? 75),
+                  height: SizeConfig.horizontal(height ?? 50),
                   decoration: BoxDecoration(
                     color: AppColors.black.withOpacity(0.4),
                     borderRadius: BorderRadius.all(
@@ -77,7 +81,7 @@ class AboutAutomotiveList extends StatelessWidget {
                                 value: '1.1k',
                                 color: AppColors.white,
                                 alignText: AlignTextType.left,
-                                size: SizeConfig.safeBlockHorizontal * 4),
+                                size: SizeConfig.safeBlockHorizontal * 3),
                           ),
                           const ResponsiveRowColumnItem(
                               child: SpaceSizer(horizontal: 2)),
@@ -91,7 +95,7 @@ class AboutAutomotiveList extends StatelessWidget {
                                 value: '20',
                                 color: AppColors.white,
                                 alignText: AlignTextType.left,
-                                size: SizeConfig.safeBlockHorizontal * 4),
+                                size: SizeConfig.safeBlockHorizontal * 3),
                           ),
                         ],
                       )),

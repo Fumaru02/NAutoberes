@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,7 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getWarning();
     myFocusNode.addListener(() {
       if (myFocusNode.hasFocus) {
         Future<void>.delayed(
@@ -30,11 +32,31 @@ class ChatController extends GetxController {
   late ScrollController scrollController = ScrollController();
   late FocusNode myFocusNode = FocusNode();
   final RxBool isUserTyping = RxBool(false);
+  final RxBool isHideWarning = RxBool(false);
   final RxString myMessage = RxString('');
+  final RxString warningChat = RxString('');
   final RxString currentUserId = RxString('');
   final RxString currentUserEmail = RxString('');
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int totalUnread = 0;
+
+  Future<void> getWarning() async {
+    try {
+      await _firestore
+          .collection('data')
+          .doc('text')
+          .get()
+          .then((DocumentSnapshot<dynamic> documentSnapshot) {
+        final Map<String, dynamic> data =
+            documentSnapshot.data() as Map<String, dynamic>;
+        warningChat.value = data['warning_chat'] as String;
+      });
+
+      update();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   Future<void> onBackReadChat(
     String chatIds,
