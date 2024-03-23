@@ -11,7 +11,6 @@ import '../../../core/utils/size_config.dart';
 import '../../bloc/authorize_bloc/authorize_bloc.dart';
 import '../../cubit/version_info_app_cubit.dart';
 import '../../widgets/custom/custom_app_version.dart';
-import '../../widgets/custom/custom_ripple_button.dart';
 import '../../widgets/frame/frame_scaffold.dart';
 import '../../widgets/layouts/space_sizer.dart';
 import '../../widgets/logo/autoberes_logo.dart';
@@ -32,11 +31,8 @@ class _AuthorizeViewState extends State<AuthorizeView>
   @override
   void initState() {
     super.initState();
-    _infoAppCubit.getApplicationInfo();
     animationController = AnimationController(
-      duration: const Duration(milliseconds: 5000),
-      vsync: this,
-    );
+        duration: const Duration(milliseconds: 5000), vsync: this);
     animationController.repeat();
   }
 
@@ -73,7 +69,7 @@ class _AuthorizeViewState extends State<AuthorizeView>
                         AuthenticatedStatus.authenticated) {
                       log('masuk frame');
                     } else {
-                      router.go('/login');
+                      router.replace('/login');
                     }
                   },
                   child: RotationTransition(
@@ -100,52 +96,5 @@ class _AuthorizeViewState extends State<AuthorizeView>
             ),
           ),
         ));
-  }
-}
-
-class CustomBorderedButton extends StatelessWidget {
-  const CustomBorderedButton({
-    super.key,
-    required this.image,
-    required this.ontap,
-  });
-
-  final String image;
-  final Function() ontap;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomRippleButton(
-      onTap: ontap,
-      child: Container(
-        width: SizeConfig.horizontal(22),
-        height: SizeConfig.horizontal(11),
-        decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius:
-                BorderRadius.all(Radius.circular(SizeConfig.horizontal(3)))),
-        child: Image.asset(
-          image,
-          width: SizeConfig.horizontal(5),
-          height: SizeConfig.horizontal(5),
-          scale: 1.5,
-        ),
-      ),
-    );
-  }
-}
-
-class DividerLogin extends StatelessWidget {
-  const DividerLogin({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: SizeConfig.horizontal(24),
-      color: AppColors.white,
-      height: SizeConfig.horizontal(0.5),
-    );
   }
 }

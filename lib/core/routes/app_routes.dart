@@ -7,6 +7,7 @@ import '../../presentation/bloc/login/login_bloc.dart';
 import '../../presentation/cubit/login/login_cubit.dart';
 import '../../presentation/cubit/version_info_app_cubit.dart';
 import '../../presentation/pages/authorize/authorize_view.dart';
+import '../../presentation/pages/frame/frame_view.dart';
 import '../../presentation/pages/login/login_view.dart';
 import 'routes_name.dart';
 
@@ -28,24 +29,28 @@ final GoRouter router = GoRouter(
           child: const AuthorizeView(),
         );
       },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'login',
-          builder: (__, GoRouterState state) {
-            return MultiBlocProvider(
-              providers: <SingleChildWidget>[
-                BlocProvider<LoginCubit>(
-                  create: (_) => LoginCubit(),
-                ),
-                BlocProvider<LoginBloc>(
-                  create: (_) => LoginBloc(),
-                ),
-              ],
-              child: const LoginView(),
-            );
-          },
-        ),
-      ],
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (__, GoRouterState state) {
+        return MultiBlocProvider(
+          providers: <SingleChildWidget>[
+            BlocProvider<LoginCubit>(
+              create: (_) => LoginCubit(),
+            ),
+            BlocProvider<LoginBloc>(
+              create: (_) => LoginBloc()..add(GetDataTermsFireBase()),
+            ),
+          ],
+          child: const LoginView(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/frame',
+      builder: (__, GoRouterState state) {
+        return const FrameView();
+      },
     ),
   ],
 );

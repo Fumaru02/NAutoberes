@@ -1,32 +1,41 @@
 part of 'login_bloc.dart';
 
-enum LoginStatus { initial, loading, success, error }
+enum Status { initial, loading, success, error }
 
 class LoginState extends Equatable {
   const LoginState({
-    this.loginStatus = LoginStatus.initial,
+    this.termsAndcondition = '',
+    this.privacyPolicy = '',
+    this.status = Status.initial,
     this.usersModel,
   });
 
   factory LoginState.initial() => const LoginState();
 
-  final LoginStatus loginStatus;
+  final String termsAndcondition;
+  final String privacyPolicy;
+  final Status status;
   final UsersModel? usersModel;
 
   @override
-  List<Object?> get props => <Object?>[loginStatus, usersModel];
+  List<Object?> get props =>
+      <Object?>[termsAndcondition, privacyPolicy, status, usersModel];
 
   LoginState copyWith({
-    LoginStatus? loginStatus,
+    String? termsAndcondition,
+    String? privacyPolicy,
+    Status? status,
     UsersModel? usersModel,
   }) {
     return LoginState(
-      loginStatus: loginStatus ?? this.loginStatus,
-      usersModel: usersModel ?? this.usersModel,
-    );
+        termsAndcondition: termsAndcondition ?? this.termsAndcondition,
+        privacyPolicy: privacyPolicy ?? this.privacyPolicy,
+        usersModel: usersModel ?? this.usersModel,
+        status: status ?? this.status);
   }
 
   @override
-  String toString() =>
-      'LoginState(loginStatus: $loginStatus, usersModel: $usersModel)';
+  String toString() {
+    return 'LoginState(termsAndcondition: $termsAndcondition, privacyPolicy: $privacyPolicy, status: $status, usersModel: $usersModel)';
+  }
 }

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../utils/app_colors.dart';
 import '../utils/enums.dart';
-import '../utils/size_config.dart';
 
 class Snack {
   Snack._();
@@ -33,23 +32,36 @@ class Snack {
           }
         }
       }
-      return Get.snackbar(
-        title,
-        message,
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: colorText ?? Colors.white,
-        backgroundColor: background,
-        snackStyle: SnackStyle.FLOATING,
-        duration: duration ?? const Duration(milliseconds: 4000),
-        padding: EdgeInsets.symmetric(
-          vertical: SizeConfig.horizontal(1),
-          horizontal: SizeConfig.horizontal(4),
-        ),
-        margin: EdgeInsets.symmetric(
-          vertical: SizeConfig.horizontal(1),
-          horizontal: SizeConfig.horizontal(2),
+      return SnackBar(
+        content: Text(message),
+        backgroundColor: backgroundColor ?? Colors.grey[800],
+        duration: duration ?? const Duration(seconds: 4),
+        action: SnackBarAction(
+          backgroundColor: background,
+          label: title,
+          textColor: colorText ?? Colors.white,
+          onPressed: () {
+            // Aksi yang ingin dilakukan ketika judul diklik
+          },
         ),
       );
+      //  Get.snackbar(
+      //   title,
+      //   message,
+      //   snackPosition: SnackPosition.BOTTOM,
+      //   colorText: colorText ?? Colors.white,
+      //   backgroundColor: background,
+      //   snackStyle: SnackStyle.FLOATING,
+      //   duration: duration ?? const Duration(milliseconds: 4000),
+      //   padding: EdgeInsets.symmetric(
+      //     vertical: SizeConfig.horizontal(1),
+      //     horizontal: SizeConfig.horizontal(4),
+      //   ),
+      //   margin: EdgeInsets.symmetric(
+      //     vertical: SizeConfig.horizontal(1),
+      //     horizontal: SizeConfig.horizontal(2),
+      //   ),
+      // );
     }
   }
 }

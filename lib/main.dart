@@ -22,12 +22,6 @@ Future<void> main() async {
 
   // Menjalankan aplikasi AutoBeres.
   runApp(const AutoBeres());
-  //   runApp(
-  //   BlocProvider<ContainerAnimationCubit>(
-  //     create: (_) => ContainerAnimationCubit(),
-  //     child: MyApp(),
-  //   ),
-  // );
 }
 
 //3.19.2
@@ -45,7 +39,11 @@ class AutoBeres extends StatelessWidget {
       builder: (BuildContext context, Widget? child) =>
           ResponsiveBreakpoints.builder(
         breakpoints: const <Breakpoint>[
-          Breakpoint(start: 0, end: 480, name: MOBILE),
+          Breakpoint(
+            start: 0,
+            end: 480,
+            name: MOBILE,
+          ),
         ],
         child: child!,
       ),

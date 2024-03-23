@@ -15,11 +15,8 @@ class AuthorizeBloc extends Bloc<AuthorizeEvent, AuthorizeState> {
   ) async {
     final SharedPreferences sharedPref = await SharedPreferences.getInstance();
     final bool hasToken = sharedPref.getBool('keyAccessToken') ?? false;
-
     emit(state.copyWith(authenticatedStatus: AuthenticatedStatus.initial));
-
-    await Future<dynamic>.delayed(const Duration(milliseconds: 1000));
-
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     if (hasToken) {
       emit(state.copyWith(
           authenticatedStatus: AuthenticatedStatus.authenticated));

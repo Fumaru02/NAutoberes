@@ -37,13 +37,9 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
   Rx<UsersModel> userModel = UsersModel().obs;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
     tabController = TabController(length: 2, vsync: this);
-
-    await Future<dynamic>.delayed(
-        const Duration(seconds: 2)); // Menunggu selama 2 detik
-    isFloating.value = true; // Mengubah nilai menjadi true setelah 2 detik
   }
 
   @override

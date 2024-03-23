@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'login_state.dart';
+part 'login_cubit_state.dart';
 
 class LoginCubit extends Cubit<LoginCubitState> {
   LoginCubit() : super(LoginCubitState.initial());
@@ -18,5 +18,14 @@ class LoginCubit extends Cubit<LoginCubitState> {
     } else {
       emit(state.copyWith(isFront: true));
     }
+  }
+
+  void isCheckedBox() {
+    emit(state.copyWith(isChecked: !state.isChecked));
+  }
+
+  void flipped(double newAngle) {
+    newAngle = (newAngle + math.pi) % (2 * math.pi);
+    emit(state.copyWith(angle: newAngle));
   }
 }
