@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../utils/on_tap_identifier.dart';
-import '../views/akun/akun_view.dart';
-import '../views/chat/chat_view.dart';
-import '../views/home/home_view.dart';
-import '../views/home_services/home_services_view.dart';
-import '../views/workshop/workshop_view.dart';
+import '../core/utils/on_tap_identifier.dart';
+import '../presentation/pages/akun/akun_view.dart';
+import '../presentation/pages/chat/chat_view.dart';
+import '../presentation/pages/home/home_view.dart';
+import '../presentation/pages/home_services/home_services_view.dart';
+import '../presentation/pages/workshop/workshop_view.dart';
 
 class FrameController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

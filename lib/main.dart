@@ -1,13 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'controllers/authorize_controller.dart';
-import 'routes/app_routes.dart';
-import 'utils/size_config.dart';
-import 'views/authorize/authorize_view.dart';
+import 'core/routes/app_routes.dart';
+import 'core/utils/size_config.dart';
 
 /// Fungsi utama aplikasi Flutter.
 Future<void> main() async {
@@ -25,6 +22,12 @@ Future<void> main() async {
 
   // Menjalankan aplikasi AutoBeres.
   runApp(const AutoBeres());
+  //   runApp(
+  //   BlocProvider<ContainerAnimationCubit>(
+  //     create: (_) => ContainerAnimationCubit(),
+  //     child: MyApp(),
+  //   ),
+  // );
 }
 
 //3.19.2
@@ -35,18 +38,10 @@ class AutoBeres extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Menginisialisasi `AuthorizeController` menggunakan `Get.put`.
-    Get.put(AuthorizeController());
-
     // Menginisialisasi `SizeConfig` dengan konteks saat ini.
     SizeConfig().init(context);
 
-    return GetMaterialApp(
-      theme: ThemeData(useMaterial3: false),
-      title: 'AutoBeres',
-      debugShowCheckedModeBanner: false,
-
-      // Membangun tata letak responsif berdasarkan breakpoint.
+    return MaterialApp.router(
       builder: (BuildContext context, Widget? child) =>
           ResponsiveBreakpoints.builder(
         breakpoints: const <Breakpoint>[
@@ -54,15 +49,10 @@ class AutoBeres extends StatelessWidget {
         ],
         child: child!,
       ),
-
-      // Mengatur halaman awal aplikasi menjadi `AuthorizeView`.
-      home: const AuthorizeView(),
-
-      // Mengatur rute aplikasi menggunakan `AppRoutes.routes`.
-      getPages: AppRoutes.routes,
-
-      // Mengatur transisi default menjadi `Transition.noTransition`.
-      defaultTransition: Transition.noTransition,
+      debugShowCheckedModeBanner: false,
+      title: 'AutoBeres',
+      theme: ThemeData(useMaterial3: false),
+      routerConfig: router,
     );
   }
 }

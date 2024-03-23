@@ -5,10 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/brands_car/brands_car_model.dart';
-import '../models/list_mechanics/list_mechanics_model.dart';
-import '../models/users/users_model.dart';
-import '../views/chat/chat_room_view.dart';
+import '../domain/models/brands_car_model.dart';
+import '../domain/models/list_mechanics_model.dart';
+import '../domain/models/users_model.dart';
+import '../presentation/pages/chat/chat_room_view.dart';
 
 class HomeServicesController extends GetxController
     with GetTickerProviderStateMixin {

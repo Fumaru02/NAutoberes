@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../helpers/snackbar.dart';
-import '../utils/enums.dart';
+import '../core/helpers/snackbar.dart';
+import '../core/utils/enums.dart';
 
 class SignUpController extends GetxController {
   final TextEditingController fullnameController = TextEditingController();

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../services/shared_pref.dart';
+import '../core/services/shared_pref.dart';
 
 class AkunController extends GetxController {
   @override

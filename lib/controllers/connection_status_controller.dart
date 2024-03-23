@@ -5,8 +5,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../helpers/snackbar.dart';
-import '../utils/enums.dart';
+import '../core/helpers/snackbar.dart';
+import '../core/utils/enums.dart';
 
 class ConnectionStatusController extends GetxController {
   //this variable 0 = No Internet, 1 = connected to WIFI ,2 = connected to Mobile Data.

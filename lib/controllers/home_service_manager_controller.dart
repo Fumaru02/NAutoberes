@@ -9,12 +9,12 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../helpers/snackbar.dart';
-import '../models/brands_car/brands_car_model.dart';
-import '../models/specialist/specialist_model.dart';
-import '../utils/enums.dart';
-import '../views/akun/widgets/select_cars.dart';
-import '../views/akun/widgets/select_specialist.dart';
+import '../core/helpers/snackbar.dart';
+import '../core/utils/enums.dart';
+import '../domain/models/brands_car_model.dart';
+import '../domain/models/specialist_model.dart';
+import '../presentation/pages/akun/widgets/select_cars.dart';
+import '../presentation/pages/akun/widgets/select_specialist.dart';
 
 class HomeServiceManagerController extends GetxController {
   final TextEditingController hsName = TextEditingController();

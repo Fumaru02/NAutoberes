@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../helpers/device_info.dart';
-import '../services/shared_pref.dart';
-import '../utils/preferences_key.dart';
+import '../core/helpers/device_info.dart';
+import '../core/services/shared_pref.dart';
+import '../core/utils/preferences_key.dart';
 
 class AuthorizeController extends GetxController
     with GetSingleTickerProviderStateMixin {

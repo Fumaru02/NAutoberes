@@ -11,11 +11,11 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
-import '../helpers/snackbar.dart';
-import '../models/city/city_model.dart';
-import '../models/profiency/profiency_model.dart';
-import '../models/subdistrict/subdistrict_model.dart';
-import '../utils/enums.dart';
+import '../core/helpers/snackbar.dart';
+import '../core/utils/enums.dart';
+import '../domain/models/city_model.dart';
+import '../domain/models/profiency_model.dart';
+import '../domain/models/subdistrict_model.dart';
 import 'akun_controller.dart';
 
 class EditProfileController extends GetxController {

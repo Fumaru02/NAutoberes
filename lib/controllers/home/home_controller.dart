@@ -7,9 +7,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../../models/about_automotive/about_automotive_model.dart';
-import '../../models/beresin_menu/beresin_menu_model.dart';
-import '../../views/home/home_menu/ganti_oli_view.dart';
+import '../../domain/models/about_automotive_model.dart';
+import '../../domain/models/beresin_menu_model.dart';
+import '../../presentation/pages/home/home_menu/ganti_oli_view.dart';
 
 class HomeController extends GetxController {
   final FirebaseStorage storage = FirebaseStorage.instance;

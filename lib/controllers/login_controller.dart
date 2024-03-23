@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../helpers/snackbar.dart';
-import '../models/users/users_model.dart';
-import '../services/shared_pref.dart';
-import '../utils/enums.dart';
+import '../core/helpers/snackbar.dart';
+import '../core/services/shared_pref.dart';
+import '../core/utils/enums.dart';
+import '../domain/models/users_model.dart';
 
 class LoginController extends GetxController with GetTickerProviderStateMixin {
   late TabController tabController;

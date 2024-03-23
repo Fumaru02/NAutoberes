@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../views/chat/chat_room_view.dart';
+import '../presentation/pages/chat/chat_room_view.dart';
 
 class ChatController extends GetxController {
   @override
