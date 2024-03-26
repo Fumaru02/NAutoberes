@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/helpers/snackbar.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
-import '../../cubit/login/login_cubit.dart';
+import '../../blocs/login/login_bloc.dart';
+import '../../cubits/login/login_cubit.dart';
 import '../../widgets/custom/custom_flat_button.dart';
 import '../../widgets/frame/frame_scaffold.dart';
 import '../../widgets/layouts/space_sizer.dart';
@@ -29,57 +32,69 @@ class _LoginViewState extends State<LoginView> {
 
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-          systemNavigationBarColor: AppColors.black,
-          systemNavigationBarIconBrightness: Brightness.dark),
-      child: FrameScaffold(
-        heightBar: 0,
-        elevation: 0,
-        color: AppColors.blackBackground,
-        statusBarColor: AppColors.blackBackground,
-        colorScaffold: AppColors.blackBackground,
-        statusBarBrightness: Brightness.light,
-        view: Stack(
-          children: <Widget>[
-            Center(
-              child: ResponsiveRowColumn(
-                layout: ResponsiveRowColumnType.COLUMN,
-                children: <ResponsiveRowColumnItem>[
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(vertical: 12)),
-                  const ResponsiveRowColumnItem(
-                      child: Hero(tag: 'autoberes', child: AutoBeresLogo())),
-                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 7)),
-                  ResponsiveRowColumnItem(
-                      child: InterTextView(
-                          value: 'Welcome',
-                          size: SizeConfig.safeBlockHorizontal * 4.5,
-                          fontWeight: FontWeight.bold)),
-                  ResponsiveRowColumnItem(
-                      child: InterTextView(
-                          value: 'Nice to see you',
-                          size: SizeConfig.safeBlockHorizontal * 3.5,
-                          fontWeight: FontWeight.w300)),
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(vertical: 35)),
-                  ResponsiveRowColumnItem(
-                      child: CustomFlatButton(
-                    text: 'Continue',
-                    backgroundColor: AppColors.white,
-                    textColor: AppColors.blackBackground,
-                    onTap: () {
-                      context.read<LoginCubit>().isTappedAnimation();
-                    },
-                  )),
-                ],
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (BuildContext context, LoginState state) {
+        if (state.status == Status.error) {
+          Snack.showSnackBar(context,
+              messageInfo: 'Something wrong',
+              message: state.errorMessage,
+              snackbarType: SnackbarType.error);
+        }
+      },
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+            systemNavigationBarColor: AppColors.black,
+            systemNavigationBarIconBrightness: Brightness.dark),
+        child: FrameScaffold(
+          heightBar: 0,
+          elevation: 0,
+          color: AppColors.blackBackground,
+          statusBarColor: AppColors.blackBackground,
+          colorScaffold: AppColors.blackBackground,
+          statusBarBrightness: Brightness.light,
+          view: Stack(
+            children: <Widget>[
+              Center(
+                child: ResponsiveRowColumn(
+                  layout: ResponsiveRowColumnType.COLUMN,
+                  children: <ResponsiveRowColumnItem>[
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 12)),
+                    const ResponsiveRowColumnItem(
+                        child: Hero(tag: 'autoberes', child: AutoBeresLogo())),
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 7)),
+                    ResponsiveRowColumnItem(
+                        child: InterTextView(
+                            value: 'Welcome',
+                            size: SizeConfig.safeBlockHorizontal * 4.5,
+                            fontWeight: FontWeight.bold)),
+                    ResponsiveRowColumnItem(
+                        child: InterTextView(
+                            value: 'Nice to see you',
+                            size: SizeConfig.safeBlockHorizontal * 3.5,
+                            fontWeight: FontWeight.w300)),
+                    const ResponsiveRowColumnItem(
+                        child: SpaceSizer(vertical: 35)),
+                    ResponsiveRowColumnItem(
+                        child: CustomFlatButton(
+                      text: 'Continue',
+                      backgroundColor: AppColors.white,
+                      textColor: AppColors.blackBackground,
+                      onTap: () {
+                        context.read<LoginCubit>().isTappedAnimation();
+                      },
+                    )),
+                  ],
+                ),
               ),
-            ),
-            ResponsiveRowColumnItem(
-                child: OnShowModalCard(email: email, password: password))
-          ],
+              ResponsiveRowColumnItem(
+                  child: OnShowModalCard(email: email, password: password))
+            ],
+          ),
         ),
       ),
     );

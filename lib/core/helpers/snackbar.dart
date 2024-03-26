@@ -1,67 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../presentation/widgets/layouts/space_sizer.dart';
+import '../../presentation/widgets/text/inter_text_view.dart';
 import '../utils/app_colors.dart';
 import '../utils/enums.dart';
+import '../utils/size_config.dart';
 
 class Snack {
   Snack._();
 
-  static dynamic show(
-    SnackbarType snackbarType,
-    String title,
-    String message, {
-    Color? backgroundColor,
-    Color? colorText,
-    Duration? duration,
+  static dynamic showSnackBar(
+    BuildContext context, {
+    required String message,
+    required String messageInfo,
+    SnackbarType? snackbarType,
+    Duration duration = const Duration(milliseconds: 4000),
   }) {
-    if (Get.isSnackbarOpen) {
-      return Get.back();
-    } else {
-      final Color? background;
-      if (snackbarType == SnackbarType.error) {
-        background = AppColors.redAlert;
-      } else {
-        if (snackbarType == SnackbarType.success) {
-          background = AppColors.greenDark;
-        } else {
-          if (snackbarType == SnackbarType.info) {
-            background = AppColors.redAlert;
-          } else {
-            background = backgroundColor;
-          }
-        }
-      }
-      return SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor ?? Colors.grey[800],
-        duration: duration ?? const Duration(seconds: 4),
-        action: SnackBarAction(
-          backgroundColor: background,
-          label: title,
-          textColor: colorText ?? Colors.white,
-          onPressed: () {
-            // Aksi yang ingin dilakukan ketika judul diklik
-          },
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Container(
+          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+          decoration: BoxDecoration(
+              color: snackbarType == SnackbarType.error
+                  ? AppColors.redAlert
+                  : snackbarType == SnackbarType.success
+                      ? AppColors.greenSuccess
+                      : AppColors.orangeActive,
+              borderRadius:
+                  BorderRadius.all(Radius.circular(SizeConfig.horizontal(4)))),
+          child: ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.ROW,
+            children: <ResponsiveRowColumnItem>[
+              ResponsiveRowColumnItem(
+                  child: Icon(
+                snackbarType == SnackbarType.error
+                    ? Icons.error
+                    : snackbarType == SnackbarType.success
+                        ? Icons.check_circle
+                        : Icons.error_outline_outlined,
+                size: SizeConfig.horizontal(8),
+                color: AppColors.white,
+              )),
+              const ResponsiveRowColumnItem(child: SpaceSizer(horizontal: 2)),
+              ResponsiveRowColumnItem(
+                child: ResponsiveRowColumn(
+                  layout: ResponsiveRowColumnType.COLUMN,
+                  columnCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: <ResponsiveRowColumnItem>[
+                    ResponsiveRowColumnItem(
+                      child: InterTextView(
+                        value: messageInfo,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                        size: SizeConfig.safeBlockHorizontal * 3.5,
+                      ),
+                    ),
+                    ResponsiveRowColumnItem(
+                      child: ResponsiveRowColumnItem(
+                        child: InterTextView(
+                          value: message,
+                          size: SizeConfig.safeBlockHorizontal * 3.5,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      );
-      //  Get.snackbar(
-      //   title,
-      //   message,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   colorText: colorText ?? Colors.white,
-      //   backgroundColor: background,
-      //   snackStyle: SnackStyle.FLOATING,
-      //   duration: duration ?? const Duration(milliseconds: 4000),
-      //   padding: EdgeInsets.symmetric(
-      //     vertical: SizeConfig.horizontal(1),
-      //     horizontal: SizeConfig.horizontal(4),
-      //   ),
-      //   margin: EdgeInsets.symmetric(
-      //     vertical: SizeConfig.horizontal(1),
-      //     horizontal: SizeConfig.horizontal(2),
-      //   ),
-      // );
-    }
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: SizeConfig.horizontal(180),
+        ),
+        duration: duration,
+      ),
+    );
   }
 }

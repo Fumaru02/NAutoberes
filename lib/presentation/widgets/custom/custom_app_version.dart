@@ -4,7 +4,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
-import '../../cubit/version_info_app_cubit.dart';
+import '../../cubits/shared_cubit.dart';
 import '../text/inter_text_view.dart';
 
 class CustomAppVersion extends StatelessWidget {
@@ -16,8 +16,8 @@ class CustomAppVersion extends StatelessWidget {
   final Color? color;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<VersionInfoAppCubit, VersionInfoAppState>(
-      builder: (BuildContext context, VersionInfoAppState state) {
+    return BlocBuilder<SharedCubit, SharedState>(
+      builder: (BuildContext context, SharedState state) {
         return ResponsiveRowColumn(
           layout: ResponsiveRowColumnType.COLUMN,
           children: <ResponsiveRowColumnItem>[

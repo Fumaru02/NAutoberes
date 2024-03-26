@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/size_config.dart';
-import '../../../cubit/login/login_cubit.dart';
+import '../../../cubits/login/login_cubit.dart';
 import '../../../widgets/custom/custom_ripple_button.dart';
 import '../../../widgets/text/inter_text_view.dart';
 

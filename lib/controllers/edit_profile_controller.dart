@@ -11,8 +11,6 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
-import '../core/helpers/snackbar.dart';
-import '../core/utils/enums.dart';
 import '../domain/models/city_model.dart';
 import '../domain/models/profiency_model.dart';
 import '../domain/models/subdistrict_model.dart';
@@ -106,22 +104,22 @@ class EditProfileController extends GetxController {
           .child('${user!.uid}.jpeg');
 
       if (image == null) {
-        return Snack.show(
-            SnackbarType.error, 'Information', 'Failed to pick image');
+        return;
+        // Snack.show(SnackbarType.error, 'Information', 'Failed to pick image');
       }
       final File imageTemp = File(image.path);
       await ref.putFile(imageTemp, metadata);
       final String url = await ref.getDownloadURL();
       Get.back();
-      Snack.show(SnackbarType.success, 'Image',
-          'Image has been uploaded, Image will replaced after pressing Submit');
+      // Snack.show(SnackbarType.success, 'Image',
+      //     'Image has been uploaded, Image will replaced after pressing Submit');
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user!.uid)
           .update(<Object, Object?>{'user_image': url});
     } on PlatformException catch (e) {
       if (e.code != null) {
-        Snack.show(SnackbarType.error, 'Information', 'Failed to pick image');
+        // Snack.show(SnackbarType.error, 'Information', 'Failed to pick image');
       }
     }
     update();

@@ -9,8 +9,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../core/helpers/snackbar.dart';
-import '../core/utils/enums.dart';
 import '../domain/models/brands_car_model.dart';
 import '../domain/models/specialist_model.dart';
 import '../presentation/pages/akun/widgets/select_cars.dart';
@@ -58,8 +56,8 @@ class HomeServiceManagerController extends GetxController {
 
   void verifySpecialist() {
     if (selectedDropDownMenu.isEmpty) {
-      Snack.show(SnackbarType.error, 'Error Getting Data',
-          'Jenis kendaraan tidak boleh kosong');
+      // Snack.show(SnackbarType.error, 'Error Getting Data',
+      //     'Jenis kendaraan tidak boleh kosong');
     } else {
       Get.to(const SelectSpecialist());
     }
@@ -67,8 +65,8 @@ class HomeServiceManagerController extends GetxController {
 
   void verifyBrands() {
     if (selectedDropDownMenu.isEmpty) {
-      Snack.show(SnackbarType.error, 'Error Getting Data',
-          'Jenis kendaraan tidak boleh kosong');
+      // Snack.show(SnackbarType.error, 'Error Getting Data',
+      //     'Jenis kendaraan tidak boleh kosong');
     } else {
       Get.to(const SelectCars());
     }
@@ -191,10 +189,10 @@ class HomeServiceManagerController extends GetxController {
           .child('${user!.uid}.jpeg');
 
       if (image == null) {
-        return Snack.show(
-            SnackbarType.error, 'Information', 'Failed to pick image');
+        // return Snack.show(
+        //     SnackbarType.error, 'Information', 'Failed to pick image');
       }
-      final File imageTemp = File(image.path);
+      final File imageTemp = File(image!.path);
       await ref.putFile(imageTemp, metadata);
       final String url = await ref.getDownloadURL();
       workshopImage = imageTemp;
@@ -212,13 +210,13 @@ class HomeServiceManagerController extends GetxController {
         'home_service_image': url,
       });
       update();
-      Snack.show(SnackbarType.success, 'Image',
-          'Image has been uploaded, Image will replaced after pressing Submit');
+      // Snack.show(SnackbarType.success, 'Image',
+      //     'Image has been uploaded, Image will replaced after pressing Submit');
       isLoading.value = false;
     } on PlatformException catch (e) {
       isLoading.value = false;
       if (e.code != null) {
-        Snack.show(SnackbarType.error, 'Information', 'Failed to pick image');
+        // Snack.show(SnackbarType.error, 'Information', 'Failed to pick image');
       }
     }
     update();
@@ -234,8 +232,9 @@ class HomeServiceManagerController extends GetxController {
         hsName.text.trim() == null) {
       isLoading.value = false;
 
-      return Snack.show(SnackbarType.error, 'ERROR Upload Data',
-          'Pastikan kamu sudah mengisi form pendaftaran');
+      return;
+      // Snack.show(SnackbarType.error, 'ERROR Upload Data',
+      //     'Pastikan kamu sudah mengisi form pendaftaran');
     } else {
       await FirebaseFirestore.instance
           .collection('users')

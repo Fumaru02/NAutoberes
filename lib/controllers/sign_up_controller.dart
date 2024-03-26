@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../core/helpers/snackbar.dart';
-import '../core/utils/enums.dart';
-
 class SignUpController extends GetxController {
   final TextEditingController fullnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -24,12 +21,12 @@ class SignUpController extends GetxController {
 
   Future<bool> signUpWithEmailAndPassword() async {
     if (confirmPasswordController.text != passwordController.text) {
-      Snack.show(SnackbarType.error, 'Information',
-          'Your password is not matched try again');
+      // Snack.show(SnackbarType.error, 'Information',
+      //     'Your password is not matched try again');
       return false;
     } else if (passwordController.text.length < 6) {
-      Snack.show(SnackbarType.error, 'Information',
-          'Your password too weak try again');
+      // Snack.show(SnackbarType.error, 'Information',
+      //     'Your password too weak try again');
       return false;
     }
     try {
@@ -59,13 +56,13 @@ class SignUpController extends GetxController {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        Snack.show(SnackbarType.error, 'Error', 'weak password try again');
+        // Snack.show(SnackbarType.error, 'Error', 'weak password try again');
       } else if (e.code == 'email-already-in-use') {
-        Snack.show(SnackbarType.info, 'Information',
-            '${emailController.text} is already exists');
+        // Snack.show(SnackbarType.info, 'Information',
+        //     '${emailController.text} is already exists');
       } else if (e.code == 'invalid-email') {
-        Snack.show(
-            SnackbarType.error, 'Information', 'Your email id is invalid');
+        // Snack.show(
+        //     SnackbarType.error, 'Information', 'Your email id is invalid');
       }
     }
     return false;

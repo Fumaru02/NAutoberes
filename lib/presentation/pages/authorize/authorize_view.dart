@@ -8,8 +8,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
-import '../../bloc/authorize_bloc/authorize_bloc.dart';
-import '../../cubit/version_info_app_cubit.dart';
+import '../../blocs/authorize_bloc/authorize_bloc.dart';
+import '../../cubits/shared_cubit.dart';
 import '../../widgets/custom/custom_app_version.dart';
 import '../../widgets/frame/frame_scaffold.dart';
 import '../../widgets/layouts/space_sizer.dart';
@@ -25,12 +25,17 @@ class AuthorizeView extends StatefulWidget {
 
 class _AuthorizeViewState extends State<AuthorizeView>
     with SingleTickerProviderStateMixin {
-  final VersionInfoAppCubit _infoAppCubit = VersionInfoAppCubit();
+  late SharedCubit sharedCubit;
 
   late AnimationController animationController;
+
   @override
   void initState() {
     super.initState();
+    context.read<SharedCubit>().getApplicationInfo();
+    sharedCubit = context.read<SharedCubit>();
+    sharedCubit.getConnectionType();
+    sharedCubit.trackConnectiviftyChange();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 5000), vsync: this);
     animationController.repeat();
@@ -38,7 +43,6 @@ class _AuthorizeViewState extends State<AuthorizeView>
 
   @override
   void dispose() {
-    _infoAppCubit.close();
     animationController.dispose();
     super.dispose();
   }
@@ -64,20 +68,19 @@ class _AuthorizeViewState extends State<AuthorizeView>
                 const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 35)),
                 ResponsiveRowColumnItem(
                     child: BlocListener<AuthorizeBloc, AuthorizeState>(
-                  listener: (_, AuthorizeState state) {
-                    if (state.authenticatedStatus ==
-                        AuthenticatedStatus.authenticated) {
-                      log('masuk frame');
-                    } else {
-                      router.replace('/login');
-                    }
-                  },
-                  child: RotationTransition(
-                      turns: Tween<double>(begin: 0.0, end: 1.0)
-                          .animate(animationController),
-                      child:
-                          const Hero(tag: 'autoberes', child: AutoBeresLogo())),
-                )),
+                        listener: (_, AuthorizeState state) {
+                          if (state.authenticatedStatus ==
+                              AuthenticatedStatus.authenticated) {
+                            log('masuk frame');
+                          } else {
+                            router.go('/login');
+                          }
+                        },
+                        child: RotationTransition(
+                            turns: Tween<double>(begin: 0.0, end: 1.0)
+                                .animate(animationController),
+                            child: const Hero(
+                                tag: 'autoberes', child: AutoBeresLogo())))),
                 const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 10)),
                 ResponsiveRowColumnItem(
                     child: InterTextView(

@@ -12,6 +12,10 @@ class LoginCubit extends Cubit<LoginCubitState> {
     emit(state.copyWith(tappedAnimation: !state.tappedAnimation));
   }
 
+  void isObscurePasswordText() {
+    emit(state.copyWith(isObscureText: !state.isObscureText));
+  }
+
   void isFrontCard(double value) {
     if (value >= (math.pi / 2)) {
       emit(state.copyWith(isFront: false));

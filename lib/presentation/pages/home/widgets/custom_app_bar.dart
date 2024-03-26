@@ -46,9 +46,12 @@ class CustomAppBarHome extends StatelessWidget {
                         borderRadius: 4,
                         width: SizeConfig.horizontal(50),
                       )
-                    : Username(
-                        color: AppColors.white,
-                        size: 5,
+                    : SizedBox(
+                        width: SizeConfig.horizontal(60),
+                        child: Username(
+                          color: AppColors.white,
+                          size: 5,
+                        ),
                       ),
               )),
             ])),

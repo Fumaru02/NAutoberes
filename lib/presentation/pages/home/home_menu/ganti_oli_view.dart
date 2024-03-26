@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../../controllers/home/ganti_oli_controller.dart';
-import '../../../../core/helpers/snackbar.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../widgets/custom/custom_calendar_picker.dart';
 import '../../../widgets/custom/custom_flat_button.dart';
@@ -299,13 +297,14 @@ class SearchBox extends StatelessWidget {
                         padding:
                             EdgeInsets.only(left: SizeConfig.horizontal(9)),
                         child: CustomFlatButton(
-                          width: 70,
-                          height: 5,
-                          text: 'Gas!!! Cari',
-                          backgroundColor: AppColors.greyDisabled,
-                          onTap: () => Snack.show(SnackbarType.info, 'Radius 0',
-                              'Radius Gak boleh kosong yah :)'),
-                        ),
+                            width: 70,
+                            height: 5,
+                            text: 'Gas!!! Cari',
+                            backgroundColor: AppColors.greyDisabled,
+                            onTap: () {
+//  Snack.show(SnackbarType.info, 'Radius 0',
+//                               'Radius Gak boleh kosong yah :)'),
+                            }),
                       )
                     : Padding(
                         padding: EdgeInsets.only(

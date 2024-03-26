@@ -4,9 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../core/helpers/snackbar.dart';
-import '../core/utils/enums.dart';
-
 class MapsController extends GetxController {
   final RxString lat = RxString('');
   final RxString long = RxString('');
@@ -42,11 +39,11 @@ class MapsController extends GetxController {
     Geolocator.getPositionStream(locationSettings: locationSettings)
         .listen((Position position) {
       if (position.isMocked) {
-        Snack.show(
-          SnackbarType.error,
-          'ERROR'.tr,
-          'Mohon matikan Fake GPS'.tr,
-        );
+        // Snack.show(
+        //   SnackbarType.error,
+        //   'ERROR'.tr,
+        //   'Mohon matikan Fake GPS'.tr,
+        // );
         Get.back();
         return;
       } else {
@@ -72,11 +69,11 @@ class MapsController extends GetxController {
     isLoadingGetCoordinate.value = true;
     await getCurrentLocation().then((Position val) {
       if (val.isMocked) {
-        Snack.show(
-          SnackbarType.error,
-          'ERROR'.tr,
-          'Mohon matikan Fake GPS'.tr,
-        );
+        // Snack.show(
+        //   SnackbarType.error,
+        //   'ERROR'.tr,
+        //   'Mohon matikan Fake GPS'.tr,
+        // );
         Get.back();
         return;
       } else {

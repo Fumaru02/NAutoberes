@@ -5,20 +5,39 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
-import '../../bloc/login/login_bloc.dart';
-import '../../cubit/login/login_cubit.dart';
+import '../../blocs/login/login_bloc.dart';
+import '../../cubits/login/login_cubit.dart';
 import '../custom/custom_bordered_container.dart';
 import '../custom/custom_flat_button.dart';
 import '../custom/custom_html_wrapper.dart';
 import '../layouts/space_sizer.dart';
 import 'privacy_policy.dart';
 
-class TermsAndCondition extends StatelessWidget {
+class TermsAndCondition extends StatefulWidget {
   const TermsAndCondition({
     super.key,
-    required this.privacyPolicyRecognizer,
+    this.email,
+    this.password,
+    required this.onTap,
   });
-  final TapGestureRecognizer privacyPolicyRecognizer;
+
+  final String? email;
+  final String? password;
+  final Function() onTap;
+
+  @override
+  State<TermsAndCondition> createState() => _TermsAndConditionState();
+}
+
+class _TermsAndConditionState extends State<TermsAndCondition> {
+  final TapGestureRecognizer privacyPolicyRecognizer = TapGestureRecognizer();
+
+  @override
+  void dispose() {
+    privacyPolicyRecognizer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -113,7 +132,7 @@ class TermsAndCondition extends StatelessWidget {
                                 textColor: AppColors.blackBackground,
                                 height: 5,
                                 text: 'I Agree',
-                                onTap: () {})
+                                onTap: widget.onTap)
                             : const SizedBox.shrink())
                   ],
                 );
