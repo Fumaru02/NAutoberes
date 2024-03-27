@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../../controllers/home/home_controller.dart';
+import '../../../../core/constant/enums.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/size_config.dart';
-import '../../../widgets/custom/custom_shimmer_placeholder.dart';
+import '../../../cubits/home/home_cubit.dart';
 import '../../../widgets/layouts/space_sizer.dart';
 import '../../../widgets/text/inter_text_view.dart';
 import '../../../widgets/user/user_info.dart';
@@ -14,9 +13,7 @@ import '../../../widgets/user/user_info.dart';
 class CustomAppBarHome extends StatelessWidget {
   const CustomAppBarHome({
     super.key,
-    required this.homeController,
   });
-  final HomeController homeController;
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +31,30 @@ class CustomAppBarHome extends StatelessWidget {
                 columnMainAxisAlignment: MainAxisAlignment.center,
                 children: <ResponsiveRowColumnItem>[
               ResponsiveRowColumnItem(
-                  child: InterTextView(
-                      value: '${homeController.greetings.value},',
+                  child: BlocBuilder<HomeCubit, HomeCubitState>(
+                builder: (_, HomeCubitState state) {
+                  return InterTextView(
+                      value: '${state.greetings},',
                       size: SizeConfig.safeBlockHorizontal * 3.5,
                       fontWeight: FontWeight.bold,
-                      alignText: AlignTextType.left)),
-              ResponsiveRowColumnItem(
-                  child: Obx(
-                () => homeController.isLoading.isTrue
-                    ? CustomShimmerPlaceHolder(
-                        borderRadius: 4,
-                        width: SizeConfig.horizontal(50),
-                      )
-                    : SizedBox(
-                        width: SizeConfig.horizontal(60),
-                        child: Username(
-                          color: AppColors.white,
-                          size: 5,
-                        ),
-                      ),
+                      alignText: AlignTextType.left);
+                },
               )),
+              ResponsiveRowColumnItem(
+                child:
+                    // () => homeController.isLoading.isTrue
+                    //     ? CustomShimmerPlaceHolder(
+                    //         borderRadius: 4,
+                    //         width: SizeConfig.horizontal(50),
+                    //       )
+                    SizedBox(
+                  width: SizeConfig.horizontal(60),
+                  child: Username(
+                    color: AppColors.white,
+                    size: 5,
+                  ),
+                ),
+              )
             ])),
         const ResponsiveRowColumnItem(child: Spacer()),
         ResponsiveRowColumnItem(

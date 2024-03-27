@@ -52,7 +52,6 @@ class HomeServicesController extends GetxController
             .map((dynamic e) =>
                 BrandsCarModel.fromJson(e as Map<String, dynamic>))
             .toList();
-        log(data.toString());
       });
       update();
       isLoading.value = false;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
 
 class NunitoTextView extends StatelessWidget {

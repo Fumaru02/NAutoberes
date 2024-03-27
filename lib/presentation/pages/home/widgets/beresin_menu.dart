@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../../core/constant/enums.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../domain/models/beresin_menu_model.dart';
 import '../../../widgets/custom/custom_ripple_button.dart';

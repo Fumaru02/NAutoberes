@@ -8,7 +8,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
-import '../../blocs/authorize_bloc/authorize_bloc.dart';
+import '../../blocs/authorize/authorize_bloc.dart';
 import '../../cubits/shared_cubit.dart';
 import '../../widgets/custom/custom_app_version.dart';
 import '../../widgets/frame/frame_scaffold.dart';

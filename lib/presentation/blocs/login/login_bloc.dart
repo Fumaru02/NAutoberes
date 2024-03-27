@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../domain/models/users_model.dart';
 import '../../../domain/repositories/apps_info/apps_info_interface.dart';

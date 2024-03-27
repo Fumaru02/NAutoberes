@@ -1,7 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../../controllers/home/home_controller.dart';
 import '../../../widgets/layouts/space_sizer.dart';
 import '../home_view.dart';
 import 'animated_dot_promo_slide.dart';
@@ -9,10 +9,10 @@ import 'animated_dot_promo_slide.dart';
 class PromoWidget extends StatelessWidget {
   const PromoWidget({
     super.key,
-    required this.homeController,
+    required this.carouselController,
   });
 
-  final HomeController homeController;
+  final CarouselController carouselController;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,11 @@ class PromoWidget extends StatelessWidget {
         children: <ResponsiveRowColumnItem>[
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 5)),
           ResponsiveRowColumnItem(
-              child: PromoSlideView(homeController: homeController)),
+              child: PromoSlideView(
+            carouselController: carouselController,
+          )),
           const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-          ResponsiveRowColumnItem(
-              child: AnimatedDotPromoSlide(homeController: homeController)),
+          const ResponsiveRowColumnItem(child: AnimatedDotPromoSlide()),
         ]);
   }
 }

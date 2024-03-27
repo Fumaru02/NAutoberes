@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../core/helpers/snackbar.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
 import '../../blocs/login/login_bloc.dart';
 import '../../cubits/login/login_cubit.dart';

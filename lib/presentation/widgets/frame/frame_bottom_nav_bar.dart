@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../controllers/frame_controller.dart';
-import '../../../controllers/home/home_controller.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
+import '../../blocs/chat/chat_bloc.dart';
+import '../../blocs/frame/frame_bloc.dart';
+import '../../pages/home/home_view.dart';
 import '../custom/custom_scroll_to_hide_widget.dart';
 import '../text/inter_text_view.dart';
 import '../user/user_info.dart';
@@ -38,71 +38,69 @@ class FrameBottomNav extends FrameAppBar {
 
   @override
   Widget build(BuildContext context) {
-    final FrameController frameController = Get.put(FrameController());
-    return DefaultTabController(
-        length: frameController.widgetViewList.length,
-        child: Scaffold(
-            backgroundColor: colorScaffold,
-            extendBody: true,
-            appBar: FrameAppBar(
-              titleScreen: titleScreen,
-              heightBar: heightBar,
-              color: color,
-              elevation: elevation,
-              isCenter: isCenter,
-              isUseLeading: isUseLeading,
-              onBack: onBack,
-              customLeading: customLeading,
-              action: action,
-              isImplyLeading: isImplyLeading,
-              customTitle: customTitle,
-              statusBarColor: statusBarColor,
-              statusBarIconBrightness: statusBarIconBrightness,
-              statusBarBrightness: statusBarBrightness,
-            ),
-            body: Obx(
-              () => IndexedStack(
-                index: frameController.defaultIndex.toInt(),
-                children: frameController.widgetViewList,
-              ),
-            ),
-            floatingActionButtonLocation:
-                frameController.defaultIndex.value == 0
+    return BlocBuilder<FrameBloc, FrameState>(
+      builder: (_, FrameState state) {
+        return DefaultTabController(
+            length: state.widgetViewList.length,
+            child: Scaffold(
+                backgroundColor: colorScaffold,
+                extendBody: true,
+                appBar: FrameAppBar(
+                  titleScreen: titleScreen,
+                  heightBar: heightBar,
+                  color: color,
+                  elevation: elevation,
+                  isCenter: isCenter,
+                  isUseLeading: isUseLeading,
+                  onBack: onBack,
+                  customLeading: customLeading,
+                  action: action,
+                  isImplyLeading: isImplyLeading,
+                  customTitle: customTitle,
+                  statusBarColor: statusBarColor,
+                  statusBarIconBrightness: statusBarIconBrightness,
+                  statusBarBrightness: statusBarBrightness,
+                ),
+                body: IndexedStack(
+                  index: state.defaultIndex,
+                  children: state.widgetViewList,
+                ),
+                floatingActionButtonLocation: state.defaultIndex == 0
                     ? FloatingActionButtonLocation.miniEndFloat
                     : null,
-            floatingActionButton: frameController.defaultIndex.value == 0
-                ? _CenterFloatingButton(
-                    frameController: frameController,
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) => Container(),
-                      );
-                    },
-                  )
-                : null,
-            bottomNavigationBar: frameController.defaultIndex.value != 1
-                ? _bottomAppBar(
-                    context: context, frameController: frameController)
-                : null));
+                floatingActionButton: state.defaultIndex == 0
+                    ? _CenterFloatingButton(
+                        state: state,
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) => Container(),
+                          );
+                        },
+                      )
+                    : null,
+                bottomNavigationBar: state.defaultIndex != 1
+                    ? _bottomAppBar(context: context, state: state)
+                    : null));
+      },
+    );
   }
 
   BottomAppBar _bottomAppBar(
-      {required BuildContext context,
-      required FrameController frameController}) {
-    final HomeController homeController = Get.put(HomeController());
+      {required BuildContext context, required FrameState state}) {
     return BottomAppBar(
       shape: const CircularNotchedRectangle(),
       color: AppColors.white,
       elevation: 0,
       clipBehavior: Clip.antiAlias,
       child: ScrollToHideWidget(
-        homeController: homeController,
-        controller: homeController.scrollController,
+        controller: scrollController,
         child: SingleChildScrollView(
           child: BottomNavigationBar(
             onTap: (int index) {
-              return frameController.onTapNav(index);
+              return context
+                  .read<FrameBloc>()
+                  .add(OnTapBottomNav(index: index));
             },
             type: BottomNavigationBarType.fixed,
             elevation: 8.0,
@@ -110,17 +108,17 @@ class FrameBottomNav extends FrameAppBar {
             selectedLabelStyle: const TextStyle(fontSize: 0),
             unselectedLabelStyle: const TextStyle(fontSize: 0),
             iconSize: 0,
-            items: menuLIst(frameController),
+            items: menuList(state),
           ),
         ),
       ),
     );
   }
 
-  List<BottomNavigationBarItem> menuLIst(FrameController frameController) {
+  List<BottomNavigationBarItem> menuList(FrameState state) {
     return <BottomNavigationBarItem>[
       _bottomNavigationBarItemDefault(
-        frameController: frameController,
+        state: state,
         icon: Icons.home,
         label: 'Home',
         index: 0,
@@ -129,22 +127,22 @@ class FrameBottomNav extends FrameAppBar {
         icon: Icons.chat,
         label: 'Chat',
         index: 1,
-        frameController: frameController,
+        state: state,
       ),
       _bottomNavigationBarItemDefault(
-        frameController: frameController,
+        state: state,
         icon: Icons.home_repair_service,
         label: 'Home Service',
         index: 2,
       ),
       _bottomNavigationBarItemDefault(
-        frameController: frameController,
+        state: state,
         icon: Icons.store_mall_directory_sharp,
         label: 'Workshop',
         index: 3,
       ),
       _akunBottomNavBar(
-        frameController: frameController,
+        state: state,
         icon: Icons.person_2_outlined,
         label: 'Akun',
         index: 4,
@@ -156,13 +154,13 @@ class FrameBottomNav extends FrameAppBar {
     required IconData icon,
     required String label,
     required int index,
-    required FrameController frameController,
+    required FrameState state,
     double? widthIcon,
     double? heightIcon,
   }) {
     return BottomNavigationBarItem(
       icon: _AkunWrapper(
-        frameController: frameController,
+        state: state,
         icon: icon,
         label: label,
         index: index,
@@ -177,13 +175,13 @@ class FrameBottomNav extends FrameAppBar {
     required IconData icon,
     required String label,
     required int index,
-    required FrameController frameController,
+    required FrameState state,
     double? widthIcon,
     double? heightIcon,
   }) {
     return BottomNavigationBarItem(
       icon: _ChatMenuItemWrapper(
-        frameController: frameController,
+        frameState: state,
         icon: icon,
         label: label,
         index: index,
@@ -198,13 +196,13 @@ class FrameBottomNav extends FrameAppBar {
     required IconData icon,
     required String label,
     required int index,
-    required FrameController frameController,
+    required FrameState state,
     double? widthIcon,
     double? heightIcon,
   }) {
     return BottomNavigationBarItem(
       icon: _MenuItemWrapper(
-        frameController: frameController,
+        state: state,
         icon: icon,
         label: label,
         index: index,
@@ -219,18 +217,17 @@ class FrameBottomNav extends FrameAppBar {
 class _CenterFloatingButton extends StatelessWidget {
   const _CenterFloatingButton({
     required this.onTap,
-    required this.frameController,
+    required this.state,
   });
 
   final Function() onTap;
-  final FrameController frameController;
+  final FrameState state;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: frameController.defaultIndex.value == 5
-          ? AppColors.grey
-          : AppColors.redAlert,
+      backgroundColor:
+          state.defaultIndex == 5 ? AppColors.grey : AppColors.redAlert,
       elevation: 0,
       onPressed: onTap,
       child: ResponsiveRowColumnItem(
@@ -247,7 +244,7 @@ class _AkunWrapper extends StatelessWidget {
     required this.index,
     this.widthIcon,
     this.heightIcon,
-    required this.frameController,
+    required this.state,
   });
 
   final IconData icon;
@@ -255,7 +252,7 @@ class _AkunWrapper extends StatelessWidget {
   final int index;
   final double? widthIcon;
   final double? heightIcon;
-  final FrameController frameController;
+  final FrameState state;
 
   @override
   Widget build(BuildContext context) {
@@ -263,19 +260,18 @@ class _AkunWrapper extends StatelessWidget {
       layout: ResponsiveRowColumnType.COLUMN,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-            child: Obx(() =>
-                frameController.onTapIdentifierList[index].isOnTapped
-                    ? Icon(icon,
-                        size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
-                        color: AppColors.blackBackground)
-                    : const UserPicture(
-                        width: 7,
-                        height: 7,
-                      ))),
+            child: state.identifierList[index].isOnTapped == true
+                ? Icon(icon,
+                    size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
+                    color: AppColors.blackBackground)
+                : const UserPicture(
+                    width: 7,
+                    height: 7,
+                  )),
         ResponsiveRowColumnItem(
             child: InterTextView(
                 value: label,
-                color: frameController.onTapIdentifierList[index].isOnTapped
+                color: state.identifierList[index].isOnTapped == true
                     ? AppColors.blackBackground
                     : AppColors.greyDisabled,
                 size: widthIcon == null && heightIcon == null
@@ -294,7 +290,7 @@ class _MenuItemWrapper extends StatelessWidget {
     required this.index,
     this.widthIcon,
     this.heightIcon,
-    required this.frameController,
+    required this.state,
   });
 
   final IconData icon;
@@ -302,7 +298,7 @@ class _MenuItemWrapper extends StatelessWidget {
   final int index;
   final double? widthIcon;
   final double? heightIcon;
-  final FrameController frameController;
+  final FrameState state;
 
   @override
   Widget build(BuildContext context) {
@@ -310,20 +306,18 @@ class _MenuItemWrapper extends StatelessWidget {
       layout: ResponsiveRowColumnType.COLUMN,
       children: <ResponsiveRowColumnItem>[
         ResponsiveRowColumnItem(
-          child: Obx(
-            () => Icon(
-              icon,
-              size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
-              color: frameController.onTapIdentifierList[index].isOnTapped
-                  ? AppColors.blackBackground
-                  : AppColors.greyDisabled,
-            ),
+          child: Icon(
+            icon,
+            size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
+            color: state.identifierList[index].isOnTapped == true
+                ? AppColors.blackBackground
+                : AppColors.greyDisabled,
           ),
         ),
         ResponsiveRowColumnItem(
             child: InterTextView(
                 value: label,
-                color: frameController.onTapIdentifierList[index].isOnTapped
+                color: state.identifierList[index].isOnTapped == true
                     ? AppColors.blackBackground
                     : AppColors.greyDisabled,
                 size: widthIcon == null && heightIcon == null
@@ -342,7 +336,7 @@ class _ChatMenuItemWrapper extends StatelessWidget {
     required this.index,
     this.widthIcon,
     this.heightIcon,
-    required this.frameController,
+    required this.frameState,
   });
 
   final IconData icon;
@@ -350,72 +344,50 @@ class _ChatMenuItemWrapper extends StatelessWidget {
   final int index;
   final double? widthIcon;
   final double? heightIcon;
-  final FrameController frameController;
+  final FrameState frameState;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: frameController.totalUnreadChat(),
-        builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents =
-                snapshot.data!.docs;
-            final List<int> totalUnreadList = <int>[];
-
-            for (final QueryDocumentSnapshot<Map<String, dynamic>> document
-                in documents) {
-              // Ambil nilai dari field total_unread
-              final int totalUnread = document['total_unread'] as int;
-              totalUnreadList.add(totalUnread);
-              frameController.unReadNotif.value = totalUnreadList.fold(0,
-                  (int previousValue, int element) => previousValue + element);
-            }
-            return ResponsiveRowColumn(
-              layout: ResponsiveRowColumnType.COLUMN,
-              children: <ResponsiveRowColumnItem>[
-                ResponsiveRowColumnItem(
-                    child: Obx(() => Stack(
-                          children: <Widget>[
-                            Icon(icon,
-                                size: heightIcon ??
-                                    SizeConfig.safeBlockHorizontal * 8,
-                                color: AppColors.greyDisabled),
-                            // ignore: prefer_if_elements_to_conditional_expressions
-                            frameController.unReadNotif.value == 0
-                                ? const SizedBox.shrink()
-                                : Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: SizeConfig.horizontal(1),
-                                        left: SizeConfig.horizontal(3)),
-                                    child: CircleAvatar(
-                                      radius: SizeConfig.horizontal(2),
-                                      backgroundColor: AppColors.redAlert,
-                                      child: InterTextView(
-                                        value:
-                                            '${frameController.unReadNotif.value}',
-                                        size:
-                                            SizeConfig.safeBlockHorizontal * 3,
-                                      ),
-                                    ),
-                                  )
-                          ],
-                        ))),
-                ResponsiveRowColumnItem(
-                    child: InterTextView(
-                        value: label,
-                        color: frameController
-                                .onTapIdentifierList[index].isOnTapped
-                            ? AppColors.blackBackground
-                            : AppColors.greyDisabled,
-                        size: widthIcon == null && heightIcon == null
-                            ? SizeConfig.safeBlockHorizontal * 2.7
-                            : SizeConfig.safeBlockHorizontal * 2.8,
-                        fontWeight: FontWeight.w500)),
-              ],
-            );
-          }
-          return const SizedBox.shrink();
-        });
+    return BlocBuilder<ChatBloc, ChatState>(builder: (_, ChatState state) {
+      return ResponsiveRowColumn(
+        layout: ResponsiveRowColumnType.COLUMN,
+        children: <ResponsiveRowColumnItem>[
+          ResponsiveRowColumnItem(
+              child: Stack(
+            children: <Widget>[
+              Icon(icon,
+                  size: heightIcon ?? SizeConfig.safeBlockHorizontal * 8,
+                  color: AppColors.greyDisabled),
+              // ignore: prefer_if_elements_to_conditional_expressions
+              state.totalUnread == 0
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          bottom: SizeConfig.horizontal(1),
+                          left: SizeConfig.horizontal(3)),
+                      child: CircleAvatar(
+                        radius: SizeConfig.horizontal(2),
+                        backgroundColor: AppColors.redAlert,
+                        child: InterTextView(
+                          value: '${state.totalUnread}',
+                          size: SizeConfig.safeBlockHorizontal * 3,
+                        ),
+                      ),
+                    )
+            ],
+          )),
+          ResponsiveRowColumnItem(
+              child: InterTextView(
+                  value: label,
+                  color: frameState.identifierList[index].isOnTapped == true
+                      ? AppColors.blackBackground
+                      : AppColors.greyDisabled,
+                  size: widthIcon == null && heightIcon == null
+                      ? SizeConfig.safeBlockHorizontal * 2.7
+                      : SizeConfig.safeBlockHorizontal * 2.8,
+                  fontWeight: FontWeight.w500)),
+        ],
+      );
+    });
   }
 }

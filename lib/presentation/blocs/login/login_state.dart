@@ -1,6 +1,5 @@
 part of 'login_bloc.dart';
 
-enum Status { initial, loading, success, error }
 
 class LoginState extends Equatable {
   const LoginState({

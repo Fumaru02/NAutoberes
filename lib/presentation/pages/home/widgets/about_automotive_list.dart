@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../../core/constant/enums.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../domain/models/about_automotive_model.dart';
 import '../../../widgets/custom/custom_ripple_button.dart';

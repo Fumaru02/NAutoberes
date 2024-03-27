@@ -10,7 +10,7 @@ import '../../../controllers/akun_controller.dart';
 import '../../../controllers/edit_profile_controller.dart';
 import '../../../core/helpers/string_extension.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/size_config.dart';
 import '../../widgets/custom/custom_confirmation_dialog.dart';
 import '../../widgets/custom/custom_flat_button.dart';

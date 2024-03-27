@@ -3,8 +3,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../presentation/widgets/layouts/space_sizer.dart';
 import '../../presentation/widgets/text/inter_text_view.dart';
+import '../constant/enums.dart';
 import '../utils/app_colors.dart';
-import '../utils/enums.dart';
 import '../utils/size_config.dart';
 
 class Snack {

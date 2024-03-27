@@ -2,12 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nested/nested.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import 'core/constant/enums.dart';
 import 'core/helpers/snackbar.dart';
 import 'core/routes/app_routes.dart';
-import 'core/utils/enums.dart';
 import 'core/utils/size_config.dart';
+import 'presentation/blocs/frame/frame_bloc.dart';
 import 'presentation/cubits/shared_cubit.dart';
 
 /// Fungsi utama aplikasi Flutter.
@@ -30,17 +32,34 @@ Future<void> main() async {
 
 //3.19.2
 /// Kelas utama aplikasi AutoBeres yang mengimplementasikan `StatelessWidget`.
-class AutoBeres extends StatelessWidget {
+class AutoBeres extends StatefulWidget {
   /// Konstruktor untuk kelas `AutoBeres`.
   const AutoBeres({super.key});
+
+  @override
+  State<AutoBeres> createState() => _AutoBeresState();
+}
+
+class _AutoBeresState extends State<AutoBeres> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Menginisialisasi `SizeConfig` dengan konteks saat ini.
     SizeConfig().init(context);
 
-    return BlocProvider<SharedCubit>(
-      create: (_) => SharedCubit(),
+    return MultiBlocProvider(
+      providers: <SingleChildWidget>[
+        BlocProvider<SharedCubit>(
+          create: (_) => SharedCubit(),
+        ),
+        BlocProvider<FrameBloc>(
+          create: (_) => FrameBloc()..add(OnInitBottomNavBar()),
+        ),
+      ],
       child: MaterialApp.router(
         builder: (BuildContext context, Widget? child) =>
             ResponsiveBreakpoints.builder(

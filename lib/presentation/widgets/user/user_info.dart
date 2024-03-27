@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/akun_controller.dart';
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
 import '../custom/custom_shimmer_placeholder.dart';
 import '../text/inter_text_view.dart';

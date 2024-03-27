@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../controllers/home/home_controller.dart';
+import '../../cubits/home/home_cubit.dart';
 
 class ScrollToHideWidget extends StatelessWidget {
   const ScrollToHideWidget({
@@ -9,24 +9,23 @@ class ScrollToHideWidget extends StatelessWidget {
     required this.child,
     required this.controller,
     this.duration = const Duration(milliseconds: 200),
-    required this.homeController,
   });
 
   final Widget child;
   final ScrollController controller;
   final Duration duration;
-  final HomeController homeController;
 
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_final_locals
-    return Obx(
-      () => AnimatedContainer(
-        height:
-            homeController.isVisible.isFalse ? kBottomNavigationBarHeight : 0,
-        duration: duration,
-        child: child,
-      ),
+    return BlocBuilder<HomeCubit, HomeCubitState>(
+      builder: (_, HomeCubitState state) {
+        return AnimatedContainer(
+          height: state.isVisible == false ? kBottomNavigationBarHeight : 0,
+          duration: duration,
+          child: child,
+        );
+      },
     );
   }
 }

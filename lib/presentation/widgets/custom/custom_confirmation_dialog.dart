@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
 import '../layouts/space_sizer.dart';
 import '../logo/autoberes_logo.dart';

@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../models/users_model.dart';
 import 'chat_interface.dart';
 
 class ChatRepository implements IChatRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
-  Future <List<ChatUser>> onCheckCollectionChat() async {
+  Future<List<ChatUser>> onCheckCollectionChat() async {
     final QuerySnapshot<Map<String, dynamic>> listChats =
         await _firestore.collection('chats').get();
     if (listChats.docs.isNotEmpty) {
@@ -29,5 +31,14 @@ class ChatRepository implements IChatRepository {
     } else {
       return <ChatUser>[];
     }
+  }
+
+  @override
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> totalUnreadChat() async {
+    return _firestore
+        .collection('users')
+        .doc(user!.uid)
+        .collection('chats')
+        .snapshots();
   }
 }

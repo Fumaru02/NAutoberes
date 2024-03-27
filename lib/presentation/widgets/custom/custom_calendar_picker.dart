@@ -5,8 +5,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/custom_calendar_controller.dart';
 import '../../../controllers/home/ganti_oli_controller.dart';
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/app_colors.dart';
-import '../../../core/utils/enums.dart';
 import '../../../core/utils/size_config.dart';
 import '../frame/frame_scaffold.dart';
 import '../layouts/space_sizer.dart';

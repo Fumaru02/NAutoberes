@@ -1,41 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../controllers/frame_controller.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
+import '../../blocs/frame/frame_bloc.dart';
 import '../../widgets/frame/frame_bottom_nav_bar.dart';
 import '../../widgets/user/user_info.dart';
 
-class FrameView extends StatefulWidget {
-  const FrameView({super.key});
+class Frame extends StatefulWidget {
+  const Frame({super.key});
 
   @override
-  State<FrameView> createState() => _FrameViewState();
+  State<Frame> createState() => _FrameState();
 }
 
-class _FrameViewState extends State<FrameView> {
-  final FrameController _controller = Get.put(
-    FrameController(),
-  );
+class _FrameState extends State<Frame> {
+//this class for setting up bottomnavbar
+  @override
+  void initState() {
+    super.initState();
+    context.read<FrameBloc>().add(OnInitBottomNavBar());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => FrameBottomNav(
-          onBack: () => _controller.onTapNav(0),
-          isUseLeading: _useBackButton(),
-          isImplyLeading: false,
-          elevation: 0,
-          action: _customAction(),
-          heightBar: _whenUseHeightBar(),
-          isCenter: _isCenterTitle(),
-          titleScreen: _useTitleAppBar(),
-          color: AppColors.blackBackground,
-        ));
+    return BlocBuilder<FrameBloc, FrameState>(
+      builder: (_, FrameState state) => FrameBottomNav(
+        isUseLeading: _useBackButton(state),
+        isImplyLeading: false,
+        elevation: 0,
+        action: _customAction(state),
+        heightBar: _whenUseHeightBar(state),
+        isCenter: _isCenterTitle(state),
+        titleScreen: _useTitleAppBar(state),
+        color: AppColors.blackBackground,
+      ),
+    );
   }
 
-  Widget _customAction() {
-    if (_controller.defaultIndex.value == 1) {
+  Widget _customAction(FrameState state) {
+    if (state.defaultIndex == 1) {
       return const Padding(
         padding: EdgeInsets.all(2),
         child: UserPicture(
@@ -48,37 +52,36 @@ class _FrameViewState extends State<FrameView> {
     }
   }
 
-  bool _isCenterTitle() {
-    if (_controller.defaultIndex.value == 2 ||
-        _controller.defaultIndex.value == 3 ||
-        _controller.defaultIndex.value == 4) {
+  bool _isCenterTitle(FrameState state) {
+    if (state.defaultIndex == 2 ||
+        state.defaultIndex == 3 ||
+        state.defaultIndex == 4) {
       return true;
     } else {
       return false;
     }
   }
 
-  double _whenUseHeightBar() {
-    if (_controller.defaultIndex.value == 1 ||
-        _controller.defaultIndex.value == 3) {
+  double _whenUseHeightBar(FrameState state) {
+    if (state.defaultIndex == 1 || state.defaultIndex == 3) {
       return SizeConfig.horizontal(14);
     } else {
       return 0;
     }
   }
 
-  String _useTitleAppBar() {
-    if (_controller.defaultIndex.value == 1) {
+  String _useTitleAppBar(FrameState state) {
+    if (state.defaultIndex == 1) {
       return 'Chat Room';
-    } else if (_controller.defaultIndex.value == 3) {
+    } else if (state.defaultIndex == 3) {
       return 'Workshop';
     } else {
       return '';
     }
   }
 
-  bool _useBackButton() {
-    if (_controller.defaultIndex.value == 1) {
+  bool _useBackButton(FrameState state) {
+    if (state.defaultIndex == 1) {
       return true;
     } else {
       return false;
