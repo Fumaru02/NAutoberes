@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -23,23 +21,8 @@ class FrameBloc extends Bloc<FrameEvent, FrameState> {
 
   void _onTapBottomNavBar(FrameEvent event, Emitter<FrameState> emit) {
     emit(state.copyWith(
-      identifierList: <OnTapIdentifier>[
-        OnTapIdentifier(name: 'Home', index: 0, isOnTapped: true),
-        OnTapIdentifier(name: 'Chat', index: 1, isOnTapped: false),
-        OnTapIdentifier(name: 'Services', index: 2, isOnTapped: false),
-        OnTapIdentifier(name: 'Workshop', index: 3, isOnTapped: false),
-        OnTapIdentifier(name: 'Akun', index: 4, isOnTapped: false),
-      ],
-      widgetViewList: <Widget>[
-        const HomeView(),
-        const ChatView(),
-        const HomeServicesView(),
-        const WorkshopView(),
-        const AkunView(),
-      ],
       defaultIndex: 0,
     ));
-    log(state.identifierList.length.toString());
   }
 
   void _onChangeIndex(

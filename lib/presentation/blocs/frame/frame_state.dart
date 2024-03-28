@@ -12,13 +12,25 @@ class FrameState extends Equatable {
     required this.identifierList,
   });
 
-  factory FrameState.initial() => const FrameState(
-      frameStatus: FrameStatus.initial,
-      defaultIndex: 0,
-      currentRoute: '',
-      isOutsideFrame: false,
-      identifierList: <OnTapIdentifier>[],
-      widgetViewList: <Widget>[]);
+  factory FrameState.initial() => FrameState(
+          frameStatus: FrameStatus.initial,
+          defaultIndex: 0,
+          currentRoute: '',
+          isOutsideFrame: false,
+          identifierList: <OnTapIdentifier>[
+            OnTapIdentifier(name: 'Home', index: 0, isOnTapped: true),
+            OnTapIdentifier(name: 'Chat', index: 1, isOnTapped: false),
+            OnTapIdentifier(name: 'Services', index: 2, isOnTapped: false),
+            OnTapIdentifier(name: 'Workshop', index: 3, isOnTapped: false),
+            OnTapIdentifier(name: 'Akun', index: 4, isOnTapped: false),
+          ],
+          widgetViewList: const <Widget>[
+            HomeView(),
+            ChatView(),
+            HomeServicesView(),
+            WorkshopView(),
+            AkunView(),
+          ]);
   final bool isOutsideFrame;
   final String currentRoute;
   final FrameStatus frameStatus;
