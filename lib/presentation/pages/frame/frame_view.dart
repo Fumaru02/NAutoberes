@@ -16,11 +16,6 @@ class Frame extends StatefulWidget {
 
 class _FrameState extends State<Frame> {
 //this class for setting up bottomnavbar
-  @override
-  void initState() {
-    super.initState();
-    context.read<FrameBloc>().add(OnInitBottomNavBar());
-  }
 
   @override
   Widget build(BuildContext context) {

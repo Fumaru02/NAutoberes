@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/asset_list.dart';
 import '../../../core/utils/size_config.dart';
@@ -137,32 +138,33 @@ class _HomeViewState extends State<HomeView> {
                   top: SizeConfig.horizontal(2),
                   right: SizeConfig.horizontal(2),
                   left: SizeConfig.horizontal(2)),
-              child: ResponsiveRowColumn(
-                layout: ResponsiveRowColumnType.ROW,
-                rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <ResponsiveRowColumnItem>[
-                  ResponsiveRowColumnItem(
-                    child: BlocBuilder<HomeBloc, HomeState>(
-                      builder: (_, HomeState state) {
-                        return InterTextView(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (_, HomeState state) {
+                  return ResponsiveRowColumn(
+                    layout: ResponsiveRowColumnType.ROW,
+                    rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <ResponsiveRowColumnItem>[
+                      ResponsiveRowColumnItem(
+                        child: InterTextView(
                             value: state.aboutAutomotiveTitle,
                             color: AppColors.black,
                             fontWeight: FontWeight.w700,
-                            size: SizeConfig.safeBlockHorizontal * 4);
-                      },
-                    ),
-                  ),
-                  ResponsiveRowColumnItem(
-                    child: CustomRippleButton(
-                      onTap: () {},
-                      child: InterTextView(
-                          value: 'Lihat semua',
-                          color: AppColors.blackBackground,
-                          fontWeight: FontWeight.w500,
-                          size: SizeConfig.safeBlockHorizontal * 3.5),
-                    ),
-                  ),
-                ],
+                            size: SizeConfig.safeBlockHorizontal * 4),
+                      ),
+                      ResponsiveRowColumnItem(
+                        child: CustomRippleButton(
+                          onTap: () => router.go('/lihatsemua',
+                              extra: state.aboutAutomotiveList),
+                          child: InterTextView(
+                              value: 'Lihat semua',
+                              color: AppColors.blackBackground,
+                              fontWeight: FontWeight.w500,
+                              size: SizeConfig.safeBlockHorizontal * 3.5),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             )
           ]),

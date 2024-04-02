@@ -19,7 +19,7 @@ class AutomotiveNews extends StatelessWidget {
           builder: (_, HomeState state) {
             return ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: state.aboutAutomotiveList.length,
+                itemCount: 2,
                 itemBuilder: (BuildContext context, int index) =>
                     AboutAutomotiveList(
                       model: state.aboutAutomotiveList[index],

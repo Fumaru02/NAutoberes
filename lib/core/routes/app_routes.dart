@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nested/nested.dart';
 
+import '../../domain/models/about_automotive_model.dart';
 import '../../presentation/blocs/authorize/authorize_bloc.dart';
 import '../../presentation/blocs/bloc/home_bloc.dart';
 import '../../presentation/blocs/chat/chat_bloc.dart';
@@ -12,6 +13,7 @@ import '../../presentation/cubits/home/home_cubit.dart';
 import '../../presentation/cubits/login/login_cubit.dart';
 import '../../presentation/pages/authorize/authorize_view.dart';
 import '../../presentation/pages/frame/frame_view.dart';
+import '../../presentation/pages/home/widgets/lihat_semua_view.dart';
 import '../../presentation/pages/login/forgot_password_view.dart';
 import '../../presentation/pages/login/login_view.dart';
 import 'routes_name.dart';
@@ -76,6 +78,14 @@ final GoRouter router = GoRouter(
             ),
           ],
           child: const Frame(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/lihatsemua',
+      builder: (__, GoRouterState state) {
+        return LihatSemuaView(
+          aboutAutomotiveList: state.extra! as List<AboutAutomotiveModel>,
         );
       },
     ),

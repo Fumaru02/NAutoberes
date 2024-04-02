@@ -1,7 +1,5 @@
 part of 'frame_bloc.dart';
 
-enum FrameStatus { initial, loading, loaded }
-
 class FrameState extends Equatable {
   const FrameState({
     required this.isOutsideFrame,

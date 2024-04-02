@@ -10,6 +10,9 @@ enum EndPointName {
   profiency,
 }
 
+enum FrameStatus { initial, loading, loaded }
+
+
 enum AnimationEvent { start, stop }
 
 enum ConnectionType { none, wifi, mobile }

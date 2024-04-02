@@ -57,7 +57,7 @@ class _AutoBeresState extends State<AutoBeres> {
           create: (_) => SharedCubit(),
         ),
         BlocProvider<FrameBloc>(
-          create: (_) => FrameBloc()..add(OnInitBottomNavBar()),
+          create: (_) => FrameBloc(),
         ),
       ],
       child: MaterialApp.router(

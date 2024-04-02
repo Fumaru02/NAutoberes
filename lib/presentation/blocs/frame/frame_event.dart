@@ -13,7 +13,6 @@ class OnTapBottomNav extends FrameEvent {
   final int index;
 }
 
-class OnInitBottomNavBar extends FrameEvent {}
 
 class OnCheckUserNavigate extends FrameEvent {
   const OnCheckUserNavigate({

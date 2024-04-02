@@ -2,8 +2,8 @@
 import 'package:autoberes/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
+import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../text/inter_text_view.dart';
 
@@ -72,18 +72,18 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
   }
 
-  Widget _leadingWrapper(BuildContext context) {
+  Widget _leadingWrapper() {
     if (customLeading == null) {
-      return _backButton(context);
+      return _backButton();
     } else {
       return customLeading!;
     }
   }
 
-  Widget _backButton(BuildContext context) {
+  Widget _backButton() {
     return IconButton(
         onPressed: () {
-          onBack == null ? Get.back() : onBack!();
+          onBack == null ? router.pop() : onBack!();
         },
         icon: Icon(
           Icons.arrow_back,
@@ -121,7 +121,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: isUseLeading == null || isUseLeading == false
           ? null
-          : _leadingWrapper(context),
+          : _leadingWrapper(),
       actions: <Widget>[action ?? const SizedBox.shrink()],
       automaticallyImplyLeading: _enableImplyLeading(),
       bottom: bottom,

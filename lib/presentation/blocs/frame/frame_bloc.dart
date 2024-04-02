@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../core/utils/on_tap_identifier.dart';
 import '../../pages/akun/akun_view.dart';
 import '../../pages/chat/chat_view.dart';
@@ -14,15 +15,8 @@ part 'frame_state.dart';
 
 class FrameBloc extends Bloc<FrameEvent, FrameState> {
   FrameBloc() : super(FrameState.initial()) {
-    on<OnInitBottomNavBar>(_onTapBottomNavBar);
     on<OnTapBottomNav>(_onChangeIndex);
     on<OnCheckUserNavigate>(_checkUserNavigate);
-  }
-
-  void _onTapBottomNavBar(FrameEvent event, Emitter<FrameState> emit) {
-    emit(state.copyWith(
-      defaultIndex: 0,
-    ));
   }
 
   void _onChangeIndex(
