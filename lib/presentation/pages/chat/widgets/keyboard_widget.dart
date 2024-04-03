@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../../controllers/chat_controller.dart';
@@ -46,9 +45,9 @@ class KeyboardWidget extends StatelessWidget {
                 maxLines: 20,
                 title: '',
                 hintText: 'Enter Message...',
-                focusNode: chatController.myFocusNode,
+                // focusNode: chatController.myFocusNode,
                 keyboardType: TextInputType.multiline,
-                controller: chatController.chatEditingController,
+                // controller: chatController.chatEditingController,
                 onFieldSubmitted: (String value) {
                   chatController.myMessage.value = value;
                 },
@@ -60,11 +59,11 @@ class KeyboardWidget extends StatelessWidget {
               radius: SizeConfig.horizontal(6),
               child: IconButton(
                   onPressed: () {
-                    chatController.newChat(
-                        homeServicesController.user!.uid,
-                        Get.arguments as Map<String, dynamic>,
-                        chatController.chatEditingController.text,
-                        userUid);
+                    // chatController.newChat(
+                    //     homeServicesController.user!.uid,
+                    //     Get.arguments as Map<String, dynamic>,
+                    //     chatController.chatEditingController.text,
+                    //     userUid);
                     FocusScope.of(context).unfocus();
                   },
                   icon: Icon(

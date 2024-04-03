@@ -57,7 +57,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
           await _appsInfoRepository.getPromo();
       final Map<String, dynamic> data = documentSnapshot.data()!;
-      log('$data test ini');
       emit(
         state.copyWith(
             promoTitle: data['promo']['promo_title'] as String,

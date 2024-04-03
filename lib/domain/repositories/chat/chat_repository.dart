@@ -41,4 +41,52 @@ class ChatRepository implements IChatRepository {
         .collection('chats')
         .snapshots();
   }
+
+  @override
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> userChats() async {
+    return _firestore
+        .collection('users')
+        .doc(user!.uid)
+        .collection('chats')
+        .orderBy('last_time', descending: true)
+        .snapshots();
+  }
+
+  @override
+  Future<Stream<DocumentSnapshot<Map<String, dynamic>>>> directChat(
+      String targetId) async {
+    return _firestore.collection('users').doc(targetId).snapshots();
+  }
+
+  @override
+  Future<void> updateChatStatus(String chatId, String targetUid) async {
+    final CollectionReference<Map<String, dynamic>> chats =
+        _firestore.collection('chats');
+    final CollectionReference<Map<String, dynamic>> users =
+        _firestore.collection('users');
+    final QuerySnapshot<Map<String, dynamic>> updateStatusChat = await chats
+        .doc(chatId)
+        .collection('chat')
+        .where('isRead', isEqualTo: false)
+        .where('penerima', isEqualTo: targetUid)
+        .get();
+    updateStatusChat.docs
+        // ignore: avoid_function_literals_in_foreach_calls
+        .forEach((QueryDocumentSnapshot<Map<String, dynamic>> element) async {
+      await chats
+          .doc(chatId)
+          .collection('chat')
+          .doc(element.id)
+          .update(<String, dynamic>{
+        'isRead': true,
+      });
+      await users
+          .doc(targetUid)
+          .collection('chats')
+          .doc(chatId)
+          .update(<Object, Object?>{
+        'total_unread': 0,
+      });
+    });
+  }
 }

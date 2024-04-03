@@ -6,31 +6,20 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../presentation/pages/chat/chat_room_view.dart';
-
 class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
     getWarning();
-    myFocusNode.addListener(() {
-      if (myFocusNode.hasFocus) {
-        Future<void>.delayed(
-            const Duration(milliseconds: 500), () => scrollDownChat());
-      }
-    });
   }
 
   @override
   void onClose() {
     super.onClose();
     chatEditingController.dispose();
-    myFocusNode.dispose();
   }
 
   TextEditingController chatEditingController = TextEditingController();
-  late ScrollController scrollController = ScrollController();
-  late FocusNode myFocusNode = FocusNode();
   final RxBool isUserTyping = RxBool(false);
   final RxBool isHideWarning = RxBool(false);
   final RxString myMessage = RxString('');
@@ -69,27 +58,6 @@ class ChatController extends GetxController {
     await _updateStatus(chatIds, mechanicUid, chats, users);
   }
 
-  void scrollDownChat() {
-    scrollController.animateTo(scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 1000),
-        curve: Curves.fastOutSlowIn);
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> streamChats(String chatId) {
-    final CollectionReference<Map<String, dynamic>> chats =
-        _firestore.collection('chats');
-    return chats.doc(chatId).collection('chat').orderBy('time').snapshots();
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> chatsStream(String mechanicUid) {
-    return _firestore
-        .collection('users')
-        .doc(mechanicUid)
-        .collection('chats')
-        .orderBy('last_time', descending: true)
-        .snapshots();
-  }
-
   Future<void> _updateStatus(
       String chatIds,
       String mechanicUid,
@@ -120,11 +88,6 @@ class ChatController extends GetxController {
         .update(<Object, Object?>{
       'total_unread': 0,
     });
-  }
-
-  Stream<DocumentSnapshot<Map<String, dynamic>>> mechanicsChat(
-      String mechanicUid) {
-    return _firestore.collection('users').doc(mechanicUid).snapshots();
   }
 
   Future<void> newChat(String mechanicUid, Map<String, dynamic> arguments,
@@ -213,18 +176,18 @@ class ChatController extends GetxController {
         _firestore.collection('users');
     await _updateStatus(chatId, mechanicUid, chats, users);
 
-    Get.to(
-      ChatRoomView(
-        mechanicUid: mechanicUid,
-        chatId: chatId,
-        userUid: userUidChat,
-        receiverName: receiverName,
-        receiverPic: receiverPic,
-      ),
-      arguments: <String, dynamic>{
-        'chat_id': chatId,
-        'mechanic_uid': mechanicUid
-      },
-    );
+    // Get.to(
+    //   ChatRoomView(
+    //     mechanicUid: mechanicUid,
+    //     chatId: chatId,
+    //     userUid: userUidChat,
+    //     receiverName: receiverName,
+    //     receiverPic: receiverPic,
+    //   ),
+    //   arguments: <String, dynamic>{
+    //     'chat_id': chatId,
+    //     'mechanic_uid': mechanicUid
+    //   },
+    // );
   }
 }

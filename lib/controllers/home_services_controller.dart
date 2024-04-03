@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import '../domain/models/brands_car_model.dart';
 import '../domain/models/list_mechanics_model.dart';
 import '../domain/models/users_model.dart';
-import '../presentation/pages/chat/chat_room_view.dart';
 
 class HomeServicesController extends GetxController
     with GetTickerProviderStateMixin {
@@ -273,19 +272,19 @@ class HomeServicesController extends GetxController
       'total_unread': 0,
     });
     isLoading.value = false;
-    Get.to(
-      ChatRoomView(
-        mechanicUid: mechanicId.value,
-        userUid: mechanicId.value,
-        receiverName: mechanicName,
-        receiverPic: receiverImage,
-        chatId: chatId,
-      ),
-      arguments: <String, dynamic>{
-        'chat_id': chatId,
-        'mechanicUid': mechanicUid
-      },
-    );
+    // Get.to(
+    //   ChatRoomView(
+    //     mechanicUid: mechanicId.value,
+    //     userUid: mechanicId.value,
+    //     receiverName: mechanicName,
+    //     receiverPic: receiverImage,
+    //     chatId: chatId,
+    //   ),
+    //   arguments: <String, dynamic>{
+    //     'chat_id': chatId,
+    //     'mechanicUid': mechanicUid
+    //   },
+    // );
   }
 
   Future<void> onRefreshPage() async {

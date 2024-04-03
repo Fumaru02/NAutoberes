@@ -2,9 +2,10 @@
 import 'package:autoberes/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
+import '../../blocs/frame/frame_bloc.dart';
 import '../text/inter_text_view.dart';
 
 class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -72,18 +73,20 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
   }
 
-  Widget _leadingWrapper() {
+  Widget _leadingWrapper(BuildContext context) {
     if (customLeading == null) {
-      return _backButton();
+      return _backButton(context);
     } else {
       return customLeading!;
     }
   }
 
-  Widget _backButton() {
+  Widget _backButton(BuildContext context) {
     return IconButton(
         onPressed: () {
-          onBack == null ? router.pop() : onBack!();
+          onBack == null
+              ? context.read<FrameBloc>().add(const OnTapBottomNav(index: 0))
+              : onBack!();
         },
         icon: Icon(
           Icons.arrow_back,
@@ -121,7 +124,7 @@ class FrameAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: isUseLeading == null || isUseLeading == false
           ? null
-          : _leadingWrapper(),
+          : _leadingWrapper(context),
       actions: <Widget>[action ?? const SizedBox.shrink()],
       automaticallyImplyLeading: _enableImplyLeading(),
       bottom: bottom,

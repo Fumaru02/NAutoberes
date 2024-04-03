@@ -10,23 +10,22 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
 import '../../widgets/custom/custom_background_apps.dart';
 import '../../widgets/text/inter_text_view.dart';
-import 'widgets/chat_bubble_widget.dart';
 import 'widgets/keyboard_widget.dart';
 
 class ChatRoomView extends StatelessWidget {
   const ChatRoomView({
     super.key,
-    required this.receiverName,
-    required this.receiverPic,
+    required this.targetName,
+    required this.targetPic,
     required this.userUid,
     required this.chatId,
-    required this.mechanicUid,
+    required this.targetUid,
   });
-  final String receiverName;
-  final String receiverPic;
+  final String targetName;
+  final String targetPic;
   final String userUid;
   final String chatId;
-  final String mechanicUid;
+  final String targetUid;
   @override
   Widget build(BuildContext context) {
     final HomeServicesController homeServicesController = Get.find();
@@ -48,7 +47,7 @@ class ChatRoomView extends StatelessWidget {
                             child: IconButton(
                                 onPressed: () {
                                   chatController.onBackReadChat(
-                                      chatId, mechanicUid);
+                                      chatId, targetUid);
                                   Get.back();
                                 },
                                 icon: const Icon(Icons.arrow_back),
@@ -63,7 +62,7 @@ class ChatRoomView extends StatelessWidget {
                                   Radius.circular(SizeConfig.horizontal(8))),
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
-                                imageUrl: receiverPic,
+                                imageUrl: targetPic,
                                 memCacheWidth: 100,
                                 memCacheHeight: 100,
                               ),
@@ -72,17 +71,17 @@ class ChatRoomView extends StatelessWidget {
                         ],
                       ),
                       backgroundColor: AppColors.blackBackground,
-                      title: InterTextView(value: receiverName)),
+                      title: InterTextView(value: targetName)),
                   body: CustomBackgroundApp(
                     child: ResponsiveRowColumn(
                       layout: ResponsiveRowColumnType.COLUMN,
                       children: <ResponsiveRowColumnItem>[
-                        ResponsiveRowColumnItem(
-                            child: ChatBubbleWidget(
-                          chatController: chatController,
-                          chatId: chatId,
-                          homeServicesController: homeServicesController,
-                        )),
+                        // ResponsiveRowColumnItem(
+                        //     child: ChatBubbleWidget(
+                        //   chatController: chatController,
+                        //   chatId: chatId,
+                        //   homeServicesController: homeServicesController,
+                        // )),
                         ResponsiveRowColumnItem(
                             child: KeyboardWidget(
                           chatController: chatController,

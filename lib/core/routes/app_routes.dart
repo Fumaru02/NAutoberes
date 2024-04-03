@@ -12,6 +12,8 @@ import '../../presentation/blocs/login/login_bloc.dart';
 import '../../presentation/cubits/home/home_cubit.dart';
 import '../../presentation/cubits/login/login_cubit.dart';
 import '../../presentation/pages/authorize/authorize_view.dart';
+import '../../presentation/pages/chat/chat_room_view.dart';
+import '../../presentation/pages/chat/chat_view.dart';
 import '../../presentation/pages/frame/frame_view.dart';
 import '../../presentation/pages/home/widgets/lihat_semua_view.dart';
 import '../../presentation/pages/login/forgot_password_view.dart';
@@ -70,6 +72,9 @@ final GoRouter router = GoRouter(
             BlocProvider<ChatBloc>(
               create: (_) => ChatBloc(),
             ),
+            BlocProvider<ChatBloc>(
+              create: (_) => ChatBloc()..add(UserChats()),
+            ),
             BlocProvider<HomeBloc>(
               create: (_) => HomeBloc(),
             ),
@@ -86,6 +91,31 @@ final GoRouter router = GoRouter(
       builder: (__, GoRouterState state) {
         return LihatSemuaView(
           aboutAutomotiveList: state.extra! as List<AboutAutomotiveModel>,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/chat',
+      builder: (__, GoRouterState state) {
+        return BlocProvider<ChatBloc>.value(
+          value: ChatBloc(),
+          child: const ChatView(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/chatroom',
+      builder: (__, GoRouterState state) {
+        final Map<String, dynamic> data = state.extra! as Map<String, dynamic>;
+        return BlocProvider<ChatBloc>.value(
+          value: ChatBloc(),
+          child: ChatRoomView(
+            targetName: data['targetName'] as String,
+            chatId: data['chatId'] as String,
+            targetPic: data['targetPic'] as String,
+            targetUid: data['targetUid'] as String,
+            userUid: data['userUid'] as String,
+          ),
         );
       },
     ),
