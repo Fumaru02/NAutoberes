@@ -1,13 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../../controllers/home_service_manager_controller.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../domain/models/brands_car_model.dart';
+import '../../../blocs/home_service_manager/home_service_manager_bloc.dart';
+import '../../../cubits/home_service_manager/home_service_manager_cubit.dart';
 import '../../../widgets/custom/custom_flat_button.dart';
 import '../../../widgets/custom/custom_ripple_button.dart';
 import '../../../widgets/custom/custom_text_field.dart';
@@ -17,7 +19,11 @@ import '../../../widgets/text/inter_text_view.dart';
 class SelectCars extends StatelessWidget {
   const SelectCars({
     super.key,
+    required this.brandlistCar,
+    required this.foundedList,
   });
+  final List<BrandsCarModel> brandlistCar;
+  final List<BrandsCarModel> foundedList;
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -25,20 +31,20 @@ class SelectCars extends StatelessWidget {
             systemNavigationBarColor: AppColors.black,
             systemNavigationBarIconBrightness: Brightness.dark),
         child: FrameScaffold(
-            heightBar: 60,
-            isUseLeading: true,
-            titleScreen: 'Select Brand',
-            isCenter: true,
-            elevation: 0,
-            color: AppColors.blackBackground,
-            statusBarColor: AppColors.blackBackground,
-            colorScaffold: AppColors.white,
-            statusBarBrightness: Brightness.light,
-            view: GetBuilder<HomeServiceManagerController>(
-              init: HomeServiceManagerController(),
-              builder:
-                  (HomeServiceManagerController homeServiceManagerController) =>
-                      Stack(
+          heightBar: 60,
+          isUseLeading: true,
+          titleScreen: 'Select Brand',
+          onBack: () => router.pop(),
+          isCenter: true,
+          elevation: 0,
+          color: AppColors.blackBackground,
+          statusBarColor: AppColors.blackBackground,
+          colorScaffold: AppColors.white,
+          statusBarBrightness: Brightness.light,
+          view: BlocBuilder<HomeServiceManagerCubit,
+              HomeServiceManagerStateCubit>(
+            builder: (_, HomeServiceManagerStateCubit state) {
+              return Stack(
                 children: <Widget>[
                   SingleChildScrollView(
                     child: ResponsiveRowColumn(
@@ -50,41 +56,38 @@ class SelectCars extends StatelessWidget {
                                 borderRadius: 1,
                                 hintText: 'Masukkan nama brand...',
                                 prefixIcon: const Icon(Icons.search),
-                                onChanged: (String p0) =>
-                                    homeServiceManagerController
-                                        .searchBrand(p0),
+                                onChanged: (String p0) {
+                                  _
+                                      .read<HomeServiceManagerBloc>()
+                                      .add(OnSearchBrand(query: p0));
+                                },
                                 title: '')),
                         ResponsiveRowColumnItem(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.only(
-                                  bottom: SizeConfig.horizontal(10)),
-                              itemCount: homeServiceManagerController
-                                      .foundedBrand.isNotEmpty
-                                  ? homeServiceManagerController
-                                      .foundedBrand.length
-                                  : homeServiceManagerController
-                                      .brandsCarList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final BrandsCarModel item =
-                                    homeServiceManagerController
-                                        .brandsCarList[index];
-                                return CustomRippleButton(
-                                  borderRadius: BorderRadius.zero,
-                                  onTap: () => homeServiceManagerController
-                                      .toggleSelectionBrand(item),
-                                  child: listTileBrands(
-                                      homeServiceManagerController
-                                              .foundedBrand.isNotEmpty
-                                          ? homeServiceManagerController
-                                              .foundedBrand[index]
-                                          : homeServiceManagerController
-                                              .brandsCarList[index],
-                                      homeServiceManagerController),
-                                );
-                              }),
-                        ),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.only(
+                                    bottom: SizeConfig.horizontal(10)),
+                                itemCount: foundedList.isEmpty
+                                    ? brandlistCar.length
+                                    : foundedList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final BrandsCarModel item =
+                                      brandlistCar[index];
+                                  final bool isSelected =
+                                      state.selectedBrand.contains(item);
+                                  return CustomRippleButton(
+                                    borderRadius: BorderRadius.zero,
+                                    onTap: () => _
+                                        .read<HomeServiceManagerCubit>()
+                                        .toggleSelectionBrand(item),
+                                    child: listTileBrands(
+                                        foundedList.isNotEmpty
+                                            ? foundedList[index]
+                                            : brandlistCar[index],
+                                        isSelected),
+                                  );
+                                }))
                       ],
                     ),
                   ),
@@ -97,24 +100,24 @@ class SelectCars extends StatelessWidget {
                       child: CustomFlatButton(
                           width: 80,
                           height: 8,
-                          text:
-                              'Selected (${homeServiceManagerController.selectedBrand.length})',
+                          text: 'Selected (${state.selectedBrand.length})',
                           onTap: () {
-                            Get.back();
+                            router.pop();
                           }),
                     ),
                   )
                 ],
-              ),
-            )));
+              );
+            },
+          ),
+        ));
   }
 
-  Widget listTileBrands(BrandsCarModel model,
-      HomeServiceManagerController homeServiceManagerController) {
+  Widget listTileBrands(BrandsCarModel model, bool isSelected) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
       child: ListTile(
-        tileColor: model.isSelected == true ? AppColors.blackBackground : null,
+        tileColor: isSelected == true ? AppColors.blackBackground : null,
         title: InterTextView(
           value: model.brand,
           color: AppColors.black,

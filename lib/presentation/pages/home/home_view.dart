@@ -8,7 +8,7 @@ import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/asset_list.dart';
 import '../../../core/utils/size_config.dart';
-import '../../blocs/bloc/home_bloc.dart';
+import '../../blocs/home/home_bloc.dart';
 import '../../cubits/home/home_cubit.dart';
 import '../../widgets/custom/custom_ripple_button.dart';
 import '../../widgets/layouts/space_sizer.dart';

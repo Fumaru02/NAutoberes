@@ -11,6 +11,36 @@ class TotalUnreadChat extends ChatEvent {}
 
 class UserChats extends ChatEvent {}
 
+class GetAttention extends ChatEvent {
+  const GetAttention({
+    required this.isHideAttention,
+  });
+  final bool isHideAttention;
+}
+
+class GetMessage extends ChatEvent {
+  const GetMessage({
+    required this.messages,
+  });
+  final List<QueryDocumentSnapshot<Map<String, dynamic>>> messages;
+}
+
+class ChatMessages extends ChatEvent {
+  const ChatMessages({
+    required this.chatId,
+  });
+  final String chatId;
+}
+
+class BacktoChatView extends ChatEvent {
+  const BacktoChatView({
+    required this.chatId,
+    required this.targetUid,
+  });
+  final String chatId;
+  final String targetUid;
+}
+
 class GotoRoomChat extends ChatEvent {
   const GotoRoomChat({
     required this.chatId,
@@ -32,7 +62,7 @@ class ChatUpdated extends ChatEvent {
   const ChatUpdated({
     required this.chats,
   });
-  final List<dynamic> chats;
+  final List<QueryDocumentSnapshot<Map<String, dynamic>>> chats;
 }
 
 class TargetInfo extends ChatEvent {

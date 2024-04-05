@@ -4,7 +4,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
-import '../../../blocs/bloc/home_bloc.dart';
+import '../../../blocs/home/home_bloc.dart';
 
 class AnimatedDotPromoSlide extends StatelessWidget {
   const AnimatedDotPromoSlide({

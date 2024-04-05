@@ -42,46 +42,48 @@ class FrameBottomNav extends FrameAppBar {
       builder: (_, FrameState state) {
         return DefaultTabController(
             length: state.widgetViewList.length,
-            child: Scaffold(
-                backgroundColor: colorScaffold,
-                extendBody: true,
-                appBar: FrameAppBar(
-                  titleScreen: titleScreen,
-                  heightBar: heightBar,
-                  color: color,
-                  elevation: elevation,
-                  isCenter: isCenter,
-                  isUseLeading: isUseLeading,
-                  onBack: onBack,
-                  customLeading: customLeading,
-                  action: action,
-                  isImplyLeading: isImplyLeading,
-                  customTitle: customTitle,
-                  statusBarColor: statusBarColor,
-                  statusBarIconBrightness: statusBarIconBrightness,
-                  statusBarBrightness: statusBarBrightness,
-                ),
-                body: IndexedStack(
-                  index: state.defaultIndex,
-                  children: state.widgetViewList,
-                ),
-                floatingActionButtonLocation: state.defaultIndex == 0
-                    ? FloatingActionButtonLocation.miniEndFloat
-                    : null,
-                floatingActionButton: state.defaultIndex == 0
-                    ? _CenterFloatingButton(
-                        state: state,
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) => Container(),
-                          );
-                        },
-                      )
-                    : null,
-                bottomNavigationBar: state.defaultIndex != 1
-                    ? _bottomAppBar(context: context, state: state)
-                    : null));
+            child: ScaffoldMessenger(
+              child: Scaffold(
+                  backgroundColor: colorScaffold,
+                  extendBody: true,
+                  appBar: FrameAppBar(
+                    titleScreen: titleScreen,
+                    heightBar: heightBar,
+                    color: color,
+                    elevation: elevation,
+                    isCenter: isCenter,
+                    isUseLeading: isUseLeading,
+                    onBack: onBack,
+                    customLeading: customLeading,
+                    action: action,
+                    isImplyLeading: isImplyLeading,
+                    customTitle: customTitle,
+                    statusBarColor: statusBarColor,
+                    statusBarIconBrightness: statusBarIconBrightness,
+                    statusBarBrightness: statusBarBrightness,
+                  ),
+                  body: IndexedStack(
+                    index: state.defaultIndex,
+                    children: state.widgetViewList,
+                  ),
+                  floatingActionButtonLocation: state.defaultIndex == 0
+                      ? FloatingActionButtonLocation.miniEndFloat
+                      : null,
+                  floatingActionButton: state.defaultIndex == 0
+                      ? _CenterFloatingButton(
+                          state: state,
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) => Container(),
+                            );
+                          },
+                        )
+                      : null,
+                  bottomNavigationBar: state.defaultIndex != 1
+                      ? _bottomAppBar(context: context, state: state)
+                      : null),
+            ));
       },
     );
   }

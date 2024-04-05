@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -48,8 +49,9 @@ class _ChatViewState extends State<ChatView> {
         ResponsiveRowColumnItem(
           child: Expanded(
             child: BlocBuilder<ChatBloc, ChatState>(
-              builder: (_, ChatState listchat) {
-                final List<dynamic> chat = listchat.chats;
+              builder: (_, ChatState listchatstate) {
+                final List<QueryDocumentSnapshot<Map<String, dynamic>>> chat =
+                    listchatstate.chats;
                 return ListView.builder(
                     itemCount: chat.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -62,7 +64,7 @@ class _ChatViewState extends State<ChatView> {
                             return ListTile(
                               onTap: () => context.read<ChatBloc>()
                                 ..add(GotoRoomChat(
-                                    chatId: chat[index].id.toString(),
+                                    chatId: chat[index].id,
                                     userUidChat: state.targetUid,
                                     targetUid: state.targetUid,
                                     targetConnection:

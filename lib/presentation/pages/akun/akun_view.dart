@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/akun_controller.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
 import '../../widgets/custom/custom_confirmation_dialog.dart';
@@ -11,7 +12,6 @@ import '../../widgets/layouts/space_sizer.dart';
 import '../../widgets/text/inter_text_view.dart';
 import '../../widgets/user/user_info.dart';
 import 'edit_profile_view.dart';
-import 'home_service_manager_view.dart';
 import 'workshop_manager_view.dart';
 
 class AkunView extends StatelessWidget {
@@ -97,8 +97,7 @@ class AkunView extends StatelessWidget {
                           child: CustomDividerText(
                               icon: Icons.home_repair_service_rounded,
                               title: 'Home Service Manager',
-                              onTap: () =>
-                                  Get.to(const HomeServiceManagerView()))),
+                              onTap: () => router.push('/homeservicemanager'))),
                       const ResponsiveRowColumnItem(
                           child: SpaceSizer(vertical: 2)),
                       // ResponsiveRowColumnItem(

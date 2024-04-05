@@ -89,4 +89,19 @@ class ChatRepository implements IChatRepository {
       });
     });
   }
+
+  @override
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> chatMessages(
+      String chatId) async {
+    final CollectionReference<Map<String, dynamic>> chats =
+        _firestore.collection('chats');
+    return chats.doc(chatId).collection('chat').orderBy('time').snapshots();
+  }
+
+  @override
+  Future<DocumentSnapshot<Map<String, dynamic>>> getAttention() async {
+    final DocumentSnapshot<Map<String, dynamic>> data =
+        await _firestore.collection('data').doc('text').get();
+    return data;
+  }
 }

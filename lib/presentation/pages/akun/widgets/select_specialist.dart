@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../../controllers/home_service_manager_controller.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../domain/models/specialist_model.dart';
+import '../../../blocs/home_service_manager/home_service_manager_bloc.dart';
+import '../../../cubits/home_service_manager/home_service_manager_cubit.dart';
 import '../../../widgets/custom/custom_flat_button.dart';
 import '../../../widgets/custom/custom_ripple_button.dart';
 import '../../../widgets/custom/custom_text_field.dart';
@@ -33,83 +35,87 @@ class SelectSpecialist extends StatelessWidget {
             statusBarColor: AppColors.blackBackground,
             colorScaffold: AppColors.white,
             statusBarBrightness: Brightness.light,
-            view: GetBuilder<HomeServiceManagerController>(
-              init: HomeServiceManagerController(),
-              builder:
-                  (HomeServiceManagerController homeServiceManagerController) =>
-                      Stack(
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: ResponsiveRowColumn(
-                      layout: ResponsiveRowColumnType.COLUMN,
-                      children: <ResponsiveRowColumnItem>[
-                        ResponsiveRowColumnItem(
-                            child: CustomTextField(
-                                width: 92,
-                                borderRadius: 1,
-                                hintText: 'ketik spesialist',
-                                prefixIcon: const Icon(Icons.search),
-                                onChanged: (String p0) =>
-                                    homeServiceManagerController
-                                        .searchSpecialist(p0),
-                                title: '')),
-                        ResponsiveRowColumnItem(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.only(
-                                  bottom: SizeConfig.horizontal(10)),
-                              itemCount: homeServiceManagerController
-                                      .foundedSpecialist.isNotEmpty
-                                  ? homeServiceManagerController
-                                      .foundedSpecialist.length
-                                  : homeServiceManagerController
-                                      .specialistList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final SpecialistModel item =
-                                    homeServiceManagerController
-                                        .specialistList[index];
-                                return CustomRippleButton(
-                                  borderRadius: BorderRadius.zero,
-                                  onTap: () => homeServiceManagerController
-                                      .toggleSelectionSpecialist(item),
-                                  child: listTileModel(
-                                      homeServiceManagerController
-                                              .foundedSpecialist.isNotEmpty
-                                          ? homeServiceManagerController
-                                              .foundedSpecialist[index]
-                                          : homeServiceManagerController
-                                              .specialistList[index],
-                                      homeServiceManagerController),
-                                );
-                              }),
-                        ),
-                      ],
+            view: BlocBuilder<HomeServiceManagerCubit,
+                HomeServiceManagerStateCubit>(
+              builder: (_, HomeServiceManagerStateCubit state) {
+                return Stack(
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      child: ResponsiveRowColumn(
+                        layout: ResponsiveRowColumnType.COLUMN,
+                        children: <ResponsiveRowColumnItem>[
+                          ResponsiveRowColumnItem(
+                              child: CustomTextField(
+                                  width: 92,
+                                  borderRadius: 1,
+                                  hintText: 'ketik spesialist',
+                                  prefixIcon: const Icon(Icons.search),
+                                  onChanged: (String p0) => context
+                                      .read<HomeServiceManagerCubit>()
+                                      .searchSpecialist(p0),
+                                  title: '')),
+                          ResponsiveRowColumnItem(
+                            child: BlocBuilder<HomeServiceManagerBloc,
+                                HomeServiceManagerState>(
+                              builder: (_, HomeServiceManagerState homeState) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.only(
+                                        bottom: SizeConfig.horizontal(10)),
+                                    itemCount:
+                                        state.foundedSpecialist.isNotEmpty
+                                            ? state.foundedSpecialist.length
+                                            : homeState.specialistList.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final SpecialistModel item =
+                                          homeState.specialistList[index];
+                                      return CustomRippleButton(
+                                        borderRadius: BorderRadius.zero,
+                                        onTap: () => context
+                                            .read<HomeServiceManagerCubit>()
+                                            .toggleSelectionSpecialist(item),
+                                        child: listTileModel(
+                                          state.foundedSpecialist.isNotEmpty
+                                              ? state.foundedSpecialist[index]
+                                              : homeState.specialistList[index],
+                                        ),
+                                      );
+                                    });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: SizeConfig.horizontal(2)),
-                      height: SizeConfig.horizontal(10),
-                      width: SizeConfig.horizontal(40),
-                      child: CustomFlatButton(
-                          width: 80,
-                          height: 8,
-                          text:
-                              'Selected (${homeServiceManagerController.specialistSelected.length})',
-                          onTap: () {
-                            Get.back();
-                          }),
-                    ),
-                  )
-                ],
-              ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        margin:
+                            EdgeInsets.only(bottom: SizeConfig.horizontal(2)),
+                        height: SizeConfig.horizontal(10),
+                        width: SizeConfig.horizontal(40),
+                        child: CustomFlatButton(
+                            width: 80,
+                            height: 8,
+                            text:
+                                'Selected (${state.selectedSpecialist.length})',
+                            onTap: () {
+                              Get.back();
+                            }),
+                      ),
+                    )
+                  ],
+                );
+              },
             )));
   }
 
-  Widget listTileModel(SpecialistModel model,
-      HomeServiceManagerController homeServiceManagerController) {
+  Widget listTileModel(
+    SpecialistModel model,
+  ) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
       child: ListTile(

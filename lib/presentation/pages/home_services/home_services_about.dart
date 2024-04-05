@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../controllers/home_services_controller.dart';
-import '../../../controllers/maps_controller.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/asset_list.dart';
 import '../../../core/utils/size_config.dart';
@@ -45,7 +44,6 @@ class HomeServicesAbout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MapsController mapsController = Get.put(MapsController());
     return AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
             systemNavigationBarColor: AppColors.black,
@@ -157,8 +155,9 @@ class HomeServicesAbout extends StatelessWidget {
                   const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(
                       child: CustomRippleButton(
-                    onTap: () =>
-                        mapsController.openGoogleMap(mechanicLat, mechanicLong),
+                    onTap: () {
+                      // mapsController.openGoogleMap(mechanicLat, mechanicLong),
+                    },
                     child: CustomBorderedContainer(
                         child: ResponsiveRowColumn(
                       layout: ResponsiveRowColumnType.COLUMN,

@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../models/users_model.dart';
@@ -10,6 +12,8 @@ import 'firebase_interface.dart';
 class FirebaseRepository implements IFirebaseRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user;
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   @override
   Future<UsersModel> signInWithGoogle() async {
@@ -74,7 +78,6 @@ class FirebaseRepository implements IFirebaseRepository {
   @override
   Future<dynamic> signUpWithEmailAndPassword(
       String email, String password, bool agreeTerms) async {
-    log(email);
     if (email.trim().isEmpty && password.trim().isEmpty) {
       return 'error';
     }
@@ -178,5 +181,33 @@ class FirebaseRepository implements IFirebaseRepository {
           return 'Something error please try again later';
       }
     }
+  }
+
+  @override
+  Future<dynamic> uploadImage( File imageTemp) async {
+    
+    final Reference ref = firebaseStorage
+        .ref('users')
+        .child('user_gallery')
+        .child(user!.displayName!)
+        .child('home_service')
+        .child('${user!.uid}.jpeg');
+    final SettableMetadata metadata =
+        SettableMetadata(contentType: 'image/jpeg');
+    await ref.putFile(imageTemp, metadata);
+      final String url = await ref.getDownloadURL();
+    await FirebaseFirestore.instance
+        .collection('mechanic')
+        .doc('${user!.displayName}${user!.uid}')
+        .set(<String, dynamic>{
+      'home_service_image': url,
+    });
+    // Get.back();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .update(<String, dynamic>{
+      'home_service_image': url,
+    });
   }
 }

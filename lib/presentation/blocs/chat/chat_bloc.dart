@@ -20,6 +20,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatUpdated>(_onUpdatedChat);
     on<TargetInfo>(_onGetTargetInfo);
     on<GotoRoomChat>(_onGotoChatRoom);
+    on<BacktoChatView>(_onBackToChatView);
+    on<ChatMessages>(_onChatMessages);
+    on<GetMessage>(_onGetMessage);
+    on<GetAttention>(_onGetAttention);
   }
   final IChatRepository _chatRepository = ChatRepository();
   StreamSubscription<dynamic>? _chatSubscription;
@@ -53,17 +57,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       // Membuat subscription baru
       _chatSubscription = userListChat.listen(
         (QuerySnapshot<Map<String, dynamic>> querySnapshot) {
-          final List<Map<String, dynamic>> chats = querySnapshot.docs
-              .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
-                  doc.data())
-              .toList();
+          final List<QueryDocumentSnapshot<Map<String, dynamic>>> chats =
+              querySnapshot.docs;
           add(ChatUpdated(chats: chats));
-          // Memastikan event handler belum selesai sebelum memanggil emit
         },
       );
     } catch (e) {
       log(e.toString());
-      // Memastikan event handler belum selesai sebelum memanggil emit
       await _chatSubscription?.cancel();
     }
   }
@@ -83,19 +83,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         (DocumentSnapshot<Map<String, dynamic>> querySnapshot) {
           final Map<String, dynamic>? targetInfo = querySnapshot.data();
           // Memastikan event handler belum selesai sebelum memanggil emit
-          add(TargetInfo(targetInfo: targetInfo!));
+          add(TargetInfo(
+            targetInfo: targetInfo!,
+          ));
         },
       );
       emit(state.copyWith(chatStatus: ListChatsStatus.loaded));
     } catch (e) {
       log(e.toString());
     }
-  }
-
-  @override
-  Future<void> close() {
-    _chatSubscription?.cancel();
-    return super.close();
   }
 
   void _onUpdatedChat(ChatUpdated event, Emitter<ChatState> emit) {
@@ -114,12 +110,60 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> _onGotoChatRoom(
       GotoRoomChat event, Emitter<ChatState> emit) async {
     await _chatRepository.updateChatStatus(event.chatId, event.targetUid);
-    router.go('/chatroom', extra: <String, dynamic>{
+    router.push('/chatroom', extra: <String, dynamic>{
       'targetName': event.targetName,
       'chatId': event.chatId,
       'targetPic': event.targetPicture,
       'targetUid': event.targetUid,
       'userUid': event.targetUid,
     });
+  }
+
+  Future<void> _onBackToChatView(
+      BacktoChatView event, Emitter<ChatState> emit) async {
+    await _chatRepository.updateChatStatus(event.chatId, event.targetUid);
+    router.pop();
+  }
+
+  Future<void> _onChatMessages(
+      ChatMessages event, Emitter<ChatState> emit) async {
+    try {
+      final Stream<QuerySnapshot<Map<String, dynamic>>> chatMessage =
+          await _chatRepository.chatMessages(event.chatId);
+      await _chatSubscription?.cancel();
+
+      _chatSubscription = chatMessage.listen(
+        (QuerySnapshot<Map<String, dynamic>> querySnapshot) {
+          final List<QueryDocumentSnapshot<Map<String, dynamic>>> messageData =
+              querySnapshot.docs;
+          add(GetMessage(messages: messageData));
+        },
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _chatSubscription?.cancel();
+    return super.close();
+  }
+
+  void _onGetMessage(GetMessage event, Emitter<ChatState> emit) {
+    emit(state.copyWith(messages: event.messages));
+  }
+
+  Future<void> _onGetAttention(
+      GetAttention event, Emitter<ChatState> emit) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> messageData =
+          await _chatRepository.getAttention();
+      emit(state.copyWith(
+          warningChat: messageData['warning_chat'] as String,
+          isHideAttention: event.isHideAttention));
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

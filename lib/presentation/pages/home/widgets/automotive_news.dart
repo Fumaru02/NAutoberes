@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/size_config.dart';
-import '../../../blocs/bloc/home_bloc.dart';
+import '../../../blocs/home/home_bloc.dart';
 import 'about_automotive_list.dart';
 
 class AutomotiveNews extends StatelessWidget {

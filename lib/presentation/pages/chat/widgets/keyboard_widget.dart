@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../../controllers/chat_controller.dart';
-import '../../../../controllers/home_services_controller.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../widgets/custom/custom_text_field.dart';
@@ -10,14 +8,10 @@ import '../../../widgets/custom/custom_text_field.dart';
 class KeyboardWidget extends StatelessWidget {
   const KeyboardWidget({
     super.key,
-    required this.homeServicesController,
     required this.userUid,
-    required this.chatController,
   });
 
-  final HomeServicesController homeServicesController;
   final String userUid;
-  final ChatController chatController;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +43,7 @@ class KeyboardWidget extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 // controller: chatController.chatEditingController,
                 onFieldSubmitted: (String value) {
-                  chatController.myMessage.value = value;
+                  // chatController.myMessage.value = value;
                 },
               ),
             )),

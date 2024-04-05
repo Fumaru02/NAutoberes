@@ -40,7 +40,29 @@ class AppsInfoRepository implements IAppsInfoRepository {
     if (data.exists) {
       return data;
     } else {
-      throw Exception('Data doest Exist');
+      throw Exception('Data promo doest Exist');
+    }
+  }
+
+  @override
+  Future<DocumentSnapshot<Map<String, dynamic>>> getBrands() async {
+    final DocumentSnapshot<Map<String, dynamic>> data =
+        await _firestore.collection('data').doc('brands').get();
+    if (data.exists) {
+      return data;
+    } else {
+      throw Exception('Data brands doest Exist');
+    }
+  }
+
+  @override
+  Future<DocumentSnapshot<Map<String, dynamic>>> getSpecialist() async {
+    final DocumentSnapshot<Map<String, dynamic>> data =
+        await _firestore.collection('data').doc('specialist').get();
+    if (data.exists) {
+      return data;
+    } else {
+      throw Exception('Data specialist doest Exist');
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../models/users_model.dart';
 
 abstract class IFirebaseRepository {
@@ -13,4 +15,5 @@ abstract class IFirebaseRepository {
   Future<dynamic> forgotPassword(String email);
   Future<bool> isUserAgreeTerms();
   Future<UsersModel?> signInWithGoogle();
+  Future<dynamic> uploadImage(File imagetemp);
 }
