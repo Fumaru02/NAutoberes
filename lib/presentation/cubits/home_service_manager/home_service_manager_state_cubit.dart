@@ -6,23 +6,23 @@ class HomeServiceManagerStateCubit extends Equatable {
   const HomeServiceManagerStateCubit({
     required this.imageStatus,
     this.workshopImage,
-    required this.foundedSpecialist,
     required this.selectedBrand,
+    required this.getDataValue,
     required this.selectedSpecialist,
   });
 
   factory HomeServiceManagerStateCubit.initial() =>
       const HomeServiceManagerStateCubit(
         selectedSpecialist: <SpecialistModel>[],
+        getDataValue: <BrandsCarModel>[],
         imageStatus: ImageStatus.initial,
-        foundedSpecialist: <SpecialistModel>[],
         selectedBrand: <BrandsCarModel>[],
       );
 
   final ImageStatus imageStatus;
   final File? workshopImage;
   final List<BrandsCarModel> selectedBrand;
-  final List<SpecialistModel> foundedSpecialist;
+  final List<BrandsCarModel> getDataValue;
   final List<SpecialistModel> selectedSpecialist;
 
   @override
@@ -30,9 +30,9 @@ class HomeServiceManagerStateCubit extends Equatable {
     return <Object?>[
       imageStatus,
       workshopImage,
-      foundedSpecialist,
       selectedBrand,
-      selectedSpecialist
+      getDataValue,
+      selectedSpecialist,
     ];
   }
 
@@ -40,20 +40,20 @@ class HomeServiceManagerStateCubit extends Equatable {
     ImageStatus? imageStatus,
     File? workshopImage,
     List<BrandsCarModel>? selectedBrand,
-    List<SpecialistModel>? foundedSpecialist,
+    List<BrandsCarModel>? getDataValue,
     List<SpecialistModel>? selectedSpecialist,
   }) {
     return HomeServiceManagerStateCubit(
       imageStatus: imageStatus ?? this.imageStatus,
-      foundedSpecialist: foundedSpecialist ?? this.foundedSpecialist,
-      selectedSpecialist: selectedSpecialist ?? this.selectedSpecialist,
-      selectedBrand: selectedBrand ?? this.selectedBrand,
       workshopImage: workshopImage ?? this.workshopImage,
+      selectedBrand: selectedBrand ?? this.selectedBrand,
+      getDataValue: getDataValue ?? this.getDataValue,
+      selectedSpecialist: selectedSpecialist ?? this.selectedSpecialist,
     );
   }
 
   @override
   String toString() {
-    return 'HomeServiceManagerStateCubit(imageStatus: $imageStatus, workshopImage: $workshopImage, selectedBrand: $selectedBrand, foundedSpecialist: $foundedSpecialist, selectedSpecialist: $selectedSpecialist)';
+    return 'HomeServiceManagerStateCubit(imageStatus: $imageStatus, workshopImage: $workshopImage, selectedBrand: $selectedBrand, getDataValue: $getDataValue, selectedSpecialist: $selectedSpecialist)';
   }
 }

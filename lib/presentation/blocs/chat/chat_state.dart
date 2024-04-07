@@ -1,4 +1,3 @@
-
 part of 'chat_bloc.dart';
 
 enum ListChatsStatus { initial, loading, loaded, failed }
@@ -18,7 +17,7 @@ class ChatState extends Equatable {
   });
 
   factory ChatState.initial() => const ChatState(
-    isHideAttention: false,
+      isHideAttention: false,
       targetName: '',
       targetImage: '',
       warningChat: '',
@@ -41,7 +40,7 @@ class ChatState extends Equatable {
 
   @override
   List<Object> get props {
-    return [
+    return <Object>[
       totalUnread,
       chats,
       messages,

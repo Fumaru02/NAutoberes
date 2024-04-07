@@ -24,6 +24,7 @@ class HomeServiceManagerBloc
     on<GetSpecialist>(_onGetSpecialist);
     on<OnConfirm>(_onConfirm);
     on<OnSearchBrand>(_onSearchBrand);
+    on<OnUploadHandledBrands>(_onUploadBrands);
   }
 
   final IAppsInfoRepository _appsInfoRepository = AppsInfoRepository();
@@ -61,12 +62,12 @@ class HomeServiceManagerBloc
       final Map<String, dynamic>? specialistData = dataBrands.data();
       final List<dynamic> specialist =
           specialistData![event.type] as List<dynamic>;
+      final List<SpecialistModel> data = specialist
+          .map((dynamic e) =>
+              SpecialistModel.fromJson(e as Map<String, dynamic>))
+          .toList();
       emit(state.copyWith(
-          homeServiceStatus: HomeServiceStatus.success,
-          specialistList: specialist
-              .map((dynamic e) =>
-                  SpecialistModel.fromJson(e as Map<String, dynamic>))
-              .toList()));
+          homeServiceStatus: HomeServiceStatus.success, specialistList: data));
     } catch (e) {
       log(e.toString());
     }
@@ -98,12 +99,17 @@ class HomeServiceManagerBloc
   void _onSearchBrand(
       OnSearchBrand event, Emitter<HomeServiceManagerState> emit) {
     final List<BrandsCarModel> suggestions =
-        state.brandsList.where((BrandsCarModel brandKey) {
+        event.brandsList.where((BrandsCarModel brandKey) {
       final String brandName = brandKey.brand.toLowerCase();
       final String input = event.query.toLowerCase();
       return brandName.contains(input);
     }).toList();
-    log(suggestions.toString());
     emit(state.copyWith(foundedBrand: suggestions));
+  }
+
+  Future<void> _onUploadBrands(OnUploadHandledBrands event,
+      Emitter<HomeServiceManagerState> emit) async {
+    await _userRepository.onSubmitBrands(event.dataHandled);
+    //TODO: add brands
   }
 }

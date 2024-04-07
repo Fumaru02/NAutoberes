@@ -20,8 +20,6 @@ class HomeServiceManagerCubit extends Cubit<HomeServiceManagerStateCubit> {
   final List<SpecialistModel> specialistList = <SpecialistModel>[];
   final List<SpecialistModel> selectedSpecialist = <SpecialistModel>[];
 
-  final List<BrandsCarModel> brandsCarList = <BrandsCarModel>[];
-
   Future<dynamic> pickImage(ImageSource source) async {
     final IFirebaseRepository firebaseRepository = FirebaseRepository();
     try {
@@ -43,6 +41,10 @@ class HomeServiceManagerCubit extends Cubit<HomeServiceManagerStateCubit> {
     }
   }
 
+  void getValue(List<BrandsCarModel> data) {
+    emit(state.copyWith(selectedBrand: data));
+  }
+
   void toggleSelectionBrand(BrandsCarModel item) {
     final List<BrandsCarModel> updatedSelectedBrand =
         List<BrandsCarModel>.from(state.selectedBrand);
@@ -54,8 +56,6 @@ class HomeServiceManagerCubit extends Cubit<HomeServiceManagerStateCubit> {
     emit(state.copyWith(selectedBrand: updatedSelectedBrand));
   }
 
-
-
   void searchSpecialist(String query) {
     final List<SpecialistModel> suggestions =
         specialistList.where((SpecialistModel brandKey) {
@@ -64,16 +64,17 @@ class HomeServiceManagerCubit extends Cubit<HomeServiceManagerStateCubit> {
       return brandName.contains(input);
     }).toList();
 
-    emit(state.copyWith(foundedSpecialist: suggestions));
+    emit(state.copyWith(selectedSpecialist: suggestions));
   }
 
   void toggleSelectionSpecialist(SpecialistModel item) {
-    final bool isSelected = selectedSpecialist.contains(item);
-    if (isSelected) {
-      selectedSpecialist.remove(item);
+    final List<SpecialistModel> updatedSelectedSpecialist =
+        List<SpecialistModel>.from(state.selectedSpecialist);
+    if (updatedSelectedSpecialist.contains(item)) {
+      updatedSelectedSpecialist.remove(item);
     } else {
-      selectedSpecialist.add(item);
+      updatedSelectedSpecialist.add(item);
     }
-    item.isSelected = !isSelected;
+    emit(state.copyWith(selectedSpecialist: updatedSelectedSpecialist));
   }
 }

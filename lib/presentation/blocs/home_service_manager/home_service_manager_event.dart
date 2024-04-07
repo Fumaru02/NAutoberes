@@ -7,6 +7,13 @@ sealed class HomeServiceManagerEvent extends Equatable {
   List<Object> get props => <Object>[];
 }
 
+class OnUploadHandledBrands extends HomeServiceManagerEvent {
+  const OnUploadHandledBrands({
+    required this.dataHandled,
+  });
+  final List<BrandsCarModel> dataHandled;
+}
+
 class OnConfirm extends HomeServiceManagerEvent {
   const OnConfirm({
     required this.lat,
@@ -27,8 +34,10 @@ class OnConfirm extends HomeServiceManagerEvent {
 class OnSearchBrand extends HomeServiceManagerEvent {
   const OnSearchBrand({
     required this.query,
+    required this.brandsList,
   });
   final String query;
+  final List<BrandsCarModel> brandsList;
 }
 
 class GetBrands extends HomeServiceManagerEvent {

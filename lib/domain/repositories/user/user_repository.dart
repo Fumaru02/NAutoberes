@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../models/brands_car_model.dart';
 import 'user_interface.dart';
 
 class UserRepository implements IUserRepository {
@@ -37,6 +38,17 @@ class UserRepository implements IUserRepository {
       'home_service_name': homeServiceName.trim(),
       'home_service_address': homeServiceAddress.trim(),
       'home_service_skill': homeServiceSkill.trim(),
+    });
+  }
+
+  @override
+  Future<void> onSubmitBrands(List<BrandsCarModel> handledBrands) async {
+    user = FirebaseAuth.instance.currentUser;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .set(<String, dynamic>{
+      'handled_brand': FieldValue.arrayUnion(handledBrands)
     });
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../domain/models/specialist_model.dart';
@@ -18,7 +19,9 @@ import '../../../widgets/text/inter_text_view.dart';
 class SelectSpecialist extends StatelessWidget {
   const SelectSpecialist({
     super.key,
+    required this.specialList,
   });
+  final List<SpecialistModel> specialList;
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -30,6 +33,7 @@ class SelectSpecialist extends StatelessWidget {
             isUseLeading: true,
             titleScreen: 'Select Specialist',
             isCenter: true,
+            onBack: () => router.pop(),
             elevation: 0,
             color: AppColors.blackBackground,
             statusBarColor: AppColors.blackBackground,
@@ -48,7 +52,7 @@ class SelectSpecialist extends StatelessWidget {
                               child: CustomTextField(
                                   width: 92,
                                   borderRadius: 1,
-                                  hintText: 'ketik spesialist',
+                                  hintText: 'ketik spesialis',
                                   prefixIcon: const Icon(Icons.search),
                                   onChanged: (String p0) => context
                                       .read<HomeServiceManagerCubit>()
@@ -64,24 +68,29 @@ class SelectSpecialist extends StatelessWidget {
                                         const NeverScrollableScrollPhysics(),
                                     padding: EdgeInsets.only(
                                         bottom: SizeConfig.horizontal(10)),
-                                    itemCount:
-                                        state.foundedSpecialist.isNotEmpty
-                                            ? state.foundedSpecialist.length
-                                            : homeState.specialistList.length,
+                                    itemCount: homeState
+                                            .foundedSpecialist.isEmpty
+                                        ? specialList.length
+                                        : homeState.foundedSpecialist.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       final SpecialistModel item =
-                                          homeState.specialistList[index];
+                                          specialList[index];
+                                      final bool isSelected = state
+                                          .selectedSpecialist
+                                          .contains(item);
                                       return CustomRippleButton(
                                         borderRadius: BorderRadius.zero,
                                         onTap: () => context
                                             .read<HomeServiceManagerCubit>()
                                             .toggleSelectionSpecialist(item),
                                         child: listTileModel(
-                                          state.foundedSpecialist.isNotEmpty
-                                              ? state.foundedSpecialist[index]
-                                              : homeState.specialistList[index],
-                                        ),
+                                            homeState.foundedSpecialist
+                                                    .isNotEmpty
+                                                ? homeState
+                                                    .foundedSpecialist[index]
+                                                : specialList[index],
+                                            isSelected),
                                       );
                                     });
                               },
@@ -113,13 +122,11 @@ class SelectSpecialist extends StatelessWidget {
             )));
   }
 
-  Widget listTileModel(
-    SpecialistModel model,
-  ) {
+  Widget listTileModel(SpecialistModel model, bool isSelected) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
       child: ListTile(
-        tileColor: model.isSelected == true ? AppColors.blackBackground : null,
+        tileColor: isSelected == true ? AppColors.blackBackground : null,
         title: InterTextView(
           value: model.brand,
           color: AppColors.black,

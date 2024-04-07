@@ -5,6 +5,7 @@ import 'package:nested/nested.dart';
 
 import '../../domain/models/about_automotive_model.dart';
 import '../../domain/models/brands_car_model.dart';
+import '../../domain/models/specialist_model.dart';
 import '../../presentation/blocs/authorize/authorize_bloc.dart';
 import '../../presentation/blocs/chat/chat_bloc.dart';
 import '../../presentation/blocs/frame/frame_bloc.dart';
@@ -16,7 +17,7 @@ import '../../presentation/cubits/home/home_cubit.dart';
 import '../../presentation/cubits/home_service_manager/home_service_manager_cubit.dart';
 import '../../presentation/cubits/login/login_cubit.dart';
 import '../../presentation/pages/akun/home_service_manager_view.dart';
-import '../../presentation/pages/akun/widgets/select_cars.dart';
+import '../../presentation/pages/akun/widgets/select_brands.dart';
 import '../../presentation/pages/akun/widgets/select_specialist.dart';
 import '../../presentation/pages/authorize/authorize_view.dart';
 import '../../presentation/pages/chat/chat_room_view.dart';
@@ -128,31 +129,36 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/selectcar',
+      path: '/selectbrands',
       builder: (__, GoRouterState state) {
-        final Map<String, dynamic> data = state.extra! as Map<String, dynamic>;
         return MultiBlocProvider(
           providers: <SingleChildWidget>[
-            BlocProvider<HomeServiceManagerCubit>(
-              create: (_) => HomeServiceManagerCubit(),
+            BlocProvider<HomeServiceManagerCubit>.value(
+              value: HomeServiceManagerCubit(),
             ),
-            BlocProvider<HomeServiceManagerBloc>(
-              create: (_) => HomeServiceManagerBloc(),
+            BlocProvider<HomeServiceManagerBloc>.value(
+              value: HomeServiceManagerBloc(),
             ),
           ],
-          child: SelectCars(
-            brandlistCar: data['brandList'] as List<BrandsCarModel>,
-            foundedList: data['foundedList'] as List<BrandsCarModel>,
-          ),
+          child:
+              SelectBrands(brandlistCar: state.extra! as List<BrandsCarModel>),
         );
       },
     ),
     GoRoute(
       path: '/selectspecialist',
       builder: (__, GoRouterState state) {
-        return BlocProvider<HomeServiceManagerCubit>(
-          create: (_) => HomeServiceManagerCubit(),
-          child: const SelectSpecialist(),
+        return MultiBlocProvider(
+          providers: <SingleChildWidget>[
+            BlocProvider<HomeServiceManagerCubit>.value(
+              value: HomeServiceManagerCubit(),
+            ),
+            BlocProvider<HomeServiceManagerBloc>.value(
+              value: HomeServiceManagerBloc(),
+            ),
+          ],
+          child: SelectSpecialist(
+              specialList: state.extra! as List<SpecialistModel>),
         );
       },
     ),

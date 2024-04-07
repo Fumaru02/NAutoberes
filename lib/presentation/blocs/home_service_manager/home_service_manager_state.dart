@@ -7,20 +7,26 @@ class HomeServiceManagerState extends Equatable {
     required this.homeServiceStatus,
     required this.brandsList,
     required this.foundedBrand,
+    required this.foundedSpecialist,
+    required this.getBrand,
     required this.specialistList,
     required this.selectedDropDownMenu,
   });
 
   factory HomeServiceManagerState.initial() => const HomeServiceManagerState(
       homeServiceStatus: HomeServiceStatus.initial,
+      getBrand: <BrandsCarModel>[],
       brandsList: <BrandsCarModel>[],
       specialistList: <SpecialistModel>[],
+      foundedSpecialist: <SpecialistModel>[],
       foundedBrand: <BrandsCarModel>[],
       selectedDropDownMenu: '');
 
   final HomeServiceStatus homeServiceStatus;
   final List<BrandsCarModel> brandsList;
   final List<BrandsCarModel> foundedBrand;
+  final List<BrandsCarModel> getBrand;
+  final List<SpecialistModel> foundedSpecialist;
   final List<SpecialistModel> specialistList;
   final String selectedDropDownMenu;
 
@@ -30,6 +36,8 @@ class HomeServiceManagerState extends Equatable {
       homeServiceStatus,
       brandsList,
       foundedBrand,
+      foundedSpecialist,
+      getBrand,
       specialistList,
       selectedDropDownMenu,
     ];
@@ -39,6 +47,8 @@ class HomeServiceManagerState extends Equatable {
     HomeServiceStatus? homeServiceStatus,
     List<BrandsCarModel>? brandsList,
     List<BrandsCarModel>? foundedBrand,
+    List<SpecialistModel>? foundedSpecialist,
+    List<BrandsCarModel>? getBrand,
     List<SpecialistModel>? specialistList,
     String? selectedDropDownMenu,
   }) {
@@ -46,6 +56,8 @@ class HomeServiceManagerState extends Equatable {
       homeServiceStatus: homeServiceStatus ?? this.homeServiceStatus,
       brandsList: brandsList ?? this.brandsList,
       foundedBrand: foundedBrand ?? this.foundedBrand,
+      foundedSpecialist: foundedSpecialist ?? this.foundedSpecialist,
+      getBrand: getBrand ?? this.getBrand,
       specialistList: specialistList ?? this.specialistList,
       selectedDropDownMenu: selectedDropDownMenu ?? this.selectedDropDownMenu,
     );
@@ -53,6 +65,6 @@ class HomeServiceManagerState extends Equatable {
 
   @override
   String toString() {
-    return 'HomeServiceManagerState(homeServiceStatus: $homeServiceStatus, brandsList: $brandsList, foundedBrand: $foundedBrand, specialistList: $specialistList, selectedDropDownMenu: $selectedDropDownMenu)';
+    return 'HomeServiceManagerState(homeServiceStatus: $homeServiceStatus, brandsList: $brandsList, foundedBrand: $foundedBrand, foundedSpecialist: $foundedSpecialist, getBrand: $getBrand, specialistList: $specialistList, selectedDropDownMenu: $selectedDropDownMenu)';
   }
 }

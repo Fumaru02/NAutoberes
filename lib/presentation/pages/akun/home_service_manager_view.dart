@@ -232,7 +232,8 @@ class _HomeServiceManagerViewState extends State<HomeServiceManagerView> {
                             messageInfo: 'Something wrong',
                             message: 'Jenis Kendaraan tidak boleh kosong',
                             snackbarType: SnackbarType.error)
-                        : router.push('/selectspecialist'),
+                        : router.push('/selectspecialist',
+                            extra: homeState.specialistList),
                     child: Container(
                       width: SizeConfig.horizontal(80),
                       height: state.selectedSpecialist.isEmpty
@@ -342,78 +343,68 @@ class _HomeServiceManagerViewState extends State<HomeServiceManagerView> {
   }
 
   Widget _brandsBox(HomeServiceManagerState homeState) {
-    return BlocBuilder<HomeServiceManagerCubit, HomeServiceManagerStateCubit>(
-      builder: (_, HomeServiceManagerStateCubit state) {
-        return ResponsiveRowColumn(
-          layout: ResponsiveRowColumnType.COLUMN,
-          columnCrossAxisAlignment: CrossAxisAlignment.start,
-          children: <ResponsiveRowColumnItem>[
-            const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-            ResponsiveRowColumnItem(
-                child: InterTextView(
-                    value: state.selectedBrand.isEmpty
-                        ? 'Pilih brand yang kamu kuasai'
-                        : 'Brand yang kamu kuasai',
-                    color: AppColors.black,
-                    size: SizeConfig.safeBlockHorizontal * 4,
-                    fontWeight: FontWeight.w500)),
-            ResponsiveRowColumnItem(
-                child: CustomRippleButton(
-                    borderRadius: BorderRadius.zero,
-                    onTap: () => homeState.selectedDropDownMenu.isEmpty
-                        ? Snack.showSnackBar(context,
-                            messageInfo: 'Something wrong',
-                            message: 'Jenis Kendaraan tidak boleh kosong',
-                            snackbarType: SnackbarType.error)
-                        : router.push('/selectcar',
-                            extra: <String, List<BrandsCarModel>>{
-                                'brandList': homeState.brandsList,
-                                'foundedList': homeState.foundedBrand
-                              }),
-                    child: Container(
-                      width: SizeConfig.horizontal(80),
-                      height: state.selectedBrand.isEmpty
-                          ? SizeConfig.horizontal(14)
-                          : null,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeConfig.horizontal(2))),
-                          color: AppColors.white,
-                          border:
-                              Border.all(width: SizeConfig.horizontal(0.2))),
-                      child: state.selectedBrand.isEmpty
-                          ? Center(
-                              child: homeState.homeServiceStatus ==
-                                      HomeServiceStatus.loading
-                                  ? const CircularProgressIndicator()
-                                  : InterTextView(
-                                      value: 'No Brand Selected',
-                                      color: AppColors.greyDisabled,
-                                    ),
-                            )
-                          : Padding(
-                              padding: EdgeInsets.all(SizeConfig.horizontal(4)),
-                              child: Wrap(
-                                spacing: SizeConfig.horizontal(2),
-                                runSpacing: SizeConfig.horizontal(2),
-                                children: state.selectedBrand
-                                    .map(
-                                      (BrandsCarModel item) =>
-                                          CachedNetworkImage(
-                                        width: SizeConfig.horizontal(10),
-                                        height: SizeConfig.horizontal(10),
-                                        imageUrl: item.brandImage,
-                                        memCacheHeight: 300,
-                                        memCacheWidth: 300,
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                    )))
-          ],
-        );
-      },
+    return ResponsiveRowColumn(
+      layout: ResponsiveRowColumnType.COLUMN,
+      columnCrossAxisAlignment: CrossAxisAlignment.start,
+      children: <ResponsiveRowColumnItem>[
+        const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
+        ResponsiveRowColumnItem(
+            child: InterTextView(
+                value: homeState.brandsList.isEmpty
+                    ? 'Pilih brand yang kamu kuasai'
+                    : 'Brand yang kamu kuasai',
+                color: AppColors.black,
+                size: SizeConfig.safeBlockHorizontal * 4,
+                fontWeight: FontWeight.w500)),
+        ResponsiveRowColumnItem(
+            child: CustomRippleButton(
+                borderRadius: BorderRadius.zero,
+                onTap: () => homeState.selectedDropDownMenu.isEmpty
+                    ? Snack.showSnackBar(context,
+                        messageInfo: 'Something wrong',
+                        message: 'Jenis Kendaraan tidak boleh kosong',
+                        snackbarType: SnackbarType.error)
+                    : router.push('/selectbrands', extra: homeState.brandsList),
+                child: Container(
+                  width: SizeConfig.horizontal(80),
+                  height: homeState.getBrand.isEmpty
+                      ? SizeConfig.horizontal(14)
+                      : null,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(SizeConfig.horizontal(2))),
+                      color: AppColors.white,
+                      border: Border.all(width: SizeConfig.horizontal(0.2))),
+                  child: homeState.getBrand.isEmpty
+                      ? Center(
+                          child: homeState.homeServiceStatus ==
+                                  HomeServiceStatus.loading
+                              ? const CircularProgressIndicator()
+                              : InterTextView(
+                                  value: 'No Brand Selected',
+                                  color: AppColors.greyDisabled,
+                                ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+                          child: Wrap(
+                            spacing: SizeConfig.horizontal(2),
+                            runSpacing: SizeConfig.horizontal(2),
+                            children: homeState.getBrand
+                                .map(
+                                  (BrandsCarModel item) => CachedNetworkImage(
+                                    width: SizeConfig.horizontal(10),
+                                    height: SizeConfig.horizontal(10),
+                                    imageUrl: item.brandImage,
+                                    memCacheHeight: 300,
+                                    memCacheWidth: 300,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                )))
+      ],
     );
   }
 
