@@ -1,5 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../brands_car/brands_car_model.dart';
+import '../specialist/specialist_model.dart';
+
 part 'list_mechanics_model.g.dart';
 
 @JsonSerializable()
@@ -17,6 +20,9 @@ class ListMechanicsModel {
     required this.userEmail,
     required this.userLevel,
     required this.userUid,
+    required this.handledBrands,
+    required this.homeMechanicDescription,
+    required this.handledSpecialist,
   });
   factory ListMechanicsModel.fromJson(Map<String, dynamic> json) =>
       _$ListMechanicsModelFromJson(json);
@@ -44,6 +50,12 @@ class ListMechanicsModel {
   String homeServiceLat;
   @JsonKey(name: 'home_service_long')
   String homeServiceLong;
+  @JsonKey(name: 'home_mechanic_description')
+  String homeMechanicDescription;
+  @JsonKey(name: 'handled_brands')
+  List<BrandsCarModel> handledBrands;
+  @JsonKey(name: 'handled_specialist')
+  List<SpecialistModel> handledSpecialist;
 
   Map<String, dynamic> toJson() => _$ListMechanicsModelToJson(this);
 }

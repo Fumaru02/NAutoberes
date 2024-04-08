@@ -20,6 +20,13 @@ ListMechanicsModel _$ListMechanicsModelFromJson(Map<String, dynamic> json) =>
       userEmail: json['user_email'] as String,
       userLevel: json['user_level'] as String,
       userUid: json['user_uid'] as String,
+      handledBrands: (json['handled_brands'] as List<dynamic>)
+          .map((e) => BrandsCarModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      homeMechanicDescription: json['home_mechanic_description'] as String,
+      handledSpecialist: (json['handled_specialist'] as List<dynamic>)
+          .map((e) => SpecialistModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ListMechanicsModelToJson(ListMechanicsModel instance) =>
@@ -36,4 +43,7 @@ Map<String, dynamic> _$ListMechanicsModelToJson(ListMechanicsModel instance) =>
       'home_service_address': instance.homeServiceAddress,
       'home_service_lat': instance.homeServiceLat,
       'home_service_long': instance.homeServiceLong,
+      'home_mechanic_description': instance.homeMechanicDescription,
+      'handled_brands': instance.handledBrands,
+      'handled_specialist': instance.handledSpecialist,
     };

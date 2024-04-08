@@ -101,8 +101,10 @@ class HomeServiceManagerView extends StatelessWidget {
                                               .selectedDropDownMenu.value ==
                                           ''
                                       ? const SizedBox.shrink()
-                                      : _brandsBox(
-                                          homeServiceManagerController)),
+                                      : res.isOpen == true
+                                          ? const SizedBox.shrink()
+                                          : _brandsBox(
+                                              homeServiceManagerController)),
                               const ResponsiveRowColumnItem(
                                   child: SpaceSizer(vertical: 1)),
                               ResponsiveRowColumnItem(
@@ -110,8 +112,10 @@ class HomeServiceManagerView extends StatelessWidget {
                                               .selectedDropDownMenu.value ==
                                           ''
                                       ? const SizedBox.shrink()
-                                      : _specialistsBox(
-                                          homeServiceManagerController)),
+                                      : res.isOpen == true
+                                          ? const SizedBox.shrink()
+                                          : _specialistsBox(
+                                              homeServiceManagerController)),
                               const ResponsiveRowColumnItem(
                                   child: SpaceSizer(vertical: 1)),
                               ResponsiveRowColumnItem(
@@ -124,7 +128,7 @@ class HomeServiceManagerView extends StatelessWidget {
                                           'contoh: Saya adalah Seorang mekanik handal di daerah bekasi',
                                       borderRadius: 2,
                                       controller: homeServiceManagerController
-                                          .hsSkill)),
+                                          .hsDescription)),
                               const ResponsiveRowColumnItem(
                                   child: SpaceSizer(vertical: 5)),
                               ResponsiveRowColumnItem(
@@ -253,7 +257,7 @@ class HomeServiceManagerView extends StatelessWidget {
               child: InterTextView(
                   value: mapsController.lat.isEmpty
                       ? 'Dapatkan Lokasi'
-                      : 'Berikan rincian pada titik',
+                      : 'Berikan rincian pada titik alamat',
                   color: AppColors.black,
                   size: SizeConfig.safeBlockHorizontal * 4,
                   fontWeight: FontWeight.w500)),

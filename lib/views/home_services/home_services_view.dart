@@ -51,9 +51,7 @@ class HomeServicesView extends StatelessWidget {
                           ),
                         )),
                         const ResponsiveRowColumnItem(
-                            child: SpaceSizer(
-                          horizontal: 2,
-                        )),
+                            child: SpaceSizer(horizontal: 2)),
                         ResponsiveRowColumnItem(
                             child: Container(
                           decoration: BoxDecoration(
@@ -113,7 +111,7 @@ class HomeServicesView extends StatelessWidget {
                             itemCount: homeServicesController.isLoading.isTrue
                                 ? 2
                                 : homeServicesController
-                                    .listMechanicsModel.length,
+                                    .listMechanicsMobil.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 homeServicesController.isLoading.value == true
                                     ? Padding(
@@ -126,7 +124,7 @@ class HomeServicesView extends StatelessWidget {
                                       )
                                     : ListMechanics(
                                         model: homeServicesController
-                                            .listMechanicsModel[index],
+                                            .listMechanicsMobil[index],
                                         homeServicesController:
                                             homeServicesController,
                                       ),
@@ -137,7 +135,7 @@ class HomeServicesView extends StatelessWidget {
                             itemCount: homeServicesController.isLoading.isTrue
                                 ? 2
                                 : homeServicesController
-                                    .listMechanicsModel.length,
+                                    .listMechanicsMotor.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 homeServicesController.isLoading.value == true
                                     ? Padding(
@@ -150,7 +148,7 @@ class HomeServicesView extends StatelessWidget {
                                       )
                                     : ListMechanics(
                                         model: homeServicesController
-                                            .listMechanicsModel[index],
+                                            .listMechanicsMotor[index],
                                         homeServicesController:
                                             homeServicesController,
                                       ),
@@ -182,6 +180,7 @@ class ListMechanics extends StatelessWidget {
           // homeServicesController.mechanicId.value = model.;
           homeServicesController.mechanicId.value = model.userUid;
           Get.to(HomeServicesAbout(
+            mechanicDescription: model.homeMechanicDescription,
             mechanicId: model.userUid,
             homeServicesController: homeServicesController,
             mechanicEmail: model.userEmail,
@@ -192,6 +191,9 @@ class ListMechanics extends StatelessWidget {
             mechanicLevel: model.userLevel,
             mechanicLat: model.homeServiceLat,
             mechanicLong: model.homeServiceLong,
+            mechanicAlamatDetail: model.homeServiceAddress,
+            handledBrands: model.handledBrands,
+            handledSpecialist: model.handledSpecialist,
           ));
         },
         child: Container(
@@ -243,9 +245,7 @@ class ListMechanics extends StatelessWidget {
                                   ),
                                 ),
                                 const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(
-                                  horizontal: 3,
-                                )),
+                                    child: SpaceSizer(horizontal: 3)),
                                 ResponsiveRowColumnItem(
                                     child: ResponsiveRowColumn(
                                   layout: ResponsiveRowColumnType.COLUMN,
@@ -325,13 +325,11 @@ class ListMechanics extends StatelessWidget {
                           child: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  homeServicesController.brandsCarList.length,
+                              itemCount: model.handledBrands.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) =>
                                   BrandsList(
-                                    model: homeServicesController
-                                        .brandsCarList[index],
+                                    model: model.handledBrands[index],
                                   )),
                         )),
                       ],
@@ -354,8 +352,7 @@ class ListMechanics extends StatelessWidget {
                   overFlow: TextOverflow.ellipsis,
                   fontWeight: FontWeight.w300,
                   maxLines: 4,
-                  value:
-                      'blawlaldawdlaowdkoajwdojawodkoawkdasdasdaoakwodsdsdkaossasdasdasdsadsdkdoakwodkaoksodwoakodkwaodkoaksodkwaodkowakodkaowdkoawkdojaowjhoajavoiajoijavoiwvjwoqajvdjajdjwdoajwvoajdoijawoidjaoiwjdoiajdoivajdjvaojwdvoiawjdojowajdvoiajdojaowj',
+                  value: model.homeMechanicDescription,
                   color: AppColors.black,
                   size: SizeConfig.safeBlockHorizontal * 3,
                 ),

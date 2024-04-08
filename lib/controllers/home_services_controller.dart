@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/brands_car/brands_car_model.dart';
 import '../models/list_mechanics/list_mechanics_model.dart';
 import '../models/users/users_model.dart';
 import '../views/chat/chat_room_view.dart';
@@ -15,8 +14,8 @@ class HomeServicesController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    getMechanics();
-    getBrands();
+    getMechanicsMotor();
+    getMechanicsMobil();
   }
 
   late TabController tabController = TabController(length: 2, vsync: this);
@@ -30,37 +29,12 @@ class HomeServicesController extends GetxController
   RxString userLevel = RxString('');
   RxString mechanicEmail = RxString('');
   RxString mechanicId = RxString('');
-  RxList<BrandsCarModel> brandsCarList =
-      RxList<BrandsCarModel>(<BrandsCarModel>[]);
-  RxList<ListMechanicsModel> listMechanicsModel =
+  RxList<ListMechanicsModel> listMechanicsMobil =
+      RxList<ListMechanicsModel>(<ListMechanicsModel>[]);
+  RxList<ListMechanicsModel> listMechanicsMotor =
       RxList<ListMechanicsModel>(<ListMechanicsModel>[]);
   Rx<UsersModel> usersModel = UsersModel().obs;
   final User? user = FirebaseAuth.instance.currentUser;
-
-  Future<void> getBrands() async {
-    isLoading.value = true;
-    try {
-      await _firestore
-          .collection('data')
-          .doc('brands')
-          .get()
-          .then((DocumentSnapshot<dynamic> documentSnapshot) {
-        final Map<String, dynamic> data =
-            documentSnapshot.data() as Map<String, dynamic>;
-        final List<dynamic> carBrands = data['brands_car'] as List<dynamic>;
-        brandsCarList.value = carBrands
-            .map((dynamic e) =>
-                BrandsCarModel.fromJson(e as Map<String, dynamic>))
-            .toList();
-        log(data.toString());
-      });
-      update();
-      isLoading.value = false;
-    } catch (e) {
-      isLoading.value = false;
-      log(e.toString());
-    }
-  }
 
   Future<void> addConncectionChat(
       String mechanicName, String mechanicUid, String receiverImage) async {
@@ -290,16 +264,40 @@ class HomeServicesController extends GetxController
   }
 
   Future<void> onRefreshPage() async {
-    getMechanics();
+    getMechanicsMotor();
   }
 
-  Future<void> getMechanics() async {
+  Future<void> getMechanicsMobil() async {
     isLoading.value = true;
-
     try {
       final QuerySnapshot<Map<String, dynamic>> collectionSnapshot =
-          await _firestore.collection('mechanic').get();
-      listMechanicsModel.value = collectionSnapshot.docs
+          await _firestore
+              .collection('mechanic')
+              .doc('Mobil')
+              .collection('name')
+              .get();
+      listMechanicsMobil.value = collectionSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
+              ListMechanicsModel.fromJson(doc.data()))
+          .toList();
+      update();
+      isLoading.value = false;
+    } catch (e) {
+      log(e.toString());
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> getMechanicsMotor() async {
+    isLoading.value = true;
+    try {
+      final QuerySnapshot<Map<String, dynamic>> collectionSnapshot =
+          await _firestore
+              .collection('mechanic')
+              .doc('Motor')
+              .collection('name')
+              .get();
+      listMechanicsMotor.value = collectionSnapshot.docs
           .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
               ListMechanicsModel.fromJson(doc.data()))
           .toList();

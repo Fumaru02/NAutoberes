@@ -20,12 +20,14 @@ class HomeServiceManagerController extends GetxController {
   final TextEditingController hsName = TextEditingController();
   final TextEditingController hsAddress = TextEditingController();
   final TextEditingController hsSkill = TextEditingController();
+  final TextEditingController hsDescription = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   User? user;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   RxBool isLoading = RxBool(false);
   RxBool isLoadingBrands = RxBool(false);
   RxBool isSelected = RxBool(false);
+  RxString urlImage = RxString('');
   RxString selectedDropDownMenu = RxString('');
   File? workshopImage;
   ScrollController specialistScrollbar = ScrollController();
@@ -191,26 +193,16 @@ class HomeServiceManagerController extends GetxController {
           .child('${user!.uid}.jpeg');
 
       if (image == null) {
+        isLoading.value = false;
         return Snack.show(
             SnackbarType.error, 'Information', 'Failed to pick image');
       }
       final File imageTemp = File(image.path);
       await ref.putFile(imageTemp, metadata);
       final String url = await ref.getDownloadURL();
+      urlImage.value = url;
       workshopImage = imageTemp;
-      await FirebaseFirestore.instance
-          .collection('mechanic')
-          .doc('${user!.displayName}${user!.uid}')
-          .set(<String, dynamic>{
-        'home_service_image': url,
-      });
       Get.back();
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user!.uid)
-          .update(<String, dynamic>{
-        'home_service_image': url,
-      });
       update();
       Snack.show(SnackbarType.success, 'Image',
           'Image has been uploaded, Image will replaced after pressing Submit');
@@ -227,33 +219,42 @@ class HomeServiceManagerController extends GetxController {
   Future<void> onConfirm(String lat, String long) async {
     isLoading.value = true;
     user = FirebaseAuth.instance.currentUser;
-    log('$lat test1');
+    final List<Map<String, dynamic>> selectedBrandsData =
+        selectedBrand.map((BrandsCarModel brand) => brand.toJson()).toList();
+    final List<Map<String, dynamic>> specialistData = specialistSelected
+        .map((SpecialistModel specialist) => specialist.toJson())
+        .toList();
     if (lat == ''.trim() &&
         long == ''.trim() &&
         workshopImage == null &&
         hsName.text.trim() == null) {
       isLoading.value = false;
-
       return Snack.show(SnackbarType.error, 'ERROR Upload Data',
           'Pastikan kamu sudah mengisi form pendaftaran');
     } else {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user!.uid)
-          .update(<String, dynamic>{
-        'mechanic': 1,
+          .collection('mechanic')
+          .doc(selectedDropDownMenu.value)
+          .set(<String, dynamic>{
+        'handled_brands': selectedBrandsData,
+        'handled_specialist': specialistData,
         'home_service': <String, dynamic>{
           'home_service_lat': lat,
           'home_service_long': long,
           'home_service_name': hsName.text.trim(),
           'home_service_address': hsAddress.text.trim(),
           'home_service_skill': hsSkill.text.trim(),
+          'home_mechanic_description': hsDescription.text.trim(),
         }
       });
       await FirebaseFirestore.instance
           .collection('mechanic')
+          .doc(selectedDropDownMenu.value)
+          .collection('name')
           .doc('${user!.displayName}${user!.uid}')
-          .update(<String, dynamic>{
+          .set(<String, dynamic>{
         'id': '${DateTime.now()}+${user!.uid}',
         'name': user!.displayName,
         'user_rating': 0.0,
@@ -261,12 +262,17 @@ class HomeServiceManagerController extends GetxController {
         'user_email': user!.email,
         'user_uid': user!.uid,
         'home_service_lat': lat,
+        'home_service_image': urlImage.value,
         'home_service_long': long,
         'home_service_name': hsName.text.trim(),
         'home_service_address': hsAddress.text.trim(),
+        'home_mechanic_description': hsDescription.text.trim(),
         'home_service_skill': hsSkill.text.trim(),
+        'handled_brands': selectedBrandsData,
+        'handled_specialist': specialistData,
       });
       isLoading.value = false;
+      Get.back();
       Get.back();
     }
   }

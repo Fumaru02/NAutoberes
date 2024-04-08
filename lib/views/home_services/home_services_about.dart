@@ -6,8 +6,11 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_services_controller.dart';
 import '../../controllers/maps_controller.dart';
+import '../../models/brands_car/brands_car_model.dart';
+import '../../models/specialist/specialist_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/asset_list.dart';
+import '../../utils/enums.dart';
 import '../../utils/size_config.dart';
 import '../widgets/custom/custom_bordered_container.dart';
 import '../widgets/custom/custom_flat_button.dart';
@@ -27,6 +30,10 @@ class HomeServicesAbout extends StatelessWidget {
     required this.mechanicId,
     required this.mechanicLat,
     required this.mechanicLong,
+    required this.mechanicAlamatDetail,
+    required this.mechanicDescription,
+    required this.handledBrands,
+    required this.handledSpecialist,
     required this.mechanicRating,
     required this.homeServicesController,
   });
@@ -39,6 +46,10 @@ class HomeServicesAbout extends StatelessWidget {
   final String mechanicId;
   final String mechanicLat;
   final String mechanicLong;
+  final String mechanicAlamatDetail;
+  final String mechanicDescription;
+  final List<BrandsCarModel> handledBrands;
+  final List<SpecialistModel> handledSpecialist;
 
   final double mechanicRating;
   final HomeServicesController homeServicesController;
@@ -81,80 +92,93 @@ class HomeServicesAbout extends StatelessWidget {
                     ),
                   ),
                   ResponsiveRowColumnItem(
-                      child: InterTextView(
-                          value: mechanicAlias,
+                      child: CustomBorderedContainer(
+                    padding: EdgeInsets.symmetric(
+                        vertical: SizeConfig.horizontal(2)),
+                    child: ResponsiveRowColumn(
+                      layout: ResponsiveRowColumnType.COLUMN,
+                      children: <ResponsiveRowColumnItem>[
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                                value: mechanicAlias,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.bold,
+                                size: SizeConfig.safeBlockHorizontal * 5)),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 2)),
+                        ResponsiveRowColumnItem(
+                            child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.blueDark,
+                                  width: SizeConfig.horizontal(1.5)),
+                              shape: BoxShape.circle,
+                              color: AppColors.redAlert),
+                          height: SizeConfig.horizontal(50),
+                          width: SizeConfig.horizontal(50),
+                          child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(100)),
+                              child: CachedNetworkImage(
+                                  imageUrl: mechanicPic, fit: BoxFit.cover)),
+                        )),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 1)),
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                          value: mechanicName,
                           color: AppColors.black,
                           fontWeight: FontWeight.bold,
-                          size: SizeConfig.safeBlockHorizontal * 5)),
-                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 2)),
-                  ResponsiveRowColumnItem(
-                      child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: AppColors.blueDark,
-                            width: SizeConfig.horizontal(1.5)),
-                        shape: BoxShape.circle,
-                        color: AppColors.redAlert),
-                    height: SizeConfig.horizontal(50),
-                    width: SizeConfig.horizontal(50),
-                    child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(100)),
-                        child: CachedNetworkImage(
-                            imageUrl: mechanicPic, fit: BoxFit.cover)),
+                          size: SizeConfig.safeBlockHorizontal * 4.5,
+                        )),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 0.5)),
+                        ResponsiveRowColumnItem(
+                            child: ResponsiveRowColumn(
+                          layout: ResponsiveRowColumnType.ROW,
+                          rowMainAxisAlignment: MainAxisAlignment.center,
+                          children: <ResponsiveRowColumnItem>[
+                            ResponsiveRowColumnItem(
+                              child: Icon(
+                                Icons.star,
+                                color: AppColors.gold,
+                              ),
+                            ),
+                            ResponsiveRowColumnItem(
+                                child: InterTextView(
+                              value: mechanicRating.toString(),
+                              size: SizeConfig.safeBlockHorizontal * 4,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.gold,
+                            ))
+                          ],
+                        )),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 0.5)),
+                        ResponsiveRowColumnItem(
+                            child: InterTextView(
+                          value: 'Operational Hour\n  08:00 - 20:00',
+                          size: SizeConfig.safeBlockHorizontal * 3.5,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.black,
+                        )),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 1.5)),
+                        ResponsiveRowColumnItem(
+                            child: CustomFlatButton(
+                                width: 30,
+                                height: 5,
+                                text: 'Message',
+                                textSize: 3.5,
+                                onTap: () {
+                                  homeServicesController.addConncectionChat(
+                                      mechanicName, mechanicId, mechanicPic);
+                                })),
+                        const ResponsiveRowColumnItem(
+                            child: SpaceSizer(vertical: 1)),
+                      ],
+                    ),
                   )),
-                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
-                  ResponsiveRowColumnItem(
-                      child: InterTextView(
-                    value: mechanicName,
-                    color: AppColors.black,
-                    fontWeight: FontWeight.bold,
-                    size: SizeConfig.safeBlockHorizontal * 4.5,
-                  )),
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(vertical: 0.5)),
-                  ResponsiveRowColumnItem(
-                      child: ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.ROW,
-                    rowMainAxisAlignment: MainAxisAlignment.center,
-                    children: <ResponsiveRowColumnItem>[
-                      ResponsiveRowColumnItem(
-                        child: Icon(
-                          Icons.star,
-                          color: AppColors.gold,
-                        ),
-                      ),
-                      ResponsiveRowColumnItem(
-                          child: InterTextView(
-                        value: mechanicRating.toString(),
-                        size: SizeConfig.safeBlockHorizontal * 4,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.gold,
-                      ))
-                    ],
-                  )),
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(vertical: 0.5)),
-                  ResponsiveRowColumnItem(
-                      child: InterTextView(
-                    value: 'Operational Hour\n  08:00 - 20:00',
-                    size: SizeConfig.safeBlockHorizontal * 3.5,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.black,
-                  )),
-                  const ResponsiveRowColumnItem(
-                      child: SpaceSizer(vertical: 1.5)),
-                  ResponsiveRowColumnItem(
-                      child: CustomFlatButton(
-                          width: 30,
-                          height: 5,
-                          text: 'Message',
-                          textSize: 3.5,
-                          onTap: () {
-                            homeServicesController.addConncectionChat(
-                                mechanicName, mechanicId, mechanicPic);
-                          })),
-                  const ResponsiveRowColumnItem(child: SpaceSizer(vertical: 1)),
                   ResponsiveRowColumnItem(
                       child: CustomRippleButton(
                     onTap: () =>
@@ -162,6 +186,7 @@ class HomeServicesAbout extends StatelessWidget {
                     child: CustomBorderedContainer(
                         child: ResponsiveRowColumn(
                       layout: ResponsiveRowColumnType.COLUMN,
+                      columnCrossAxisAlignment: CrossAxisAlignment.start,
                       children: <ResponsiveRowColumnItem>[
                         ResponsiveRowColumnItem(
                             child: Padding(
@@ -179,8 +204,8 @@ class HomeServicesAbout extends StatelessWidget {
                             child: Padding(
                           padding: EdgeInsets.all(SizeConfig.horizontal(2)),
                           child: InterTextView(
-                            value:
-                                'Detail alamat:\nJl.Raya Pendidikan 4 No 2599, Bekasi Timur,Jawa Barat,Indonesia',
+                            value: 'Detail Address: $mechanicAlamatDetail',
+                            alignText: AlignTextType.left,
                             color: AppColors.greyTextDisabled,
                           ),
                         ))
@@ -223,53 +248,34 @@ class HomeServicesAbout extends StatelessWidget {
                     ],
                   ))),
                   ResponsiveRowColumnItem(
-                      child: CustomBorderedContainer(
-                          child: ResponsiveRowColumn(
-                    layout: ResponsiveRowColumnType.ROW,
-                    children: <ResponsiveRowColumnItem>[
-                      ResponsiveRowColumnItem(
-                          child: Padding(
-                        padding: EdgeInsets.all(SizeConfig.horizontal(2)),
-                        child: Icon(
-                          Icons.recommend,
-                          color: AppColors.blackBackground,
-                          size: SizeConfig.horizontal(12),
-                        ),
-                      )),
-                      ResponsiveRowColumnItem(
-                          child: ResponsiveRowColumn(
-                        layout: ResponsiveRowColumnType.COLUMN,
-                        columnCrossAxisAlignment: CrossAxisAlignment.start,
-                        children: <ResponsiveRowColumnItem>[
-                          ResponsiveRowColumnItem(
-                              child: InterTextView(
-                            value: 'Skilled',
-                            size: SizeConfig.safeBlockHorizontal * 3.5,
-                            color: AppColors.black,
-                          )),
-                          ResponsiveRowColumnItem(
-                              child: InterTextView(
-                            value: '-Mobil',
-                            color: AppColors.black,
-                            fontWeight: FontWeight.bold,
-                          )),
-                        ],
-                      ))
-                    ],
-                  ))),
+                      child: ExpansionHomeServiceInfo(
+                          title: 'Handled Brands',
+                          noImage: false,
+                          icon: Icons.recommend,
+                          listExpansion: handledBrands)),
+                  ResponsiveRowColumnItem(
+                      child: ExpansionHomeServiceInfo(
+                          title: 'Handled Specialist',
+                          noImage: true,
+                          icon: Icons.content_paste_go_outlined,
+                          listExpansion: handledSpecialist)),
                   ResponsiveRowColumnItem(
                       child: CustomBorderedContainer(
                           child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.ROW,
                     rowCrossAxisAlignment: CrossAxisAlignment.start,
                     children: <ResponsiveRowColumnItem>[
+                      const ResponsiveRowColumnItem(
+                          child: SpaceSizer(
+                        horizontal: 2,
+                      )),
                       ResponsiveRowColumnItem(
                           child: Padding(
                         padding: EdgeInsets.all(SizeConfig.horizontal(2)),
                         child: Icon(
                           Icons.event_note,
                           color: AppColors.blackBackground,
-                          size: SizeConfig.horizontal(12),
+                          size: SizeConfig.horizontal(10),
                         ),
                       )),
                       ResponsiveRowColumnItem(
@@ -281,16 +287,16 @@ class HomeServicesAbout extends StatelessWidget {
                         children: <ResponsiveRowColumnItem>[
                           ResponsiveRowColumnItem(
                               child: InterTextView(
-                            value: 'Review',
+                            value: 'Description',
                             size: SizeConfig.safeBlockHorizontal * 3.5,
                             color: AppColors.black,
+                            fontWeight: FontWeight.w600,
                           )),
                           ResponsiveRowColumnItem(
                               child: SizedBox(
                             width: SizeConfig.horizontal(60),
                             child: InterTextView(
-                              value:
-                                  '@Fumaru : Boleh lah (Y), lupa masang baut olinya, jadinya tumpah tumpah ke tete saya mas',
+                              value: mechanicDescription,
                               color: AppColors.black,
                               fontWeight: FontWeight.w500,
                             ),
@@ -304,5 +310,90 @@ class HomeServicesAbout extends StatelessWidget {
                 ],
               ),
             )));
+  }
+}
+
+class ExpansionHomeServiceInfo extends StatelessWidget {
+  const ExpansionHomeServiceInfo({
+    super.key,
+    required this.listExpansion,
+    required this.title,
+    required this.noImage,
+    required this.icon,
+  });
+
+  final List<dynamic> listExpansion;
+  final String title;
+  final bool noImage;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomBorderedContainer(
+        child: ExpansionTile(
+      title: ResponsiveRowColumn(
+        layout: ResponsiveRowColumnType.ROW,
+        children: <ResponsiveRowColumnItem>[
+          ResponsiveRowColumnItem(
+              child: Icon(
+            icon,
+            color: AppColors.blackBackground,
+            size: SizeConfig.horizontal(10),
+          )),
+          const ResponsiveRowColumnItem(
+              child: SpaceSizer(
+            horizontal: 2,
+          )),
+          ResponsiveRowColumnItem(
+            child: InterTextView(
+              value: title,
+              color: AppColors.black,
+              fontWeight: FontWeight.bold,
+              size: SizeConfig.safeBlockHorizontal * 3.5,
+            ),
+          ),
+        ],
+      ),
+      children: <Widget>[
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: listExpansion.length,
+          itemBuilder: (BuildContext context, int index) => ResponsiveRowColumn(
+            layout: ResponsiveRowColumnType.ROW,
+            children: <ResponsiveRowColumnItem>[
+              const ResponsiveRowColumnItem(
+                  child: SpaceSizer(
+                horizontal: 5,
+              )),
+              ResponsiveRowColumnItem(
+                child: noImage == true
+                    ? const SizedBox.shrink()
+                    : CachedNetworkImage(
+                        imageUrl: listExpansion[index].brandImage as String,
+                        memCacheHeight: 90,
+                        memCacheWidth: 90,
+                        width: SizeConfig.horizontal(5),
+                        height: SizeConfig.horizontal(12),
+                      ),
+              ),
+              const ResponsiveRowColumnItem(
+                  child: SpaceSizer(
+                horizontal: 2,
+              )),
+              ResponsiveRowColumnItem(
+                  child: Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: SizeConfig.horizontal(1)),
+                child: InterTextView(
+                  value: listExpansion[index].brand as String,
+                  color: AppColors.black,
+                  size: SizeConfig.safeBlockHorizontal * 3.5,
+                ),
+              ))
+            ],
+          ),
+        )
+      ],
+    ));
   }
 }

@@ -22,4 +22,6 @@ class BrandsCarModel {
   bool isSelected;
 
   Map<String, dynamic> toJson() => _$BrandsCarModelToJson(this);
+
+  
 }
