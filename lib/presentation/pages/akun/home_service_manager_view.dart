@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -365,44 +367,52 @@ class _HomeServiceManagerViewState extends State<HomeServiceManagerView> {
                         message: 'Jenis Kendaraan tidak boleh kosong',
                         snackbarType: SnackbarType.error)
                     : router.push('/selectbrands', extra: homeState.brandsList),
-                child: Container(
-                  width: SizeConfig.horizontal(80),
-                  height: homeState.getBrand.isEmpty
-                      ? SizeConfig.horizontal(14)
-                      : null,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(SizeConfig.horizontal(2))),
-                      color: AppColors.white,
-                      border: Border.all(width: SizeConfig.horizontal(0.2))),
-                  child: homeState.getBrand.isEmpty
-                      ? Center(
-                          child: homeState.homeServiceStatus ==
-                                  HomeServiceStatus.loading
-                              ? const CircularProgressIndicator()
-                              : InterTextView(
-                                  value: 'No Brand Selected',
-                                  color: AppColors.greyDisabled,
-                                ),
-                        )
-                      : Padding(
-                          padding: EdgeInsets.all(SizeConfig.horizontal(4)),
-                          child: Wrap(
-                            spacing: SizeConfig.horizontal(2),
-                            runSpacing: SizeConfig.horizontal(2),
-                            children: homeState.getBrand
-                                .map(
-                                  (BrandsCarModel item) => CachedNetworkImage(
-                                    width: SizeConfig.horizontal(10),
-                                    height: SizeConfig.horizontal(10),
-                                    imageUrl: item.brandImage,
-                                    memCacheHeight: 300,
-                                    memCacheWidth: 300,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
+                child: BlocBuilder<HomeServiceManagerCubit,
+                    HomeServiceManagerStateCubit>(
+                  builder: (_, HomeServiceManagerStateCubit state) {
+                    log(state.selectedBrand.toString());
+                    return Container(
+                      width: SizeConfig.horizontal(80),
+                      height: homeState.getBrand.isEmpty
+                          ? SizeConfig.horizontal(14)
+                          : null,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(SizeConfig.horizontal(2))),
+                          color: AppColors.white,
+                          border:
+                              Border.all(width: SizeConfig.horizontal(0.2))),
+                      child: state.selectedBrand.isEmpty
+                          ? Center(
+                              child: homeState.homeServiceStatus ==
+                                      HomeServiceStatus.loading
+                                  ? const CircularProgressIndicator()
+                                  : InterTextView(
+                                      value: 'No Brand Selected',
+                                      color: AppColors.greyDisabled,
+                                    ),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.all(SizeConfig.horizontal(4)),
+                              child: Wrap(
+                                spacing: SizeConfig.horizontal(2),
+                                runSpacing: SizeConfig.horizontal(2),
+                                children: state.selectedBrand
+                                    .map(
+                                      (BrandsCarModel item) =>
+                                          CachedNetworkImage(
+                                        width: SizeConfig.horizontal(10),
+                                        height: SizeConfig.horizontal(10),
+                                        imageUrl: item.brandImage,
+                                        memCacheHeight: 300,
+                                        memCacheWidth: 300,
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                    );
+                  },
                 )))
       ],
     );

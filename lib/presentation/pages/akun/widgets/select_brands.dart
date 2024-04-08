@@ -105,9 +105,9 @@ class SelectBrands extends StatelessWidget {
                               height: 8,
                               text: 'Selected (${state.selectedBrand.length})',
                               onTap: () {
-                                _.read<HomeServiceManagerBloc>().add(
-                                    OnUploadHandledBrands(
-                                        dataHandled: state.selectedBrand));
+                                _
+                                    .read<HomeServiceManagerCubit>()
+                                    .getValue(state.selectedBrand);
                               }),
                         ),
                       ),

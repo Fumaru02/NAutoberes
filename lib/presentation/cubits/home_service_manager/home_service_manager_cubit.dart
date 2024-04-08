@@ -42,7 +42,9 @@ class HomeServiceManagerCubit extends Cubit<HomeServiceManagerStateCubit> {
   }
 
   void getValue(List<BrandsCarModel> data) {
-    emit(state.copyWith(selectedBrand: data));
+    final HomeServiceManagerStateCubit currentState = state;
+    emit(state.copyWith(selectedBrand: <BrandsCarModel>[]));
+    emit(currentState.copyWith(selectedBrand: data));
   }
 
   void toggleSelectionBrand(BrandsCarModel item) {
