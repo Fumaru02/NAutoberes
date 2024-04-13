@@ -11,4 +11,5 @@ class AssetList {
   static String trashMap = 'assets/trash-map.png';
   static String backgroundRoom = 'assets/backgroundRoom.png';
   static String backgroundBubble = 'assets/backgroundBubble.png';
+  static String emptyStateAnimation = 'assets/animations/empty_state.json';
 }

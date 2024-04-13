@@ -16,7 +16,9 @@ class AutomotiveNews extends StatelessWidget {
         height: SizeConfig.horizontal(55),
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: homeController.aboutAutomotiveList.length,
+            itemCount: homeController.aboutAutomotiveList.length > 2
+                ? 2
+                : homeController.aboutAutomotiveList.length,
             itemBuilder: (BuildContext context, int index) =>
                 AboutAutomotiveList(
                   model: homeController.aboutAutomotiveList[index],

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../controllers/home_service_manager_controller.dart';
+import '../../../controllers/register_home_service_controller.dart';
 import '../../../models/specialist/specialist_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
@@ -33,11 +33,11 @@ class SelectSpecialist extends StatelessWidget {
             statusBarColor: AppColors.blackBackground,
             colorScaffold: AppColors.white,
             statusBarBrightness: Brightness.light,
-            view: GetBuilder<HomeServiceManagerController>(
-              init: HomeServiceManagerController(),
-              builder:
-                  (HomeServiceManagerController homeServiceManagerController) =>
-                      Stack(
+            view: GetBuilder<RegisterHomeServiceManagerController>(
+              init: RegisterHomeServiceManagerController(),
+              builder: (RegisterHomeServiceManagerController
+                      registerHomeServiceManagerController) =>
+                  Stack(
                 children: <Widget>[
                   SingleChildScrollView(
                     child: ResponsiveRowColumn(
@@ -50,7 +50,7 @@ class SelectSpecialist extends StatelessWidget {
                                 hintText: 'ketik spesialist',
                                 prefixIcon: const Icon(Icons.search),
                                 onChanged: (String p0) =>
-                                    homeServiceManagerController
+                                    registerHomeServiceManagerController
                                         .searchSpecialist(p0),
                                 title: '')),
                         ResponsiveRowColumnItem(
@@ -59,28 +59,29 @@ class SelectSpecialist extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.only(
                                   bottom: SizeConfig.horizontal(10)),
-                              itemCount: homeServiceManagerController
+                              itemCount: registerHomeServiceManagerController
                                       .foundedSpecialist.isNotEmpty
-                                  ? homeServiceManagerController
+                                  ? registerHomeServiceManagerController
                                       .foundedSpecialist.length
-                                  : homeServiceManagerController
+                                  : registerHomeServiceManagerController
                                       .specialistList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final SpecialistModel item =
-                                    homeServiceManagerController
+                                    registerHomeServiceManagerController
                                         .specialistList[index];
                                 return CustomRippleButton(
                                   borderRadius: BorderRadius.zero,
-                                  onTap: () => homeServiceManagerController
-                                      .toggleSelectionSpecialist(item),
+                                  onTap: () =>
+                                      registerHomeServiceManagerController
+                                          .toggleSelectionSpecialist(item),
                                   child: listTileModel(
-                                      homeServiceManagerController
+                                      registerHomeServiceManagerController
                                               .foundedSpecialist.isNotEmpty
-                                          ? homeServiceManagerController
+                                          ? registerHomeServiceManagerController
                                               .foundedSpecialist[index]
-                                          : homeServiceManagerController
+                                          : registerHomeServiceManagerController
                                               .specialistList[index],
-                                      homeServiceManagerController),
+                                      registerHomeServiceManagerController),
                                 );
                               }),
                         ),
@@ -97,7 +98,7 @@ class SelectSpecialist extends StatelessWidget {
                           width: 80,
                           height: 8,
                           text:
-                              'Selected (${homeServiceManagerController.specialistSelected.length})',
+                              'Selected (${registerHomeServiceManagerController.specialistSelected.length})',
                           onTap: () {
                             Get.back();
                           }),
@@ -108,8 +109,10 @@ class SelectSpecialist extends StatelessWidget {
             )));
   }
 
-  Widget listTileModel(SpecialistModel model,
-      HomeServiceManagerController homeServiceManagerController) {
+  Widget listTileModel(
+      SpecialistModel model,
+      RegisterHomeServiceManagerController
+          registerHomeServiceManagerController) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
       child: ListTile(

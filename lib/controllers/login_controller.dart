@@ -71,6 +71,7 @@ class LoginController extends GetxController with GetTickerProviderStateMixin {
 
       final OAuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+      sharedPref.writeAccessToken(googleAuth!.accessToken!);
       final UserCredential userCreds =
           await FirebaseAuth.instance.signInWithCredential(credential);
       final User? user = userCreds.user;

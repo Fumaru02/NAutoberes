@@ -19,7 +19,12 @@ class HomeController extends GetxController {
     super.onInit();
     await getApplicationData();
     updateGreating();
-    getContent();
+    Future<void>.delayed(
+      const Duration(milliseconds: 200),
+      () {
+        getContent();
+      },
+    );
     scrollController.addListener(() {
       listen();
     });

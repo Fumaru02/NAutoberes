@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../controllers/home_services_controller.dart';
+import '../../helpers/string_extension.dart';
 import '../../models/brands_car/brands_car_model.dart';
 import '../../models/list_mechanics/list_mechanics_model.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/size_config.dart';
+import '../widgets/custom/custom_empty_state.dart';
 import '../widgets/custom/custom_ripple_button.dart';
 import '../widgets/custom/custom_shimmer_placeholder.dart';
-import '../widgets/custom/custom_text_field.dart';
 import '../widgets/layouts/space_sizer.dart';
 import '../widgets/text/inter_text_view.dart';
 import 'home_services_about.dart';
@@ -31,73 +32,63 @@ class HomeServicesView extends StatelessWidget {
                 layout: ResponsiveRowColumnType.COLUMN,
                 columnCrossAxisAlignment: CrossAxisAlignment.start,
                 children: <ResponsiveRowColumnItem>[
-                  ResponsiveRowColumnItem(
-                      child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: SizeConfig.horizontal(2)),
-                    color: AppColors.blackBackground,
-                    child: ResponsiveRowColumn(
-                      layout: ResponsiveRowColumnType.ROW,
-                      rowMainAxisAlignment: MainAxisAlignment.center,
-                      children: <ResponsiveRowColumnItem>[
-                        ResponsiveRowColumnItem(
-                            child: CustomTextField(
-                          borderRadius: 2,
-                          title: '',
-                          hintText: 'Search...',
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: AppColors.greyDisabled,
-                          ),
-                        )),
-                        const ResponsiveRowColumnItem(
-                            child: SpaceSizer(horizontal: 2)),
-                        ResponsiveRowColumnItem(
-                            child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(2))),
-                          child: Icon(
-                            Icons.sort,
-                            size: SizeConfig.horizontal(11),
-                            color: AppColors.blackBackground,
-                          ),
-                        ))
-                      ],
-                    ),
-                  )),
                   // ResponsiveRowColumnItem(
-                  //     child: Padding(
-                  //   padding: EdgeInsets.only(
-                  //       left: SizeConfig.horizontal(6),
-                  //       top: SizeConfig.horizontal(2)),
-                  //   child: InterTextView(
-                  //     value: 'Hasil Pencarian :',
-                  //     color: AppColors.black,
-                  //     fontWeight: FontWeight.bold,
-                  //     size: SizeConfig.safeBlockHorizontal * 4.5,
+                  //     child: Container(
+                  //   padding: EdgeInsets.symmetric(
+                  //       vertical: SizeConfig.horizontal(2)),
+                  //   color: AppColors.blackBackground,
+                  //   child: ResponsiveRowColumn(
+                  //     layout: ResponsiveRowColumnType.ROW,
+                  //     rowMainAxisAlignment: MainAxisAlignment.center,
+                  //     children: <ResponsiveRowColumnItem>[
+                  //       ResponsiveRowColumnItem(
+                  //           child: CustomTextField(
+                  //         borderRadius: 2,
+                  //         title: '',
+                  //         hintText: 'Search...',
+                  //         prefixIcon: Icon(
+                  //           Icons.search,
+                  //           color: AppColors.greyDisabled,
+                  //         ),
+                  //       )),
+                  //       const ResponsiveRowColumnItem(
+                  //           child: SpaceSizer(horizontal: 2)),
+                  //       ResponsiveRowColumnItem(
+                  //           child: Container(
+                  //         decoration: BoxDecoration(
+                  //             color: AppColors.white,
+                  //             borderRadius:
+                  //                 const BorderRadius.all(Radius.circular(2))),
+                  //         child: Icon(
+                  //           Icons.sort,
+                  //           size: SizeConfig.horizontal(11),
+                  //           color: AppColors.blackBackground,
+                  //         ),
+                  //       ))
+                  //     ],
                   //   ),
                   // )),
                   ResponsiveRowColumnItem(
                     child: TabBar(
                         indicatorColor: AppColors.blackBackground,
-                        labelPadding:
-                            EdgeInsets.only(bottom: SizeConfig.horizontal(1)),
                         controller: homeServicesController.tabController,
                         unselectedLabelColor: AppColors.greyTextDisabled,
                         labelStyle:
                             InterStyle().labelStyle(AppColors.blackBackground),
-                        padding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.horizontal(2)),
                         tabs: <Widget>[
-                          Icon(
-                            Icons.directions_car,
-                            size: SizeConfig.safeBlockHorizontal * 7,
+                          Tab(
+                            text: 'Mobil',
+                            icon: Icon(
+                              Icons.directions_car,
+                              size: SizeConfig.safeBlockHorizontal * 7,
+                            ),
                           ),
-                          Icon(
-                            Icons.directions_bike_outlined,
-                            size: SizeConfig.safeBlockHorizontal * 7,
+                          Tab(
+                            text: 'Motor',
+                            icon: Icon(
+                              Icons.directions_bike_outlined,
+                              size: SizeConfig.safeBlockHorizontal * 7,
+                            ),
                           ),
                         ]),
                   ),
@@ -106,53 +97,13 @@ class HomeServicesView extends StatelessWidget {
                     child: TabBarView(
                       controller: homeServicesController.tabController,
                       children: <Widget>[
-                        Obx(
-                          () => ListView.builder(
-                            itemCount: homeServicesController.isLoading.isTrue
-                                ? 2
-                                : homeServicesController
-                                    .listMechanicsMobil.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                homeServicesController.isLoading.value == true
-                                    ? Padding(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.horizontal(2)),
-                                        child: CustomShimmerPlaceHolder(
-                                          width: SizeConfig.horizontal(30),
-                                          height: SizeConfig.horizontal(20),
-                                        ),
-                                      )
-                                    : ListMechanics(
-                                        model: homeServicesController
-                                            .listMechanicsMobil[index],
-                                        homeServicesController:
-                                            homeServicesController,
-                                      ),
-                          ),
+                        ListHomeService(
+                          dataList: homeServicesController.listMechanicsMobil,
+                          homeServicesController: homeServicesController,
                         ),
-                        Obx(
-                          () => ListView.builder(
-                            itemCount: homeServicesController.isLoading.isTrue
-                                ? 2
-                                : homeServicesController
-                                    .listMechanicsMotor.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                homeServicesController.isLoading.value == true
-                                    ? Padding(
-                                        padding: EdgeInsets.all(
-                                            SizeConfig.horizontal(2)),
-                                        child: CustomShimmerPlaceHolder(
-                                          width: SizeConfig.horizontal(30),
-                                          height: SizeConfig.horizontal(20),
-                                        ),
-                                      )
-                                    : ListMechanics(
-                                        model: homeServicesController
-                                            .listMechanicsMotor[index],
-                                        homeServicesController:
-                                            homeServicesController,
-                                      ),
-                          ),
+                        ListHomeService(
+                          dataList: homeServicesController.listMechanicsMotor,
+                          homeServicesController: homeServicesController,
                         ),
                       ],
                     ),
@@ -160,6 +111,43 @@ class HomeServicesView extends StatelessWidget {
                 ],
               ),
             ));
+  }
+}
+
+class ListHomeService extends StatelessWidget {
+  const ListHomeService({
+    super.key,
+    required this.homeServicesController,
+    required this.dataList,
+  });
+  final HomeServicesController homeServicesController;
+  final List<dynamic> dataList;
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => dataList.isEmpty
+          ? const CustomEmptyState()
+          : ListView.builder(
+              itemCount:
+                  homeServicesController.isLoading.isTrue ? 2 : dataList.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (homeServicesController.isLoading.value == true) {
+                  return Padding(
+                    padding: EdgeInsets.all(SizeConfig.horizontal(2)),
+                    child: CustomShimmerPlaceHolder(
+                      width: SizeConfig.horizontal(30),
+                      height: SizeConfig.horizontal(20),
+                    ),
+                  );
+                } else {
+                  return ListMechanics(
+                    model: dataList[index] as ListMechanicsModel,
+                    homeServicesController: homeServicesController,
+                  );
+                }
+              },
+            ),
+    );
   }
 }
 
@@ -240,12 +228,12 @@ class ListMechanics extends StatelessWidget {
                                           memCacheHeight: 300,
                                           memCacheWidth: 300,
                                           imageUrl: model.homeServiceImage,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         )),
                                   ),
                                 ),
                                 const ResponsiveRowColumnItem(
-                                    child: SpaceSizer(horizontal: 3)),
+                                    child: SpaceSizer(horizontal: 2)),
                                 ResponsiveRowColumnItem(
                                     child: ResponsiveRowColumn(
                                   layout: ResponsiveRowColumnType.COLUMN,
@@ -259,14 +247,21 @@ class ListMechanics extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     ResponsiveRowColumnItem(
-                                      child: InterTextView(
-                                        value: model.homeServiceAddress,
-                                        color: AppColors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        size: SizeConfig.safeBlockHorizontal *
-                                            3.5,
+                                      child: SizedBox(
+                                        width: SizeConfig.horizontal(50),
+                                        child: InterTextView(
+                                          overFlow: TextOverflow.ellipsis,
+                                          value:
+                                              '${model.homeServiceProfince.capitalizeByWord()},${model.homeServiceCity.capitalizeByWord()},${model.homeServiceSubdistrict.capitalizeByWord()}',
+                                          color: AppColors.grey,
+                                          fontWeight: FontWeight.w600,
+                                          size: SizeConfig.safeBlockHorizontal *
+                                              3,
+                                        ),
                                       ),
                                     ),
+                                    const ResponsiveRowColumnItem(
+                                        child: SpaceSizer(vertical: 0.5)),
                                     ResponsiveRowColumnItem(
                                         child: ResponsiveRowColumn(
                                       layout: ResponsiveRowColumnType.ROW,

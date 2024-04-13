@@ -62,7 +62,7 @@ class InterStyle {
       color: color ?? Colors.grey,
       fontSize: SizeConfig.safeBlockHorizontal * 3.5,
       fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w600,
     );
   }
 }

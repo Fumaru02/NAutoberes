@@ -17,6 +17,9 @@ class ListMechanicsModel {
     required this.homeServiceSkill,
     required this.homeServiceLat,
     required this.homeServiceLong,
+    required this.homeServiceCity,
+    required this.homeServiceProfince,
+    required this.homeServiceSubdistrict,
     required this.userEmail,
     required this.userLevel,
     required this.userUid,
@@ -52,6 +55,12 @@ class ListMechanicsModel {
   String homeServiceLong;
   @JsonKey(name: 'home_mechanic_description')
   String homeMechanicDescription;
+  @JsonKey(name: 'home_service_profince')
+  String homeServiceProfince;
+  @JsonKey(name: 'home_service_city')
+  String homeServiceCity;
+  @JsonKey(name: 'home_service_subdistrict')
+  String homeServiceSubdistrict;
   @JsonKey(name: 'handled_brands')
   List<BrandsCarModel> handledBrands;
   @JsonKey(name: 'handled_specialist')

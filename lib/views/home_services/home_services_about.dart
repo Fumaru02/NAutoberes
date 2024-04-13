@@ -217,13 +217,17 @@ class HomeServicesAbout extends StatelessWidget {
                           child: ResponsiveRowColumn(
                     layout: ResponsiveRowColumnType.ROW,
                     children: <ResponsiveRowColumnItem>[
+                      const ResponsiveRowColumnItem(
+                          child: SpaceSizer(
+                        horizontal: 1.5,
+                      )),
                       ResponsiveRowColumnItem(
                           child: Padding(
                         padding: EdgeInsets.all(SizeConfig.horizontal(2)),
                         child: Icon(
-                          Icons.book,
+                          Icons.send_time_extension_rounded,
                           color: AppColors.blackBackground,
-                          size: SizeConfig.horizontal(12),
+                          size: SizeConfig.horizontal(10),
                         ),
                       )),
                       ResponsiveRowColumnItem(
@@ -251,7 +255,7 @@ class HomeServicesAbout extends StatelessWidget {
                       child: ExpansionHomeServiceInfo(
                           title: 'Handled Brands',
                           noImage: false,
-                          icon: Icons.recommend,
+                          icon: Icons.book,
                           listExpansion: handledBrands)),
                   ResponsiveRowColumnItem(
                       child: ExpansionHomeServiceInfo(
@@ -282,9 +286,9 @@ class HomeServicesAbout extends StatelessWidget {
                           child: ResponsiveRowColumn(
                         layout: ResponsiveRowColumnType.COLUMN,
                         columnCrossAxisAlignment: CrossAxisAlignment.start,
-                        columnPadding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.horizontal(1)),
                         children: <ResponsiveRowColumnItem>[
+                          const ResponsiveRowColumnItem(
+                              child: SpaceSizer(vertical: 1)),
                           ResponsiveRowColumnItem(
                               child: InterTextView(
                             value: 'Description',
@@ -297,8 +301,9 @@ class HomeServicesAbout extends StatelessWidget {
                             width: SizeConfig.horizontal(60),
                             child: InterTextView(
                               value: mechanicDescription,
+                              size: SizeConfig.safeBlockHorizontal * 3.5,
                               color: AppColors.black,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w400,
                             ),
                           )),
                         ],
@@ -331,6 +336,7 @@ class ExpansionHomeServiceInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomBorderedContainer(
         child: ExpansionTile(
+          
       title: ResponsiveRowColumn(
         layout: ResponsiveRowColumnType.ROW,
         children: <ResponsiveRowColumnItem>[

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../controllers/home_service_manager_controller.dart';
+import '../../../controllers/register_home_service_controller.dart';
 import '../../../models/brands_car/brands_car_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/size_config.dart';
@@ -34,10 +34,10 @@ class SelectCars extends StatelessWidget {
             statusBarColor: AppColors.blackBackground,
             colorScaffold: AppColors.white,
             statusBarBrightness: Brightness.light,
-            view: GetBuilder<HomeServiceManagerController>(
-              init: HomeServiceManagerController(),
+            view: GetBuilder<RegisterHomeServiceManagerController>(
+              init: RegisterHomeServiceManagerController(),
               builder:
-                  (HomeServiceManagerController homeServiceManagerController) =>
+                  (RegisterHomeServiceManagerController registerHomeServiceManagerController) =>
                       Stack(
                 children: <Widget>[
                   SingleChildScrollView(
@@ -51,7 +51,7 @@ class SelectCars extends StatelessWidget {
                                 hintText: 'Masukkan nama brand...',
                                 prefixIcon: const Icon(Icons.search),
                                 onChanged: (String p0) =>
-                                    homeServiceManagerController
+                                    registerHomeServiceManagerController
                                         .searchBrand(p0),
                                 title: '')),
                         ResponsiveRowColumnItem(
@@ -60,28 +60,28 @@ class SelectCars extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.only(
                                   bottom: SizeConfig.horizontal(10)),
-                              itemCount: homeServiceManagerController
+                              itemCount: registerHomeServiceManagerController
                                       .foundedBrand.isNotEmpty
-                                  ? homeServiceManagerController
+                                  ? registerHomeServiceManagerController
                                       .foundedBrand.length
-                                  : homeServiceManagerController
+                                  : registerHomeServiceManagerController
                                       .brandsCarList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final BrandsCarModel item =
-                                    homeServiceManagerController
+                                    registerHomeServiceManagerController
                                         .brandsCarList[index];
                                 return CustomRippleButton(
                                   borderRadius: BorderRadius.zero,
-                                  onTap: () => homeServiceManagerController
+                                  onTap: () => registerHomeServiceManagerController
                                       .toggleSelectionBrand(item),
                                   child: listTileBrands(
-                                      homeServiceManagerController
+                                      registerHomeServiceManagerController
                                               .foundedBrand.isNotEmpty
-                                          ? homeServiceManagerController
+                                          ? registerHomeServiceManagerController
                                               .foundedBrand[index]
-                                          : homeServiceManagerController
+                                          : registerHomeServiceManagerController
                                               .brandsCarList[index],
-                                      homeServiceManagerController),
+                                      registerHomeServiceManagerController),
                                 );
                               }),
                         ),
@@ -98,7 +98,7 @@ class SelectCars extends StatelessWidget {
                           width: 80,
                           height: 8,
                           text:
-                              'Selected (${homeServiceManagerController.selectedBrand.length})',
+                              'Selected (${registerHomeServiceManagerController.selectedBrand.length})',
                           onTap: () {
                             Get.back();
                           }),
@@ -110,7 +110,7 @@ class SelectCars extends StatelessWidget {
   }
 
   Widget listTileBrands(BrandsCarModel model,
-      HomeServiceManagerController homeServiceManagerController) {
+      RegisterHomeServiceManagerController registerHomeServiceManagerController) {
     return Padding(
       padding: EdgeInsets.only(bottom: SizeConfig.horizontal(0.5)),
       child: ListTile(

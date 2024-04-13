@@ -264,7 +264,7 @@ class HomeServicesController extends GetxController
   }
 
   Future<void> onRefreshPage() async {
-    getMechanicsMotor();
+    getMechanicsMobil();
   }
 
   Future<void> getMechanicsMobil() async {

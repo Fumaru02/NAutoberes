@@ -58,7 +58,7 @@ class AuthorizeController extends GetxController
     final bool hasToken =
         await sharedPref.hasData(PreferencesKey.keyAccessToken);
     log(hasToken.toString());
-    Future<void>.delayed(const Duration(milliseconds: 1000), () async {
+    Future<void>.delayed(const Duration(milliseconds: 200), () async {
       if (hasToken == true) {
         Get.offAllNamed('/frame');
       } else {

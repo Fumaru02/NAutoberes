@@ -61,41 +61,38 @@ class UserPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     final AkunController akunController = Get.put(AkunController());
 
-    return Obx(() => akunController.isLoading.isTrue
-        ? Center(
-            child: CustomShimmerPlaceHolder(
-            width: SizeConfig.horizontal(17),
-            borderRadius: SizeConfig.horizontal(20),
-          ))
-        : akunController.userImage.value == ''
-            ? CircleAvatar(
-                minRadius: 30,
-                child: Icon(
-                  Icons.person_2_rounded,
-                  size: SizeConfig.horizontal(10),
-                ),
-              )
-            : Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(20))),
-                  // ignore: use_if_null_to_convert_nulls_to_bools
-                  border: isUseBorder == true
-                      ? Border.all(
-                          color: AppColors.white,
-                          width: SizeConfig.horizontal(1))
-                      : null,
-                ),
-                width: SizeConfig.horizontal(width ?? 20),
-                height: SizeConfig.horizontal(height ?? 20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(SizeConfig.horizontal(20))),
-                  child: CachedNetworkImage(
-                    imageUrl: akunController.userImage.value,
-                    fit: BoxFit.fill,
+    return Obx(
+      () => akunController.isLoading.isTrue
+          ? Center(
+              child: CustomShimmerPlaceHolder(
+                  width: SizeConfig.horizontal(17),
+                  borderRadius: SizeConfig.horizontal(20)))
+          : akunController.userImage.value == ''
+              ? CircleAvatar(
+                  minRadius: 30,
+                  child: Icon(Icons.person_2_rounded,
+                      size: SizeConfig.horizontal(10)))
+              : Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(SizeConfig.horizontal(20))),
+                      // ignore: use_if_null_to_convert_nulls_to_bools
+                      border: isUseBorder == true
+                          ? Border.all(
+                              color: AppColors.white,
+                              width: SizeConfig.horizontal(1))
+                          : null),
+                  width: SizeConfig.horizontal(width ?? 20),
+                  height: SizeConfig.horizontal(height ?? 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(SizeConfig.horizontal(20))),
+                    child: CachedNetworkImage(
+                        imageUrl: akunController.userImage.value,
+                        fit: BoxFit.cover),
                   ),
-                )));
+                ),
+    );
   }
 }
 

@@ -503,11 +503,11 @@ class CustomDropDownButton extends StatelessWidget {
                           child: listViewItems));
                 },
                 child: Container(
-                    width: SizeConfig.horizontal(90),
+                    width: SizeConfig.horizontal(80),
                     height: SizeConfig.horizontal(12),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
-                            Radius.circular(SizeConfig.horizontal(1))),
+                            Radius.circular(SizeConfig.horizontal(2))),
                         color: AppColors.white,
                         border: Border.all(width: SizeConfig.horizontal(0.2))),
                     child: ResponsiveRowColumn(
@@ -522,11 +522,11 @@ class CustomDropDownButton extends StatelessWidget {
                                 value: selectedValue,
                                 color: AppColors.black,
                                 size: SizeConfig.safeBlockHorizontal * 3.5,
-                                fontWeight: FontWeight.w500)),
+                                fontWeight: FontWeight.w400)),
                         const ResponsiveRowColumnItem(child: Spacer()),
                         ResponsiveRowColumnItem(
                             child: Icon(Icons.arrow_drop_down_circle,
-                                color: AppColors.black, size: 30)),
+                                color: AppColors.blackBackground, size: 30)),
                       ],
                     )))),
       ],
